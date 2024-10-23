@@ -14,6 +14,9 @@ SRCS =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/get_next_line.c \
 		$(SRC_DIR)/parsing.c \
 		$(SRC_DIR)/map_handler.c \
+		$(SRC_DIR)/init.c \
+		$(SRC_DIR)/player_utils.c \
+		$(SRC_DIR)/display.c \
 
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 HEADER = $(HEADER_DIR)/cube.h

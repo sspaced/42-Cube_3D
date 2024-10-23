@@ -19,9 +19,24 @@
 #  define BUFFER_SIZE 40684
 # endif
 
+typedef	struct s_player {
+	float	x;
+	float	y;
+	float	fov;
+	char	direction;
+} t_player;
+
+typedef	struct s_map {
+	char **map_array;
+	float	map_height;
+	float	map_width;
+} t_map;
+
 typedef struct s_data {
-    void    *mlx;
-    void    *win;
+    void    		*mlx;
+    void    		*win;
+	struct s_map	map;
+	struct s_player	player;
 } t_data;
 
 //[src/hook.c]
@@ -44,5 +59,15 @@ int		check_file_path(char *path);
 
 //[src/map_handler.c]
 char	**read_map_file(char *file_path);
+void	free_map_error(char **map);
+
+//[src/inti.c]
+void	init_data(t_data *data);
+
+//[src/player_utils.c]
+void	set_player_pos_dir(t_data *data);
+
+//[src/map_utils.c]
+void	set_map_height_width(t_data *data);
 
 #endif
