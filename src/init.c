@@ -22,3 +22,14 @@ void	init_data(t_data *data)
 	init_map(&data->map);
 	init_player(&data->player);
 }
+
+void	init_img(t_data *data)
+{
+	data->img = mlx_new_image(data->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+    data->addr = mlx_get_data_addr(
+        data->img,
+        &data->bits_per_pixel,
+        &data->line_length,
+        &data->endian
+    );
+}

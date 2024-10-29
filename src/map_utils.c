@@ -24,3 +24,13 @@ void	set_map_height_width(t_data *data)
 	data->map.map_height = x;
 	data->map.map_width = y_bis;
 }
+
+void	map_coord_to_pixel(t_data *data, int x, int y)
+{
+	float y_parcel_size = (WINDOW_WIDTH / data->map.map_width) * (y + 1);
+	float x_parcel_size = (WINDOW_HEIGHT / data->map.map_height) * (x + 1);
+
+	printf("y_parcel : %f\n", y_parcel_size);
+	printf("x_parcel : %f\n", x_parcel_size);
+
+}

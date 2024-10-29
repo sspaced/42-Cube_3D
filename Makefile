@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = -g #-Wall -Wextra -Werror
 INCLUDES = -I./header -I./mlx -I./libft
 MLX_PATH = mlx
 MLX_FLAGS = -L$(MLX_PATH) -lmlx -L/usr/lib -lXext -lX11 -lm -lz -L./libft -lft
@@ -17,6 +17,7 @@ SRCS =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/init.c \
 		$(SRC_DIR)/player_utils.c \
 		$(SRC_DIR)/display.c \
+		$(SRC_DIR)/map_utils.c \
 
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 HEADER = $(HEADER_DIR)/cube.h

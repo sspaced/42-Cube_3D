@@ -46,7 +46,39 @@ void	set_player_pos_dir(t_data *data)
 			break ;
 		y++;
 	}
-	data->player.direction = data->map.map_array[y][x];
+	data->player.direction = get_player_angle(data->map.map_array[y][x]);
 	data->player.x = x + 1;
-	data->player.y = data->map.map_height - y;
+	data->player.y = y + 1;
 }
+
+// void set_player_pos_dir(t_data *data)
+// {
+//     int y = 0;
+//     while (y < data->map.map_height)
+//     {
+//         int x = 0;
+//         while (x < data->map.map_width)
+//         {
+//             if (data->map.map_array[y][x] == 'N' || 
+//                 data->map.map_array[y][x] == 'S' || 
+//                 data->map.map_array[y][x] == 'E' || 
+//                 data->map.map_array[y][x] == 'W')
+//             {
+//                 data->player.x = x + 0.5;  // Centre du carré
+//                 data->player.y = y + 0.5;  // Centre du carré
+//                 // Convertir la direction en angle
+//                 switch (data->map.map_array[y][x])
+//                 {
+//                     case 'N': data->player.angle = 270; break;
+//                     case 'S': data->player.angle = 90; break;
+//                     case 'E': data->player.angle = 0; break;
+//                     case 'W': data->player.angle = 180; break;
+//                 }
+//                 data->map.map_array[y][x] = '0';  // Libérer la case
+//                 return;
+//             }
+//             x++;
+//         }
+//         y++;
+//     }
+// }

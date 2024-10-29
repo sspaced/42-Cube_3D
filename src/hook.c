@@ -1,18 +1,141 @@
 #include "cube.h"
 
-int key_hook(int keycode, t_data *data)
-{
-    if (keycode == 65307)
-    {
-        mlx_destroy_window(data->mlx, data->win);
-        exit(0);
-    }
-    return (0);
-}
-
 int	close_window(t_data *data)
 {
     mlx_destroy_window(data->mlx, data->win);
     exit(0);
     return (0);
+}
+
+int key_press(int keycode, t_data *data)
+{
+    if (keycode == KEY_UP)
+        data->keys.up = 1;
+    else if (keycode == KEY_DOWN)
+        data->keys.down = 1;
+    else if (keycode == KEY_LEFT)
+        data->keys.left = 1;
+    else if (keycode == KEY_RIGHT)
+        data->keys.right = 1;
+    else if (keycode == KEY_ESC)
+        data->keys.esc = 1;
+    return (0);
+}
+
+int key_release(int keycode, t_data *data)
+{
+    if (keycode == KEY_UP)
+        data->keys.up = 0;
+    else if (keycode == KEY_DOWN)
+        data->keys.down = 0;
+    else if (keycode == KEY_LEFT)
+        data->keys.left = 0;
+    else if (keycode == KEY_RIGHT)
+        data->keys.right = 0;
+    else if (keycode == KEY_ESC)
+        data->keys.esc = 0;
+    return (0);
+}
+
+int key_hook(int keycode, t_data *data)
+{
+    double new_x, new_y;
+    double angle = RAD(data->player.direction);
+    
+	if (keycode == 65307)
+    {
+        mlx_destroy_window(data->mlx, data->win);
+        exit(0);
+    }
+
+    if (keycode == KEY_UP)
+    {
+        new_x = data->player.x + cos(angle) * MOVE_SPEED;
+        new_y = data->player.y + sin(angle) * MOVE_SPEED;
+        if (!check_collision(data, new_x, new_y))
+        {
+            data->player.x = new_x;
+            data->player.y = new_y;
+        }
+    }
+    else if (keycode == KEY_DOWN)
+    {
+        new_x = data->player.x - cos(angle) * MOVE_SPEED;
+        new_y = data->player.y - sin(angle) * MOVE_SPEED;
+        if (!check_collision(data, new_x, new_y))
+        {
+            data->player.x = new_x;
+            data->player.y = new_y;
+        }
+    }
+    else if (keycode == KEY_LEFT)
+    {
+		data->player.direction += ROTATION_SPEED;
+    }
+    else if (keycode == KEY_RIGHT)
+    {
+		data->player.direction -= ROTATION_SPEED;
+    }
+    
+    display_player_view(data, 0.005);
+    return (0);
+}
+
+int handle_movement(t_data *data)
+{
+    int moved = 0;
+    double new_x, new_y;
+    double angle = RAD(data->player.direction);
+
+    if (data->keys.esc)
+    {
+        mlx_destroy_window(data->mlx, data->win);
+        exit(0);
+    }
+
+    if (data->keys.up)
+    {
+        new_x = data->player.x + cos(angle) * MOVE_SPEED;
+        new_y = data->player.y + sin(angle) * MOVE_SPEED;
+        if (!check_collision(data, new_x, new_y))
+        {
+            data->player.x = new_x;
+            data->player.y = new_y;
+            moved = 1;
+        }
+    }
+    if (data->keys.down)
+    {
+        new_x = data->player.x - cos(angle) * MOVE_SPEED;
+        new_y = data->player.y - sin(angle) * MOVE_SPEED;
+        if (!check_collision(data, new_x, new_y))
+        {
+            data->player.x = new_x;
+            data->player.y = new_y;
+            moved = 1;
+        }
+    }
+    if (data->keys.left)
+    {
+        data->player.direction += ROTATION_SPEED;
+        moved = 1;
+    }
+    if (data->keys.right)
+    {
+        data->player.direction -= ROTATION_SPEED;
+        moved = 1;
+    }
+
+    if (moved)
+        display_player_view(data, 0.002);
+    return (0);
+}
+
+void init_keys(t_keys *keys)
+{
+    keys->up = 0;
+    keys->down = 0;
+    keys->left = 0;
+    keys->right = 0;
+    keys->esc = 0;
 }
