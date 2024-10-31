@@ -37,71 +37,29 @@ int check_collision(t_data *data, double new_x, double new_y)
     return 0;
 }
 
-void display_player_view(t_data *data, double move_speed)
+void display_player_view(t_data *data, double step)
 {
-    mlx_clear_window(data->mlx, data->win);
-    
-    double ray_angle;
-    double ray_x, ray_y;
-    double ray_cos, ray_sin;
-    double dist_to_wall;
-    int column;
-    int wall_height;
-    
-    for (column = 0; column < WINDOW_WIDTH; column++)
+    int x;
+	int y;
+
+	x = 0;
+    while(x < WINDOW_WIDTH)
     {
-        ray_angle = RAD(data->player.direction) + 
-                   RAD(FOV / 2.0) - ((double)column / WINDOW_WIDTH) * RAD(FOV);
-        
-        ray_cos = cos(ray_angle);
-        ray_sin = sin(ray_angle);
-        
-        ray_x = data->player.x;
-        ray_y = data->player.y;
-        
-        while (1)
-        {
-            ray_x += ray_cos * move_speed;
-            ray_y += ray_sin * move_speed;
-            
-            int map_x = (int)ray_x;
-            int map_y = (int)ray_y;
-            
-            if (map_x < 0 || map_y < 0 || 
-                map_x >= data->map.map_width || 
-                map_y >= data->map.map_height ||
-                data->map.map_array[map_y][map_x] == '1')
-                break;
-        }
-        
-        double dx = ray_x - data->player.x;
-        double dy = ray_y - data->player.y;
-        dist_to_wall = sqrt(dx * dx + dy * dy);
-        
-        dist_to_wall *= cos(ray_angle - RAD(data->player.direction));
-        
-        wall_height = (int)(WINDOW_HEIGHT / dist_to_wall);
-        if (wall_height > WINDOW_HEIGHT)
-            wall_height = WINDOW_HEIGHT;
-            
-        int wall_top = (WINDOW_HEIGHT - wall_height) / 2;
-        int wall_bottom = wall_top + wall_height;
-        
-        for (int y = 0; y < wall_top; y++)
-            pixel_to_img(data, column, y, 0x444444);
-            
-        for (int y = wall_top; y < wall_bottom; y++)
-        {
-            int color = 0xFFFFFF;
-            int shade = (int)(255.0 / (1.0 + dist_to_wall * 0.1));
-            color = (shade << 16) | (shade << 8) | shade;
-            pixel_to_img(data, column, y, color);
-        }
-        
-        for (int y = wall_bottom; y < WINDOW_HEIGHT; y++)
-            pixel_to_img(data, column, y, 0x666666);
+		calc_ray_vector(data, x);
+		calc_wall_hit(data, step);
+		calc_wall_info(data);
+		y = 0;
+		while (y < data->calc.wall_top)
+			pixel_to_img(data, x, y++, CEILING);
+		y = data->calc.wall_top;
+		while (y < data->calc.wall_bottom)
+			pixel_to_img(data, x, y++, WALL_COLOR);
+		y = data->calc.wall_bottom;
+		while (y < WINDOW_HEIGHT)
+			pixel_to_img(data, x, y++, FLOOR);
+		x++;
     }
-    
+
     mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 }
 

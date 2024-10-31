@@ -15,12 +15,26 @@ static void init_player(t_player *player)
 	player->y = 0.0;
 }
 
+static void	init_calc(t_calc *calc)
+{
+	calc->ray_angle = 0.0;
+	calc->ray_vect_x = 0.0;
+	calc->ray_vect_y = 0.0;
+	calc->wall_x = 0.0;
+	calc->wall_y = 0.0;
+	calc->wall_bottom = 0;
+	calc->wall_dist = 0.0;
+	calc->wall_height = 0.0;
+	calc->wall_top = 0;
+}
+
 void	init_data(t_data *data)
 {
 	data->mlx = NULL;
 	data->win = NULL;
 	init_map(&data->map);
 	init_player(&data->player);
+	init_calc(&data->calc);
 }
 
 void	init_img(t_data *data)

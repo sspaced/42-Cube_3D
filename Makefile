@@ -18,6 +18,8 @@ SRCS =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/player_utils.c \
 		$(SRC_DIR)/display.c \
 		$(SRC_DIR)/map_utils.c \
+		$(SRC_DIR)/calc.c \
+
 
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 HEADER = $(HEADER_DIR)/cube.h

@@ -15,15 +15,18 @@
 # define DESTROY_NOTIFY 17
 # define KEY_ESC 65307
 # define WINDOW_TITLE "Cube 3D"
-#define MOVE_SPEED 0.1
-#define ROTATION_SPEED 5.0  
-#define KEY_LEFT 65361
-#define KEY_RIGHT 65363
-#define KEY_UP 65362
-#define KEY_DOWN 65364
-#define FOV 50
-#define PI 3.14159265359
-#define RAD(x) (x * PI / 180.0)
+# define MOVE_SPEED 0.05
+# define ROTATION_SPEED 1.0  
+# define KEY_LEFT 65361
+# define KEY_RIGHT 65363
+# define KEY_UP 65362
+# define KEY_DOWN 65364
+# define FOV 80
+# define PI 3.14159265359
+# define RAD(x) (x * PI / 180.0)
+# define CEILING 0x444444
+# define WALL_COLOR 0xA0CCDA
+# define FLOOR 0xDAB785
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 40684
@@ -36,6 +39,19 @@ typedef struct s_keys {
     int right;
     int esc;
 } t_keys;
+
+typedef struct s_calc
+{
+	double ray_angle;
+	double ray_vect_x;
+	double ray_vect_y;
+	double wall_x;
+	double wall_y;
+	double wall_dist;
+	double wall_height;
+	int wall_top;
+	int wall_bottom;
+} t_calc;
 
 typedef	struct s_player {
 	float	x;
@@ -62,9 +78,9 @@ typedef struct s_data {
 	struct s_map	map;
 	struct s_player	player;
 	struct s_keys	keys;
+	struct s_calc	calc;
 } t_data;
 
-//[src/hook.c]
 int		close_window(t_data *data);
 int		key_hook(int keycode, t_data *data);
 int		key_press(int keycode, t_data *data);
@@ -107,4 +123,9 @@ void	display_player_view(t_data *data, double view_angle);
 int check_collision(t_data *data, double new_x, double new_y);
 void display_player_view(t_data *data, double move_speed);
 int get_player_angle(char direction);
+
+//[src/calc.c]
+void	calc_ray_vector(t_data *data, int x);
+void	calc_wall_info(t_data *data);
+void	calc_wall_hit(t_data *data, double step);
 #endif
