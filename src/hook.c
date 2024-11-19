@@ -37,6 +37,19 @@ int key_release(int keycode, t_data *data)
     return (0);
 }
 
+int mouse_move(int x, int y, t_data *data)
+{
+	static int curr_x = WINDOW_WIDTH / 2;
+
+	if (x < curr_x)
+		data->player.direction += ROTATION_SPEED + 1;
+	else if (x > curr_x)
+		data->player.direction -= ROTATION_SPEED + 1;
+	curr_x = x;
+	display_player_view(data, 0.02);
+	return(0);
+}
+
 int key_hook(int keycode, t_data *data)
 {
     double new_x, new_y;

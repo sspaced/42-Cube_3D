@@ -12,15 +12,21 @@
 
 # define WINDOW_WIDTH 1280
 # define WINDOW_HEIGHT 720
-# define DESTROY_NOTIFY 17
 # define KEY_ESC 65307
-# define WINDOW_TITLE "Cube 3D"
-# define MOVE_SPEED 0.05
-# define ROTATION_SPEED 1.0  
 # define KEY_LEFT 65361
 # define KEY_RIGHT 65363
 # define KEY_UP 65362
 # define KEY_DOWN 65364
+# define KEY_PRESS_MASK 1L<<0
+# define KEY_RELEASE_MASK 1L<<1
+# define POINTER_MOTION_MASK 1L<<6
+# define KEY_PRESS 2
+# define KEY_RELEASE 3
+# define MOTION_NOTIFY 6
+# define DESTROY_NOTIFY 17
+# define WINDOW_TITLE "Cube 3D"
+# define MOVE_SPEED 0.05
+# define ROTATION_SPEED 1.0  
 # define FOV 80
 # define PI 3.14159265359
 # define RAD(x) (x * PI / 180.0)
@@ -85,6 +91,7 @@ int		close_window(t_data *data);
 int		key_hook(int keycode, t_data *data);
 int		key_press(int keycode, t_data *data);
 int		key_release(int keycode, t_data *data);
+int		mouse_move(int x, int y, t_data *data);
 void	init_keys(t_keys *keys);
 int handle_movement(t_data *data);
 
