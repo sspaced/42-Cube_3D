@@ -39,14 +39,14 @@ int key_release(int keycode, t_data *data)
 
 int mouse_move(int x, int y, t_data *data)
 {
-	static int curr_x = WINDOW_WIDTH / 2;
+	int x_mid = WINDOW_WIDTH / 2;
+	int y_mid = WINDOW_HEIGHT / 2;
 
-	if (x < curr_x)
-		data->player.direction += ROTATION_SPEED + 1;
-	else if (x > curr_x)
-		data->player.direction -= ROTATION_SPEED + 1;
-	curr_x = x;
-	display_player_view(data, 0.02);
+	mlx_mouse_move(data->mlx, data->win, x_mid, y_mid);
+	if (x < x_mid)
+		data->player.direction += ROTATION_SPEED * 2;
+	else if (x > x_mid)
+		data->player.direction -= ROTATION_SPEED * 2;
 	return(0);
 }
 
@@ -139,8 +139,7 @@ int handle_movement(t_data *data)
         moved = 1;
     }
 
-    if (moved)
-        display_player_view(data, 0.002);
+	display_player_view(data, 0.005);
     return (0);
 }
 
