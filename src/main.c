@@ -25,9 +25,12 @@ int	main(int argc, char **argv)
 
 	mlx_hook(data.win, KEY_PRESS, KEY_PRESS_MASK, key_press, &data);    // KeyPress
     mlx_hook(data.win, KEY_RELEASE, KEY_RELEASE_MASK, key_release, &data);  // KeyRelease
-	mlx_hook(data.win, MOTION_NOTIFY, POINTER_MOTION_MASK, mouse_move, &data);
+	if (BONUS)
+	{
+		mlx_hook(data.win, MOTION_NOTIFY, POINTER_MOTION_MASK, mouse_move, &data);
+		mlx_mouse_hide(data.mlx, data.win);
+	}
     mlx_hook(data.win, DESTROY_NOTIFY, 0, close_window, &data);
-	mlx_mouse_hide(data.mlx, data.win);
     mlx_loop_hook(data.mlx, handle_movement, &data);
 
 	display_player_view(&data, 0.005);

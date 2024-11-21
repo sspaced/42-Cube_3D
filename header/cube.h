@@ -34,6 +34,8 @@
 # define WALL_COLOR 0xA0CCDA
 # define FLOOR 0xDAB785
 
+# define BONUS 1
+
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 40684
 # endif

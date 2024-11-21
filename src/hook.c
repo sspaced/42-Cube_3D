@@ -65,20 +65,20 @@ int key_hook(int keycode, t_data *data)
     {
         new_x = data->player.x + cos(angle) * MOVE_SPEED;
         new_y = data->player.y + sin(angle) * MOVE_SPEED;
+		data->player.x = new_x;
+		data->player.y = new_y;
         if (!check_collision(data, new_x, new_y))
         {
-            data->player.x = new_x;
-            data->player.y = new_y;
         }
     }
     else if (keycode == KEY_DOWN)
     {
         new_x = data->player.x - cos(angle) * MOVE_SPEED;
         new_y = data->player.y - sin(angle) * MOVE_SPEED;
+		data->player.x = new_x;
+		data->player.y = new_y;
         if (!check_collision(data, new_x, new_y))
         {
-            data->player.x = new_x;
-            data->player.y = new_y;
         }
     }
     else if (keycode == KEY_LEFT)
@@ -110,22 +110,22 @@ int handle_movement(t_data *data)
     {
         new_x = data->player.x + cos(angle) * MOVE_SPEED;
         new_y = data->player.y + sin(angle) * MOVE_SPEED;
+		data->player.x = new_x;
+		data->player.y = new_y;
+		moved = 1;
         if (!check_collision(data, new_x, new_y))
         {
-            data->player.x = new_x;
-            data->player.y = new_y;
-            moved = 1;
         }
     }
     if (data->keys.down)
     {
         new_x = data->player.x - cos(angle) * MOVE_SPEED;
         new_y = data->player.y - sin(angle) * MOVE_SPEED;
+		data->player.x = new_x;
+		data->player.y = new_y;
+		moved = 1;
         if (!check_collision(data, new_x, new_y))
         {
-            data->player.x = new_x;
-            data->player.y = new_y;
-            moved = 1;
         }
     }
     if (data->keys.left)
@@ -138,8 +138,9 @@ int handle_movement(t_data *data)
         data->player.direction -= ROTATION_SPEED;
         moved = 1;
     }
+	if (moved || BONUS)
+		display_player_view(data, 0.002);
 
-	display_player_view(data, 0.005);
     return (0);
 }
 
