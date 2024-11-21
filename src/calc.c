@@ -16,7 +16,7 @@ void calc_wall_info(t_data *data)
     data->calc.wall_dist *= cos(data->calc.ray_angle - RAD(data->player.direction));
 	data->calc.wall_height = (int)(WINDOW_HEIGHT / data->calc.wall_dist);
     if (data->calc.wall_height > WINDOW_HEIGHT)
-        data->calc.wall_height = WINDOW_HEIGHT;
+		data->calc.wall_height = WINDOW_HEIGHT;
 	data->calc.wall_top = (WINDOW_HEIGHT - data->calc.wall_height) / 2;
     data->calc.wall_bottom = data->calc.wall_top + data->calc.wall_height;
 }

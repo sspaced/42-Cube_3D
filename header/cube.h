@@ -10,8 +10,8 @@
 # include <fcntl.h>
 # include <math.h>
 
-# define WINDOW_WIDTH 1280
-# define WINDOW_HEIGHT 720
+# define WINDOW_WIDTH 1920
+# define WINDOW_HEIGHT 1080
 # define KEY_ESC 65307
 # define KEY_LEFT 65361
 # define KEY_RIGHT 65363
@@ -75,11 +75,23 @@ typedef	struct s_map {
 	float	map_width;
 } t_map;
 
+typedef struct s_asset {
+	void	*img_ptr;
+	char	*path;
+	char	*data;
+	int		bpp;
+	int		line_len;
+	int		endian;
+	int		width;
+	int		height;
+} t_asset;
+
 typedef struct s_data {
     void    		*mlx;
     void    		*win;
 	void			*img;
 	void			*addr;
+	t_asset			*asset;
 	int				bits_per_pixel;
 	int				line_length;
 	int				endian;

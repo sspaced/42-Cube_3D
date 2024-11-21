@@ -37,6 +37,41 @@ int check_collision(t_data *data, double new_x, double new_y)
     return 0;
 }
 
+unsigned int	get_pixel_img(t_asset *img, int x, int y)
+{
+	return (*(unsigned int *)((img->data + (y * img->line_len) + (x * img->bpp / 8))));
+}
+
+void	put_pixel_img(t_data *img, int x, int y, int color)
+{
+	char	*dst;
+
+	if (color == (int)0xFF000000)
+		return ;
+	if (x >= 0 && y >= 0 && x < WINDOW_WIDTH && y < WINDOW_HEIGHT) {
+		dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+		*(unsigned int *) dst = color;
+	}
+}
+
+void	put_img_to_img(t_data *dst, t_asset *src, int x, int y)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while(i < src->width)
+	{
+		j = 0;
+		while (j < src->height)
+		{
+			put_pixel_img(dst, x + i, y + j, get_pixel_img(src, i, j));
+			j++;
+		}
+		i++;
+	}
+}
+
 void display_player_view(t_data *data, double step)
 {
     int x;
@@ -60,8 +95,11 @@ void display_player_view(t_data *data, double step)
 		x++;
     }
 
-    mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+	put_img_to_img(data, data->asset, 0, 0);
+	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+	// mlx_put_image_to_window(data->mlx, data->win, data->asset->img_ptr, 0, 0);
 }
+
 
 int get_player_angle(char direction)
 {
