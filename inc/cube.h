@@ -15,6 +15,10 @@
 # define KEY_ESC 65307
 # define KEY_LEFT 65361
 # define KEY_RIGHT 65363
+# define KEY_W 7
+# define KEY_A 1
+# define KEY_S 0x0053
+# define KEY_D 0x0044
 # define KEY_UP 65362
 # define KEY_DOWN 65364
 # define KEY_PRESS_MASK 1L<<0
@@ -43,6 +47,10 @@
 typedef struct s_keys {
     int up;
     int down;
+	int w;
+	int a;
+	int s;
+	int d;
     int left;
     int right;
     int esc;

@@ -37,11 +37,10 @@ int	main(int argc, char **argv)
 	
 	ft_bzero(&arm, sizeof(t_asset));
 	arm.path = "assets/img/arm/0.xpm";
-	// ^--- to protect
 	arm.img_ptr = mlx_xpm_file_to_image(data.mlx, arm.path, &(arm.width), &(arm.height));
-	arm.data = mlx_get_data_addr(arm.img_ptr, &(arm.bpp), &(arm.line_len), &(arm.endian));
 	if (arm.img_ptr == NULL)
 		printf("Failed to open %s.\n", arm.path);
+	arm.data = mlx_get_data_addr(arm.img_ptr, &(arm.bpp), &(arm.line_len), &(arm.endian));
 	data.asset = &arm;
 
 	display_player_view(&data, 0.005);
