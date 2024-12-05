@@ -46,6 +46,8 @@ void	put_pixel_img(t_data *img, int x, int y, int color)
 {
 	char	*dst;
 
+	if (x > 1920)
+		x = x % 1920;
 	if (color == (int)0xFF000000)
 		return ;
 	if (x >= 0 && y >= 0 && x < WINDOW_WIDTH && y < WINDOW_HEIGHT) {
@@ -56,11 +58,11 @@ void	put_pixel_img(t_data *img, int x, int y, int color)
 
 void	put_img_to_img(t_data *dst, t_asset *src, int x, int y)
 {
-	int i;
+	static int i = {0};
 	int j;
 
-	i = 0;
-	while(i < src->width)
+	i++;
+	while(i % 1920 != 0)
 	{
 		j = 0;
 		while (j < src->height)
@@ -70,6 +72,8 @@ void	put_img_to_img(t_data *dst, t_asset *src, int x, int y)
 		}
 		i++;
 	}
+	if (i == 86400)
+		i = 0;
 }
 
 void display_player_view(t_data *data, double step)

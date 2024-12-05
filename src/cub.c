@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elleroux <elleroux@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/28 14:16:15 by elleroux          #+#    #+#             */
+/*   Updated: 2024/11/28 14:16:18 by elleroux         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cube.h"
 
 int	main(int argc, char **argv)
@@ -36,7 +48,7 @@ int	main(int argc, char **argv)
 	t_asset arm;
 	
 	ft_bzero(&arm, sizeof(t_asset));
-	arm.path = "assets/img/arm/0.xpm";
+	arm.path = "assets/img/arm/arm-void.xpm";
 	arm.img_ptr = mlx_xpm_file_to_image(data.mlx, arm.path, &(arm.width), &(arm.height));
 	if (arm.img_ptr == NULL)
 		printf("Failed to open %s.\n", arm.path);
