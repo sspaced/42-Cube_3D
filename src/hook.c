@@ -90,17 +90,17 @@ int handle_movement(t_data *data)
 			moved = 1;
         }
     }
-    if (data->keys.a)
-    {
-        new_x = data->player.x + cos(angle) * MOVE_SPEED;
-        new_y = data->player.y - sin(angle) * MOVE_SPEED;
-        if (!check_collision(data, new_x, new_y))
-        {
+	if (data->keys.a)
+	{
+		new_x = data->player.x - sin(angle) * MOVE_SPEED;
+		new_y = data->player.y + cos(angle) * MOVE_SPEED;
+		if (!check_collision(data, new_x, new_y))
+		{
 			data->player.x = new_x;
 			data->player.y = new_y;
 			moved = 1;
-        }
-    }
+		}
+	}
     if (data->keys.down || data->keys.s)
     {
         new_x = data->player.x - cos(angle) * MOVE_SPEED;
@@ -112,17 +112,17 @@ int handle_movement(t_data *data)
 			moved = 1;
         }
     }
-    if (data->keys.d)
-    {
-        new_x = data->player.x - cos(angle) * MOVE_SPEED;
-        new_y = data->player.y + sin(angle) * MOVE_SPEED;
-        if (!check_collision(data, new_x, new_y))
-        {
+	if (data->keys.d)
+	{
+		new_x = data->player.x + sin(angle) * MOVE_SPEED;
+		new_y = data->player.y - cos(angle) * MOVE_SPEED;
+		if (!check_collision(data, new_x, new_y))
+		{
 			data->player.x = new_x;
 			data->player.y = new_y;
 			moved = 1;
-        }
-    }
+		}
+	}
     if (data->keys.left)
     {
         data->player.direction += ROTATION_SPEED;
