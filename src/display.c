@@ -72,7 +72,7 @@ void	put_img_to_img(t_data *dst, t_asset *src, int x, int y)
 		}
 		i++;
 	}
-	if (i == 86400)
+	if (i == 86400) // 1920 * 45 -> nombre de frames dans l'animation
 		i = 0;
 }
 
@@ -90,10 +90,14 @@ void display_player_view(t_data *data, double step)
 		y = 0;
 		while (y < data->calc.wall_top)
 			pixel_to_img(data, x, y++, CEILING);
-		y = data->calc.wall_top;
+		//y = data->calc.wall_top;
+		// printf("angle : %d\n", data->player.direction);
 		while (y < data->calc.wall_bottom)
+		{
+			//if (data->player.direction % 360 - 270 > 0);
 			pixel_to_img(data, x, y++, WALL_COLOR);
-		y = data->calc.wall_bottom;
+		}
+		//y = data->calc.wall_bottom;
 		while (y < WINDOW_HEIGHT)
 			pixel_to_img(data, x, y++, FLOOR);
 		x++;
