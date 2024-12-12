@@ -9,4 +9,6 @@
 
 - Bonus:
 [X] Load une image/animation de bras et display
+    [_] Animation de course
+    [_] Feature anime msecrete
 [_] Minimap (ronde de preference, avec une bordure meme)
