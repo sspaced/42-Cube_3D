@@ -1,5 +1,5 @@
 .cache/
 compile_commands.json
-cub
+cub3D
 *.o
 lib/libft/libft.a
