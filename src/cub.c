@@ -32,8 +32,8 @@ int	main(int argc, char **argv)
 	set_map_height_width(&data);
 	set_player_pos_dir(&data);
 
-	printf("height = %f width = %f\n", data.map.map_height, data.map.map_width);
-	printf("x = %f y = %f d = %c\n", data.player.x, data.player.y, data.player.direction);
+	// printf("height = %d width = %d\n", data.map.map_height, data.map.map_width);
+	// printf("x = %f y = %f d = %c\n", data.player.x, data.player.y, data.player.direction);
 
 	mlx_hook(data.win, KEY_PRESS, KEY_PRESS_MASK, key_press, &data);    // KeyPress
     mlx_hook(data.win, KEY_RELEASE, KEY_RELEASE_MASK, key_release, &data);  // KeyRelease
@@ -46,6 +46,7 @@ int	main(int argc, char **argv)
     mlx_loop_hook(data.mlx, handle_movement, &data);
 
 	t_asset arm;
+	t_asset player_dot;
 	
 	ft_bzero(&arm, sizeof(t_asset));
 	arm.path = "assets/img/arm/arm-void.xpm";
@@ -54,6 +55,14 @@ int	main(int argc, char **argv)
 		printf("Failed to open %s.\n", arm.path);
 	arm.data = mlx_get_data_addr(arm.img_ptr, &(arm.bpp), &(arm.line_len), &(arm.endian));
 	data.asset = &arm;
+
+	ft_bzero(&player_dot, sizeof(t_asset));
+	player_dot.path = "assets/img/player_dot/player_dot.xpm";
+	player_dot.img_ptr = mlx_xpm_file_to_image(data.mlx, player_dot.path, &(player_dot.width), &(player_dot.height));
+	if (player_dot.img_ptr == NULL)
+		printf("Failed to open %s.\n", player_dot.path);
+	player_dot.data = mlx_get_data_addr(player_dot.img_ptr, &(player_dot.bpp), &(player_dot.line_len), &(player_dot.endian));
+	data.player_dot = &player_dot;
 
 	display_player_view(&data, 0.005);
     mlx_loop(data.mlx);

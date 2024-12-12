@@ -78,9 +78,9 @@ typedef	struct s_player {
 } t_player;
 
 typedef	struct s_map {
-	char **map_array;
-	float	map_height;
-	float	map_width;
+	char	**map_array;
+	int		map_height;
+	int		map_width;
 } t_map;
 
 typedef struct s_asset {
@@ -100,6 +100,7 @@ typedef struct s_data {
 	void			*img;
 	void			*addr;
 	t_asset			*asset;
+	t_asset			*player_dot;
 	int				bits_per_pixel;
 	int				line_length;
 	int				endian;
