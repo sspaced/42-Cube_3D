@@ -11,9 +11,9 @@
 # **************************************************************************** #
 
 ### CONFIG ###
-TARGET	= cub
+TARGET	= cub3D
 CC		= cc
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror -MMD -MP
 INCLUDE	= -Iinc -Ilib/libft -Ilib/mlx
 LFLAGS	= -lft -lmlx -lm -lX11 -lXext
 LIBFT	= lib/libft/libft.a
@@ -41,7 +41,8 @@ SRCS		= cub.c \
 
 
 ### OBJECTS ###
-OBJS = $(addprefix $(BUILD_DIR)/, ${SRCS:$(EXTENSION)=.o})
+OBJS := $(addprefix $(BUILD_DIR)/, ${SRCS:$(EXTENSION)=.o})
+DEPS := $(addprefix $(BUILD_DIR)/, ${SRCS:$(EXTENSION)=.d})
 
 
 ### RULES ###
@@ -73,4 +74,5 @@ fclean: clean
 
 re: fclean all
 
+-include $(DEPS)
 .PHONY: all clean fclean re
