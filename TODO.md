@@ -12,4 +12,6 @@
 [X] Load une image/animation de bras et display
     [_] Animation de course
     [_] Feature animation secrete
-[_] Minimap (ronde de preference, avec une bordure meme)
+[X] Minimap
+    [_] Ronde avec bordure stylés
+    [_] Centrée sur le joueur
