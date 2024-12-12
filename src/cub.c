@@ -54,7 +54,7 @@ int	main(int argc, char **argv)
 	if (arm.img_ptr == NULL)
 		printf("Failed to open %s.\n", arm.path);
 	arm.data = mlx_get_data_addr(arm.img_ptr, &(arm.bpp), &(arm.line_len), &(arm.endian));
-	data.asset = &arm;
+	data.arm = &arm;
 
 	ft_bzero(&player_dot, sizeof(t_asset));
 	player_dot.path = "assets/img/player_dot/player_dot.xpm";

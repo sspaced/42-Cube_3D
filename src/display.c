@@ -171,7 +171,7 @@ void display_player_view(t_data *data, double step)
 		x++;
     }
 
-	put_img_to_img(data, data->asset, 0, 0);
+	put_img_to_img(data, data->arm, 0, 0);
 	display_map(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	// mlx_put_image_to_window(data->mlx, data->win, data->asset->img_ptr, 0, 0);

@@ -99,7 +99,7 @@ typedef struct s_data {
     void    		*win;
 	void			*img;
 	void			*addr;
-	t_asset			*asset;
+	t_asset			*arm;
 	t_asset			*player_dot;
 	int				bits_per_pixel;
 	int				line_length;
