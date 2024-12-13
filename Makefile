@@ -1,61 +1,78 @@
-CC = cc
-CFLAGS = -g #-Wall -Wextra -Werror
-INCLUDES = -I./header -I./mlx -I./libft
-MLX_PATH = mlx
-MLX_FLAGS = -L$(MLX_PATH) -lmlx -L/usr/lib -lXext -lX11 -lm -lz -L./libft -lft
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: elleroux <elleroux@student.42lyon.fr>      +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/11/27 14:18:05 by elleroux          #+#    #+#              #
+#    Updated: 2024/11/27 15:01:48 by elleroux         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-SRC_DIR = src
-HEADER_DIR = header
-BUILD_DIR = build
-
-SRCS =	$(SRC_DIR)/main.c \
-		$(SRC_DIR)/hook.c \
-		$(SRC_DIR)/get_next_line_utils.c \
-		$(SRC_DIR)/get_next_line.c \
-		$(SRC_DIR)/parsing.c \
-		$(SRC_DIR)/map_handler.c \
-		$(SRC_DIR)/init.c \
-		$(SRC_DIR)/player_utils.c \
-		$(SRC_DIR)/display.c \
-		$(SRC_DIR)/map_utils.c \
-		$(SRC_DIR)/calc.c \
+### CONFIG ###
+TARGET	= cub3D
+CC		= cc
+CFLAGS	= -Wall -Wextra -Werror -MMD -MP
+INCLUDE	= -Iinc -Ilib/libft -Ilib/mlx
+LFLAGS	= -lft -lmlx -lm -lX11 -lXext
+LIBFT	= lib/libft/libft.a
+MLX		= lib/mlx/libmlx.a
+DEBUG	= -g3
 
 
-OBJS = $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
-HEADER = $(HEADER_DIR)/cube.h
+### SOURCES ###
+EXTENSION	= .c
+SRC_DIR		= src
+BUILD_DIR	= .build
+LIBFT_DIR	= lib/libft
+MLX_DIR		= lib/mlx
+SRCS		= cub.c \
+			  hook.c \
+			  get_next_line_utils.c \
+			  get_next_line.c \
+			  parsing.c \
+			  map_handler.c \
+			  init.c \
+			  player_utils.c \
+			  display.c \
+			  map_utils.c \
+			  calc.c 
 
-TARGET = cube
 
-all: $(BUILD_DIR) libft $(MLX_PATH)/libmlx.a $(TARGET)
+### OBJECTS ###
+OBJS := $(addprefix $(BUILD_DIR)/, ${SRCS:$(EXTENSION)=.o})
+DEPS := $(addprefix $(BUILD_DIR)/, ${SRCS:$(EXTENSION)=.d})
+
+
+### RULES ###
+all: $(LIBFT) $(MLX) $(BUILD_DIR) $(TARGET)
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
-$(MLX_PATH)/libmlx.a:
-	make -C $(MLX_PATH)
+$(LIBFT):
+	make -C $(LIBFT_DIR)
 
-$(TARGET): $(OBJS) $(MLX_PATH)/libmlx.a
-	$(CC) $(OBJS) $(MLX_FLAGS) -o $(TARGET)
+$(MLX):
+	make -C $(MLX_DIR)
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER) Makefile libft
-	mkdir -p $(BUILD_DIR)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+$(TARGET): ${OBJS}
+	$(CC) $(CFLAGS) -L$(LIBFT_DIR) -L$(MLX_DIR) -o $@ ${OBJS} $(LFLAGS)
 
-FORCE:
-
-libft: FORCE
-	$(MAKE) -C libft
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%$(EXTENSION) Makefile $(LIBFT) $(MLX)
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 clean:
-	$(MAKE) clean -C libft
-	rm -rf $(BUILD_DIR) $(OBJS)
-	make -C $(MLX_PATH) clean
+	make clean -C lib/libft
+	make clean -C lib/mlx
+	rm -rf $(BUILD_DIR)
 
 fclean: clean
-	$(MAKE) fclean -C libft
+	make fclean -C lib/libft
 	rm -f $(TARGET)
-	make -C $(MLX_PATH) clean
 
 re: fclean all
 
+-include $(DEPS)
 .PHONY: all clean fclean re

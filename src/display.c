@@ -46,6 +46,8 @@ void	put_pixel_img(t_data *img, int x, int y, int color)
 {
 	char	*dst;
 
+	if (x > 1920)
+		x = x % 1920;
 	if (color == (int)0xFF000000)
 		return ;
 	if (x >= 0 && y >= 0 && x < WINDOW_WIDTH && y < WINDOW_HEIGHT) {
@@ -56,9 +58,33 @@ void	put_pixel_img(t_data *img, int x, int y, int color)
 
 void	put_img_to_img(t_data *dst, t_asset *src, int x, int y)
 {
-	int i;
+	static int i = {0};
 	int j;
 
+	i++;
+	while(i % 1920 != 0)
+	{
+		j = 0;
+		while (j < src->height)
+		{
+			put_pixel_img(dst, x + i, y + j, get_pixel_img(src, i, j));
+			j++;
+		}
+		i++;
+	}
+	if (i == 86400) // 1920 * 45 -> nombre de frames dans l'animation
+		i = 0;
+}
+
+void	put_img_to_img2(t_data *dst, t_asset *src, float x, float y)
+{
+	int i;
+	int j;
+	int coef;
+
+	coef = 30;
+	x = x * coef - src->width / 2;
+	y = y * coef - src->height / 2;
 	i = 0;
 	while(i < src->width)
 	{
@@ -70,6 +96,52 @@ void	put_img_to_img(t_data *dst, t_asset *src, int x, int y)
 		}
 		i++;
 	}
+}
+
+void put_square(t_data *data, int x, int y, int color)
+{
+	int	 i;
+	int	 j;
+	int coef;
+
+	coef = 30;
+	x = x * coef;
+	y = y * coef;
+	i = x + coef;
+	j = y + coef;
+	while (--i >= x)
+	{
+		while (--j >= y)
+		{
+			if (i == x)
+				pixel_to_img(data, j, i, 0x000000);
+			else
+				pixel_to_img(data, j, i, color);
+		}
+		pixel_to_img(data, j, i, 0x000000);
+		j = y + coef;
+	}
+}
+
+void display_map(t_data *data)
+{
+	int	 x;
+	int	 y;
+
+	x = -1;
+	y = -1;
+	while (++x < data->map.map_width)
+	{
+		while (++y < data->map.map_height)
+		{
+			if (data->map.map_array[y][x] == '1')
+				put_square(data, x, y, 0x666666);
+			else
+				put_square(data, x, y, 0xAAAAAA);
+		}
+		y = -1;
+	}
+	put_img_to_img2(data, data->player_dot, data->player.y, data->player.x);
 }
 
 void display_player_view(t_data *data, double step)
@@ -86,16 +158,21 @@ void display_player_view(t_data *data, double step)
 		y = 0;
 		while (y < data->calc.wall_top)
 			pixel_to_img(data, x, y++, CEILING);
-		y = data->calc.wall_top;
+		//y = data->calc.wall_top;
+		// printf("angle : %d\n", data->player.direction);
 		while (y < data->calc.wall_bottom)
+		{
+			//if (data->player.direction % 360 - 270 > 0);
 			pixel_to_img(data, x, y++, WALL_COLOR);
-		y = data->calc.wall_bottom;
+		}
+		//y = data->calc.wall_bottom;
 		while (y < WINDOW_HEIGHT)
 			pixel_to_img(data, x, y++, FLOOR);
 		x++;
     }
 
-	put_img_to_img(data, data->asset, 0, 0);
+	put_img_to_img(data, data->arm, 0, 0);
+	display_map(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	// mlx_put_image_to_window(data->mlx, data->win, data->asset->img_ptr, 0, 0);
 }
