@@ -42,7 +42,6 @@ t_list* init_asset(t_data data, char* name, int frame_number)
 		path = ft_strjoin(path, ft_itoa(i));
 		path = ft_strjoin(path, ".xpm");
 		ft_lstadd_back(&head, ft_lstnew(new_asset(data, path)));
-		// free(path);
 		path = ft_strdup(base_path);
 	}
 	ft_lstlast(head)->next = head;
@@ -84,17 +83,8 @@ int	main(int argc, char **argv)
     mlx_hook(data.win, DESTROY_NOTIFY, 0, close_window, &data);
     mlx_loop_hook(data.mlx, handle_movement, &data);
 
-	// t_asset arm;
 	t_asset player_dot;
 	
-	// ft_bzero(&arm, sizeof(t_asset));
-	// arm.path = "assets/img/arm/arm-void.xpm";
-	// arm.img_ptr = mlx_xpm_file_to_image(data.mlx, arm.path, &(arm.width), &(arm.height));
-	// if (arm.img_ptr == NULL)
-	// 	printf("Failed to open %s.\n", arm.path);
-	// arm.data = mlx_get_data_addr(arm.img_ptr, &(arm.bpp), &(arm.line_len), &(arm.endian));
-	// data.arm = &arm;
-
 	ft_bzero(&player_dot, sizeof(t_asset));
 	player_dot.path = "assets/img/player_dot/player_dot.xpm";
 	player_dot.img_ptr = mlx_xpm_file_to_image(data.mlx, player_dot.path, &(player_dot.width), &(player_dot.height));

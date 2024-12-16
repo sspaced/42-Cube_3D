@@ -56,26 +56,6 @@ void	put_pixel_img(t_data *img, int x, int y, int color)
 	}
 }
 
-void	put_img_to_img(t_data *dst, t_asset *src, int x, int y)
-{
-	static int i = {0};
-	int j;
-
-	i++;
-	while(i % 1920 != 0)
-	{
-		j = 0;
-		while (j < src->height)
-		{
-			put_pixel_img(dst, x + i, y + j, get_pixel_img(src, i, j));
-			j++;
-		}
-		i++;
-	}
-	if (i == 86400) // 1920 * 45 -> nombre de frames dans l'animation
-		i = 0;
-}
-
 void	put_img_to_img3(t_data *dst, t_asset *src, int x, int y)
 {
 	int i;

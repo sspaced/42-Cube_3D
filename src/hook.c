@@ -26,8 +26,6 @@ int key_press(int keycode, t_data *data)
 		data->keys.esc = 1;
 	if (keycode == XK_c)
 		data->keys.right = 1;
-	printf("data %p\n", &(data));
-	printf("addr %p\n", &(data->keys));
     return (0);
 }
 

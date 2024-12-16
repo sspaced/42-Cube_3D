@@ -122,6 +122,8 @@ int		close_window(t_data *data);
 int		key_hook(int keycode, t_data *data);
 int		key_press(int keycode, t_data *data);
 int		key_release(int keycode, t_data *data);
+int		mouse_click(int keycode, t_data *data);
+int		mouse_release(int keycode, t_data *data);
 int		mouse_move(int x, int y, t_data *data);
 void	init_keys(t_keys *keys);
 int handle_movement(t_data *data);
