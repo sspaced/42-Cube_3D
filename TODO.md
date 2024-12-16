@@ -2,6 +2,7 @@
 [X] Déplacements latéraux
 [X] Touches WASD pour se déplacer
 [_] Murs differents par faces
+[_] BUG: glitch a travers les diagonales
 [_] Regle bonus dans le Makefile
 [_] BUG: prog se lance meme sans map ou avec chemin invalide
 
