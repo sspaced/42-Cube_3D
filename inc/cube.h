@@ -24,8 +24,14 @@
 # define KEY_PRESS_MASK 1L<<0
 # define KEY_RELEASE_MASK 1L<<1
 # define POINTER_MOTION_MASK 1L<<6
+# define BUTTON_PRESS_MASK 1L<<2
+# define BUTTON_RELEASE_MASK 1L<<3
+# define LBUTTON 1
+# define RBUTTON 3
 # define KEY_PRESS 2
 # define KEY_RELEASE 3
+# define BUTTON_PRESS 4
+# define BUTTON_RELEASE 5
 # define MOTION_NOTIFY 6
 # define DESTROY_NOTIFY 17
 # define WINDOW_TITLE "Cube 3D"
@@ -99,7 +105,9 @@ typedef struct s_data {
     void    		*win;
 	void			*img;
 	void			*addr;
-	t_asset			*arm;
+	t_list			*arm_static;
+	t_list			*arm_running;
+	t_list			*arm_finger;
 	t_asset			*player_dot;
 	int				bits_per_pixel;
 	int				line_length;

@@ -76,6 +76,30 @@ void	put_img_to_img(t_data *dst, t_asset *src, int x, int y)
 		i = 0;
 }
 
+void	put_img_to_img3(t_data *dst, t_asset *src, int x, int y)
+{
+	int i;
+	int j;
+
+	i = -1;
+	j = -1;
+	while(++i < src->width)
+	{
+		while (++j < src->height)
+		{
+			put_pixel_img(dst, x + i, y + j, get_pixel_img(src, i, j));
+		}
+		j = -1;
+	}
+}
+
+void play_animation(t_data *data, t_list **list)
+{
+
+	put_img_to_img3(data, (t_asset*)((*list)->content), 0, 0);
+	*list = (*list)->next;
+}
+
 void	put_img_to_img2(t_data *dst, t_asset *src, float x, float y)
 {
 	int i;
@@ -171,9 +195,21 @@ void display_player_view(t_data *data, double step)
 		x++;
     }
 
-	put_img_to_img(data, data->arm, 0, 0);
+	//put_img_to_img(data, data->arm, 0, 0);
+
+	t_keys empty;
+	ft_bzero(&empty, sizeof(t_keys));
+	if (ft_memcmp(&(data->keys), &empty, sizeof(t_keys)) == 0)
+		play_animation(data, &(data->arm_static));
+	else if (data->keys.right == 1)
+		play_animation(data, &(data->arm_finger));
+	else
+		play_animation(data, &(data->arm_running));
+
 	display_map(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+
+
 	// mlx_put_image_to_window(data->mlx, data->win, data->asset->img_ptr, 0, 0);
 }
 

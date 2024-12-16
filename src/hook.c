@@ -12,45 +12,66 @@ int key_press(int keycode, t_data *data)
 {
     if (keycode == KEY_UP)
         data->keys.up = 1;
-    else if (keycode == KEY_DOWN)
+    if (keycode == KEY_DOWN)
         data->keys.down = 1;
-    else if (keycode == XK_w)
+    if (keycode == XK_w)
         data->keys.w = 1;
-    else if (keycode == XK_a)
+    if (keycode == XK_a)
         data->keys.a = 1;
-    else if (keycode == XK_s)
+    if (keycode == XK_s)
         data->keys.s = 1;
-    else if (keycode == XK_d)
-        data->keys.d = 1;
-    else if (keycode == KEY_LEFT)
-        data->keys.left = 1;
-    else if (keycode == KEY_RIGHT)
-        data->keys.right = 1;
-    else if (keycode == KEY_ESC)
-        data->keys.esc = 1;
+    if (keycode == XK_d)
+		data->keys.d = 1;
+	if (keycode == KEY_ESC)
+		data->keys.esc = 1;
+	if (keycode == XK_c)
+		data->keys.right = 1;
+	printf("data %p\n", &(data));
+	printf("addr %p\n", &(data->keys));
     return (0);
+}
+
+int mouse_click(int keycode, t_data *data)
+{
+	if (keycode == RBUTTON)
+	{
+		data->keys.right = 1;
+	}
+	return (0);
+}
+
+int mouse_release(int keycode, t_data *data)
+{
+	printf("addr %p\n", &(data->keys));
+	if (keycode == RBUTTON)
+	{
+		data->keys.right = 0;
+	}
+	return (0);
 }
 
 int key_release(int keycode, t_data *data)
 {
     if (keycode == KEY_UP)
         data->keys.up = 0;
-    else if (keycode == KEY_DOWN)
+    if (keycode == KEY_DOWN)
         data->keys.down = 0;
-    else if (keycode == XK_w)
+    if (keycode == XK_w)
         data->keys.w = 0;
-    else if (keycode == XK_a)
+    if (keycode == XK_a)
         data->keys.a = 0;
-    else if (keycode == XK_s)
+    if (keycode == XK_s)
         data->keys.s = 0;
-    else if (keycode == XK_d)
+    if (keycode == XK_d)
         data->keys.d = 0;
-    else if (keycode == KEY_LEFT)
-        data->keys.left = 0;
-    else if (keycode == KEY_RIGHT)
-        data->keys.right = 0;
-    else if (keycode == KEY_ESC)
-        data->keys.esc = 0;
+    if (keycode == KEY_LEFT)
+		data->keys.left = 0;
+	if (keycode == XK_c)
+		data->keys.right = 0;
+    // if (keycode == KEY_RIGHT)
+    //     data->keys.right = 0;
+    // if (keycode == KEY_ESC)
+	// 	data->keys.esc = 0;
     return (0);
 }
 
@@ -123,18 +144,20 @@ int handle_movement(t_data *data)
 			moved = 1;
 		}
 	}
-    if (data->keys.left)
-    {
-        data->player.direction += ROTATION_SPEED;
-        moved = 1;
-    }
-    if (data->keys.right)
-    {
-        data->player.direction -= ROTATION_SPEED;
-        moved = 1;
-    }
+    // if (data->keys.left)
+    // {
+    //     data->player.direction += ROTATION_SPEED;
+    //     moved = 1;
+    // }
+    // if (data->keys.right)
+    // {
+    //     data->player.direction -= ROTATION_SPEED;
+    //     moved = 1;
+    // }
 	if (moved || BONUS)
+	{
 		display_player_view(data, 0.002);
+	}
 
     return (0);
 }
