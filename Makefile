@@ -52,7 +52,7 @@ $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
 $(LIBFT):
-	make -C $(LIBFT_DIR)
+	make bonus -C $(LIBFT_DIR)
 
 $(MLX):
 	make -C $(MLX_DIR)
