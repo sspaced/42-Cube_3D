@@ -6,13 +6,17 @@
 [_] Regle bonus dans le Makefile
 [_] BUG: prog se lance meme sans map ou avec chemin invalide
 
+- Verif
+[_] Leaks
+[_] Norminette
+
 - Pratique
 [_] Regle debug dans le Makefile
 
 - Bonus:
 [X] Load une image/animation de bras et display
-    [_] Animation de course
-    [_] Feature animation secrete
+    [X] Animation de course
+    [X] Feature animation secrete
 [X] Minimap
     [_] Ronde avec bordure stylés
     [_] Centrée sur le joueur
