@@ -24,13 +24,13 @@ int key_press(int keycode, t_data *data)
 		data->keys.d = 1;
 	if (keycode == KEY_ESC)
 		data->keys.esc = 1;
-	if (keycode == XK_c)
-		data->keys.right = 1;
     return (0);
 }
 
-int mouse_click(int keycode, t_data *data)
+int mouse_click(int keycode, int x, int y, t_data *data)
 {
+	(void)y;
+	(void)x;
 	if (keycode == RBUTTON)
 	{
 		data->keys.right = 1;
@@ -38,9 +38,10 @@ int mouse_click(int keycode, t_data *data)
 	return (0);
 }
 
-int mouse_release(int keycode, t_data *data)
+int mouse_release(int keycode, int x, int y, t_data *data)
 {
-	printf("addr %p\n", &(data->keys));
+	(void)y;
+	(void)x;
 	if (keycode == RBUTTON)
 	{
 		data->keys.right = 0;
@@ -64,8 +65,6 @@ int key_release(int keycode, t_data *data)
         data->keys.d = 0;
     if (keycode == KEY_LEFT)
 		data->keys.left = 0;
-	if (keycode == XK_c)
-		data->keys.right = 0;
     // if (keycode == KEY_RIGHT)
     //     data->keys.right = 0;
     // if (keycode == KEY_ESC)
