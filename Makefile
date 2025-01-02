@@ -1,61 +1,36 @@
+NAME = test
 CC = cc
-CFLAGS = -g #-Wall -Wextra -Werror
-INCLUDES = -I./header -I./mlx -I./libft
-MLX_PATH = mlx
-MLX_FLAGS = -L$(MLX_PATH) -lmlx -L/usr/lib -lXext -lX11 -lm -lz -L./libft -lft
+CFLAGS = -Wall -Wextra -Werror
+SRC_DIR = src/
+HEADER_DIR = header/
+FLAGS = -L./libft -lft
 
-SRC_DIR = src
-HEADER_DIR = header
-BUILD_DIR = build
+SRC = $(SRC_DIR)main_test.c \
+      $(SRC_DIR)parsing.c \
+      $(SRC_DIR)get_next_line.c \
+      $(SRC_DIR)get_next_line_utils.c \
 
-SRCS =	$(SRC_DIR)/main.c \
-		$(SRC_DIR)/hook.c \
-		$(SRC_DIR)/get_next_line_utils.c \
-		$(SRC_DIR)/get_next_line.c \
-		$(SRC_DIR)/parsing.c \
-		$(SRC_DIR)/map_handler.c \
-		$(SRC_DIR)/init.c \
-		$(SRC_DIR)/player_utils.c \
-		$(SRC_DIR)/display.c \
-		$(SRC_DIR)/map_utils.c \
-		$(SRC_DIR)/calc.c \
+OBJ = $(SRC:.c=.o)
 
+all: libft $(NAME)
 
-OBJS = $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
-HEADER = $(HEADER_DIR)/cube.h
-
-TARGET = cube
-
-all: $(BUILD_DIR) libft $(MLX_PATH)/libmlx.a $(TARGET)
-
-$(BUILD_DIR):
-	mkdir -p $(BUILD_DIR)
-
-$(MLX_PATH)/libmlx.a:
-	make -C $(MLX_PATH)
-
-$(TARGET): $(OBJS) $(MLX_PATH)/libmlx.a
-	$(CC) $(OBJS) $(MLX_FLAGS) -o $(TARGET)
-
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER) Makefile libft
-	mkdir -p $(BUILD_DIR)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-
-FORCE:
-
-libft: FORCE
+libft:
 	$(MAKE) -C libft
+
+$(NAME): $(OBJ)
+	$(CC) $(OBJ) $(FLAGS) -o $(NAME)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -I$(HEADER_DIR) -Ilibft -c $< -o $@
 
 clean:
 	$(MAKE) clean -C libft
-	rm -rf $(BUILD_DIR) $(OBJS)
-	make -C $(MLX_PATH) clean
+	rm -f $(OBJ)
 
 fclean: clean
 	$(MAKE) fclean -C libft
-	rm -f $(TARGET)
-	make -C $(MLX_PATH) clean
+	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re libft

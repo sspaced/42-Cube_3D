@@ -62,10 +62,19 @@ typedef	struct s_player {
 } t_player;
 
 typedef	struct s_map {
-	char **map_array;
+	char	**map_array;
 	float	map_height;
 	float	map_width;
 } t_map;
+
+typedef struct s_map_info {
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
+	char	*f;
+	char	*c;
+} t_map_info;
 
 typedef struct s_data {
     void    		*mlx;
@@ -86,7 +95,7 @@ int		key_hook(int keycode, t_data *data);
 int		key_press(int keycode, t_data *data);
 int		key_release(int keycode, t_data *data);
 void	init_keys(t_keys *keys);
-int handle_movement(t_data *data);
+int		handle_movement(t_data *data);
 
 //[src/get_next_line_utils.c]
 char	*get_next_line(int fd);
@@ -101,6 +110,10 @@ int		check_eof(char *buffer, int bytes_read);
 
 //[src/parsing.c]
 int		check_file_path(char *path);
+int		parser(char **argv);
+// test
+void	init_map_info(t_map_info *map_info);
+int		info_finder(char *line, char *info_type);
 
 //[src/map_handler.c]
 char	**read_map_file(char *file_path);
@@ -128,4 +141,5 @@ int get_player_angle(char direction);
 void	calc_ray_vector(t_data *data, int x);
 void	calc_wall_info(t_data *data);
 void	calc_wall_hit(t_data *data, double step);
+
 #endif
