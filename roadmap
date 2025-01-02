@@ -2,4 +2,6 @@
 [x] make player init function
 [x] make map init_function
 [x] make a function that find player postion
-[ ] make dist calc function
+[ ] make a function that check if info is valid
+[ ] make a function that check if map is valid
+[ ] make a function that extract info
