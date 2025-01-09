@@ -79,31 +79,30 @@ int	main(int argc, char **argv)
 		mlx_mouse_hide(data.mlx, data.win);
 		mlx_hook(data.win, BUTTON_PRESS, BUTTON_PRESS_MASK, mouse_click, &data);
 		mlx_hook(data.win, BUTTON_RELEASE, BUTTON_RELEASE_MASK, mouse_release, &data);
+
+		t_asset player_dot;
+		ft_bzero(&player_dot, sizeof(t_asset));
+		player_dot.path = "assets/img/player_dot/player_dot.xpm";
+		player_dot.img_ptr = mlx_xpm_file_to_image(data.mlx, player_dot.path, &(player_dot.width), &(player_dot.height));
+		if (player_dot.img_ptr == NULL)
+			printf("Failed to open %s.\n", player_dot.path);
+		player_dot.data = mlx_get_data_addr(player_dot.img_ptr, &(player_dot.bpp), &(player_dot.line_len), &(player_dot.endian));
+		data.player_dot = &player_dot;
+
+		t_list* arm_running;
+		arm_running = init_asset(data, "arm_running_fast/", 21);
+		data.arm_running = arm_running;
+
+		t_list* arm_static;
+		arm_static = init_asset(data, "arm/", 46);
+		data.arm_static = arm_static;
+
+		t_list* arm_finger;
+		arm_finger = init_asset(data, "arm_finger/", 17);
+		data.arm_finger = arm_finger;
 	}
     mlx_hook(data.win, DESTROY_NOTIFY, 0, close_window, &data);
     mlx_loop_hook(data.mlx, handle_movement, &data);
-
-	t_asset player_dot;
-	
-	ft_bzero(&player_dot, sizeof(t_asset));
-	player_dot.path = "assets/img/player_dot/player_dot.xpm";
-	player_dot.img_ptr = mlx_xpm_file_to_image(data.mlx, player_dot.path, &(player_dot.width), &(player_dot.height));
-	if (player_dot.img_ptr == NULL)
-		printf("Failed to open %s.\n", player_dot.path);
-	player_dot.data = mlx_get_data_addr(player_dot.img_ptr, &(player_dot.bpp), &(player_dot.line_len), &(player_dot.endian));
-	data.player_dot = &player_dot;
-
-	t_list* arm_running;
-	arm_running = init_asset(data, "arm_running_fast/", 21);
-	data.arm_running = arm_running;
-
-	t_list* arm_static;
-	arm_static = init_asset(data, "arm/", 46);
-	data.arm_static = arm_static;
-
-	t_list* arm_finger;
-	arm_finger = init_asset(data, "arm_finger/", 17);
-	data.arm_finger = arm_finger;
 
 	display_player_view(&data, 0.005);
     mlx_loop(data.mlx);

@@ -177,16 +177,20 @@ void display_player_view(t_data *data, double step)
 
 	//put_img_to_img(data, data->arm, 0, 0);
 
-	t_keys empty;
-	ft_bzero(&empty, sizeof(t_keys));
-	if (ft_memcmp(&(data->keys), &empty, sizeof(t_keys)) == 0)
-		play_animation(data, &(data->arm_static));
-	else if (data->keys.right == 1)
-		play_animation(data, &(data->arm_finger));
-	else
-		play_animation(data, &(data->arm_running));
+	if (BONUS)
+	{
+		t_keys empty;
+		ft_bzero(&empty, sizeof(t_keys));
+		if (ft_memcmp(&(data->keys), &empty, sizeof(t_keys)) == 0)
+			play_animation(data, &(data->arm_static));
+		else if (data->keys.right == 1)
+			play_animation(data, &(data->arm_finger));
+		else
+			play_animation(data, &(data->arm_running));
 
-	display_map(data);
+		display_map(data);
+	}
+
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 
 

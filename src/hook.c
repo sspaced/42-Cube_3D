@@ -22,6 +22,10 @@ int key_press(int keycode, t_data *data)
         data->keys.s = 1;
     if (keycode == XK_d)
 		data->keys.d = 1;
+    if (keycode == KEY_LEFT)
+		data->keys.left = 1;
+    if (keycode == KEY_RIGHT)
+		data->keys.right = 1;
 	if (keycode == KEY_ESC)
 		data->keys.esc = 1;
     return (0);
@@ -65,10 +69,10 @@ int key_release(int keycode, t_data *data)
         data->keys.d = 0;
     if (keycode == KEY_LEFT)
 		data->keys.left = 0;
-    // if (keycode == KEY_RIGHT)
-    //     data->keys.right = 0;
-    // if (keycode == KEY_ESC)
-	// 	data->keys.esc = 0;
+    if (keycode == KEY_RIGHT)
+        data->keys.right = 0;
+    if (keycode == KEY_ESC)
+		data->keys.esc = 0;
     return (0);
 }
 
@@ -141,16 +145,16 @@ int handle_movement(t_data *data)
 			moved = 1;
 		}
 	}
-    // if (data->keys.left)
-    // {
-    //     data->player.direction += ROTATION_SPEED;
-    //     moved = 1;
-    // }
-    // if (data->keys.right)
-    // {
-    //     data->player.direction -= ROTATION_SPEED;
-    //     moved = 1;
-    // }
+    if (data->keys.left)
+    {
+        data->player.direction += ROTATION_SPEED * 2;
+        moved = 1;
+    }
+    if (data->keys.right)
+    {
+        data->player.direction -= ROTATION_SPEED;
+        moved = 1;
+    }
 	if (moved || BONUS)
 	{
 		display_player_view(data, 0.002);
