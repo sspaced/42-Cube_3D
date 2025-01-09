@@ -8,6 +8,7 @@
 
 - Verif
 [_] Leaks
+    [_] Fonction de free des animations
 [_] Norminette
 
 - Pratique
