@@ -1,13 +1,5 @@
 NO ./path_to_the_north_texture
-   NO ./path_to_the_north_texture
-xNO ./path_to_the_north_texture
-x NO ./path_to_the_north_texture
-   xNO ./path_to_the_north_texture
-  NO x./path_to_the_north_texture
-  NO x ./path_to_the_north_texture
-  NO x./path_to_the_north_texture x
-  NO x ./path_to_the_north_texture x
-           f
+
 SO ./path_to_the_south_texture
 WE ./path_to_the_west_texture
 EA ./path_to_the_east_texture

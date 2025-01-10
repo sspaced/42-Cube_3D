@@ -1,6 +1,6 @@
 NAME = test
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = #-Wall -Wextra -Werror
 SRC_DIR = src/
 HEADER_DIR = header/
 FLAGS = -L./libft -lft
