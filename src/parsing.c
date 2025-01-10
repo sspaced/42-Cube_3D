@@ -207,6 +207,8 @@ int parser(char **argv)
 		{
 			if (!extract_info(line, info, &map_info))
 				return (printf("Too many [%s] declaration in map !\n", info), 0);
+			// check if all info are set
+			// check if F an C value are valid
 		}
 		else
 		{
@@ -215,7 +217,10 @@ int parser(char **argv)
 				return (printf("Invalid line : %s\n", line), 0);
 			}
 			else
-				printf("map part or empty line\n");
+			{
+				// check if map is valid
+				// check if map is last
+			}
 		}
 		free(line);
 	}
