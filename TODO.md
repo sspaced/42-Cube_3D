@@ -1,10 +1,12 @@
 - Mandatory
 [X] Déplacements latéraux
 [X] Touches WASD pour se déplacer
-[_] Murs differents par faces
-[_] BUG: glitch a travers les diagonales
+[X] Murs differents par faces
 [_] Regle bonus dans le Makefile
+[_] BUG: glitch a travers les diagonales
 [_] BUG: prog se lance meme sans map ou avec chemin invalide
+[_] BUG: si spawn dans ou tres tres proche mur et que bouge camera vers gauche, freeze
+[_] BUG: mur nord et sud flicker de fou
 
 - Verif
 [_] Leaks
