@@ -1,4 +1,4 @@
-#include "cube.h"
+#include "cub.h"
 
 static int	is_direction(char c)
 {

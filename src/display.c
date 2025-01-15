@@ -1,4 +1,4 @@
-#include "cube.h"
+#include "cub.h"
 
 void    pixel_to_img(t_data *data, int x, int y, int color)
 {

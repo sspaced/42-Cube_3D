@@ -1,4 +1,4 @@
-#include "cube.h"
+#include "cub.h"
 
 void	set_map_height_width(t_data *data)
 {

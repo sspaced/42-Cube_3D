@@ -1,4 +1,4 @@
-#include	"cube.h"
+#include	"cub.h"
 
 int	check_file_path(char *path)
 {

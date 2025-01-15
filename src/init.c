@@ -1,4 +1,4 @@
-#include "cube.h"
+#include "cub.h"
 
 // static	void init_map(t_map *map)
 // {

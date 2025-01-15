@@ -1,4 +1,4 @@
-#include "cube.h"
+#include "cub.h"
 
 static int	count_map_lines(char *file_path)
 {

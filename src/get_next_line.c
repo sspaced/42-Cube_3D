@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube.h"
+#include "cub.h"
 
 char	*manage_line_with_n_for_buffer(char *buffer, size_t index)
 {

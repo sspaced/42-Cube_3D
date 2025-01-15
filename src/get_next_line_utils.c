@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube.h"
+#include "cub.h"
 
 int	check_eof(char *buffer, int bytes_read)
 {

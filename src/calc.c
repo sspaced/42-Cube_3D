@@ -1,4 +1,4 @@
-#include "cube.h"
+#include "cub.h"
 
 void	calc_ray_vector(t_data *data, int x)
 {

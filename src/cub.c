@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube.h"
+#include "cub.h"
 
 t_asset* new_asset(t_data data, char* path)
 {

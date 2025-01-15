@@ -1,4 +1,4 @@
-#include "cube.h"
+#include "cub.h"
 #include <X11/keysym.h>
 
 int	close_window(t_data *data)
