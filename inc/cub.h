@@ -44,7 +44,7 @@
 # define WALL_COLOR 0xA0CCDA
 # define FLOOR 0xDAB785
 
-# define BONUS 0
+# define BONUS 1
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 40684
@@ -73,6 +73,9 @@ typedef struct s_calc
 	double wall_height;
 	int wall_top;
 	int wall_bottom;
+	double perp_wall_dist;
+	int side;
+	char wall_orientation;
 } t_calc;
 
 typedef	struct s_player {
@@ -116,6 +119,10 @@ typedef struct s_data {
 	struct s_player	player;
 	struct s_keys	keys;
 	struct s_calc	calc;
+	t_asset	*text_n;
+	t_asset	*text_s;
+	t_asset	*text_e;
+	t_asset	*text_w;
 } t_data;
 
 int		close_window(t_data *data);
@@ -159,13 +166,12 @@ void	map_coord_to_pixel(t_data *data, int x, int y);
 
 //[src/display.c]
 void    pixel_to_img(t_data *data, int x, int y, int color);
-void	display_player_view(t_data *data, double view_angle);
+void	display_player_view(t_data *data);
 int check_collision(t_data *data, double new_x, double new_y);
-void display_player_view(t_data *data, double move_speed);
 int get_player_angle(char direction);
 
 //[src/calc.c]
 void	calc_ray_vector(t_data *data, int x);
 void	calc_wall_info(t_data *data);
-void	calc_wall_hit(t_data *data, double step);
+void	calc_wall_hit(t_data *data);
 #endif

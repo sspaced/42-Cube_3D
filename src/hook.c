@@ -84,9 +84,9 @@ int mouse_move(int x, int y, t_data *data)
 
 	mlx_mouse_move(data->mlx, data->win, x_mid, y_mid);
 	if (x < x_mid)
-		data->player.direction += ROTATION_SPEED * 2;
-	else if (x > x_mid)
 		data->player.direction -= ROTATION_SPEED * 2;
+	else if (x > x_mid)
+		data->player.direction += ROTATION_SPEED * 2;
 	return(0);
 }
 
@@ -114,8 +114,8 @@ int handle_movement(t_data *data)
     }
 	if (data->keys.a)
 	{
-		new_x = data->player.x - sin(angle) * MOVE_SPEED;
-		new_y = data->player.y + cos(angle) * MOVE_SPEED;
+		new_x = data->player.x + sin(angle) * MOVE_SPEED;
+		new_y = data->player.y - cos(angle) * MOVE_SPEED;
 		if (!check_collision(data, new_x, new_y))
 		{
 			data->player.x = new_x;
@@ -136,8 +136,8 @@ int handle_movement(t_data *data)
     }
 	if (data->keys.d)
 	{
-		new_x = data->player.x + sin(angle) * MOVE_SPEED;
-		new_y = data->player.y - cos(angle) * MOVE_SPEED;
+		new_x = data->player.x - sin(angle) * MOVE_SPEED;
+		new_y = data->player.y + cos(angle) * MOVE_SPEED;
 		if (!check_collision(data, new_x, new_y))
 		{
 			data->player.x = new_x;
@@ -147,17 +147,17 @@ int handle_movement(t_data *data)
 	}
     if (data->keys.left)
     {
-        data->player.direction += ROTATION_SPEED * 2;
+        data->player.direction -= ROTATION_SPEED * 2;
         moved = 1;
     }
     if (data->keys.right)
     {
-        data->player.direction -= ROTATION_SPEED;
+        data->player.direction += ROTATION_SPEED;
         moved = 1;
     }
 	if (moved || BONUS)
 	{
-		display_player_view(data, 0.002);
+		display_player_view(data);
 	}
 
     return (0);

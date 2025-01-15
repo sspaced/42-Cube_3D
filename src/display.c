@@ -148,7 +148,7 @@ void display_map(t_data *data)
 	put_img_to_img2(data, data->player_dot, data->player.y, data->player.x);
 }
 
-void display_player_view(t_data *data, double step)
+void display_player_view(t_data *data)
 {
     int x;
 	int y;
@@ -157,18 +157,40 @@ void display_player_view(t_data *data, double step)
     while(x < WINDOW_WIDTH)
     {
 		calc_ray_vector(data, x);
-		calc_wall_hit(data, step);
+		calc_wall_hit(data);
 		calc_wall_info(data);
 		y = 0;
 		while (y < data->calc.wall_top)
 			pixel_to_img(data, x, y++, CEILING);
+		// Dessiner le mur texturé
+        int tex_x = (int)(data->calc.wall_x * 64.0) & 63; // Supposons que les textures font 64x64
+        
+        t_asset *current_texture;
+        switch(data->calc.wall_orientation)
+        {
+            case 'N': current_texture = data->text_n; break;
+            case 'S': current_texture = data->text_s; break;
+            case 'E': current_texture = data->text_e; break;
+            case 'W': current_texture = data->text_w; break;
+        }
+        
+        double step = 1.0 * current_texture->height / data->calc.wall_height;
+        double tex_pos = (data->calc.wall_top - WINDOW_HEIGHT / 2 + data->calc.wall_height / 2) * step;
+        
+        while (y < data->calc.wall_bottom)
+        {
+            int tex_y = (int)tex_pos & (current_texture->height - 1);
+            tex_pos += step;
+            unsigned int color = get_pixel_img(current_texture, tex_x, tex_y);
+            pixel_to_img(data, x, y++, color);
+        }
 		//y = data->calc.wall_top;
 		// printf("angle : %d\n", data->player.direction);
-		while (y < data->calc.wall_bottom)
-		{
-			//if (data->player.direction % 360 - 270 > 0);
-			pixel_to_img(data, x, y++, WALL_COLOR);
-		}
+		// while (y < data->calc.wall_bottom)
+		// {
+		// 	//if (data->player.direction % 360 - 270 > 0);
+		// 	pixel_to_img(data, x, y++, WALL_COLOR);
+		// }
 		//y = data->calc.wall_bottom;
 		while (y < WINDOW_HEIGHT)
 			pixel_to_img(data, x, y++, FLOOR);
@@ -189,11 +211,8 @@ void display_player_view(t_data *data, double step)
 			play_animation(data, &(data->arm_running));
 
 		display_map(data);
-	}
-
+		}
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
-
-
 	// mlx_put_image_to_window(data->mlx, data->win, data->asset->img_ptr, 0, 0);
 }
 
