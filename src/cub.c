@@ -102,6 +102,7 @@ int	main(int argc, char **argv)
 		arm_finger = init_asset(data, "arm_finger/", 17);
 		data.arm_finger = arm_finger;
 	}
+
 	t_asset text_n;
 	ft_bzero(&text_n, sizeof(t_asset));
 	text_n.path = "assets/img/text_n/text_n.xpm";
@@ -137,6 +138,7 @@ int	main(int argc, char **argv)
 		printf("Failed to open %s.\n", text_w.path);
 	text_w.data = mlx_get_data_addr(text_w.img_ptr, &(text_w.bpp), &(text_w.line_len), &(text_w.endian));
 	data.text_w = &text_w;
+
     mlx_hook(data.win, DESTROY_NOTIFY, 0, close_window, &data);
     mlx_loop_hook(data.mlx, handle_movement, &data);
 
