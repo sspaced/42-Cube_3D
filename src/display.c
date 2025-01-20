@@ -205,11 +205,10 @@ void display_player_view(t_data *data)
 		ft_bzero(&empty, sizeof(t_keys));
 		if (ft_memcmp(&(data->keys), &empty, sizeof(t_keys)) == 0)
 			play_animation(data, &(data->arm_static));
-		else if (data->keys.right == 1)
+		else if (data->keys.m_right == 1)
 			play_animation(data, &(data->arm_finger));
 		else
 			play_animation(data, &(data->arm_running));
-
 		display_map(data);
 		}
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);

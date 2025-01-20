@@ -59,6 +59,8 @@ typedef struct s_keys {
 	int d;
     int left;
     int right;
+	int	m_left;
+	int	m_right;
     int esc;
 } t_keys;
 

@@ -37,7 +37,7 @@ int mouse_click(int keycode, int x, int y, t_data *data)
 	(void)x;
 	if (keycode == RBUTTON)
 	{
-		data->keys.right = 1;
+		data->keys.m_right = 1;
 	}
 	return (0);
 }
@@ -48,7 +48,7 @@ int mouse_release(int keycode, int x, int y, t_data *data)
 	(void)x;
 	if (keycode == RBUTTON)
 	{
-		data->keys.right = 0;
+		data->keys.m_right = 0;
 	}
 	return (0);
 }
@@ -165,13 +165,14 @@ int handle_movement(t_data *data)
 
 void init_keys(t_keys *keys)
 {
-    keys->up = 0;
-    keys->down = 0;
-    keys->w = 0;
-    keys->a = 0;
-    keys->s = 0;
-    keys->d = 0;
-    keys->left = 0;
-    keys->right = 0;
-    keys->esc = 0;
+	ft_bzero(keys, sizeof(t_keys));
+    // keys->up = 0;
+    // keys->down = 0;
+    // keys->w = 0;
+    // keys->a = 0;
+    // keys->s = 0;
+    // keys->d = 0;
+    // keys->left = 0;
+    // keys->right = 0;
+    // keys->esc = 0;
 }
