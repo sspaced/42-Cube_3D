@@ -3,3 +3,4 @@ compile_commands.json
 cub3D
 *.o
 lib/libft/libft.a
+.build/
