@@ -12,17 +12,6 @@ void    pixel_to_img(t_data *data, int x, int y, int color)
     *(unsigned int*)pixel = color;
 }
 
-// void	display_player_view(t_data *data, float view_angle)
-// {
-// 	float	x = (WINDOW_WIDTH / data->map.map_width) * (data->player.x + 1);
-// 	float	y = (WINDOW_HEIGHT / data->map.map_height) * (data->player.y + 1);
-// 	printf("x = %f, y = %f\n", x, y);
-// 	pixel_to_img(data, 432, 640, 0x00FF0000);
-// 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
-
-// }
-
-
 // Fonction pour vérifier les collisions
 int check_collision(t_data *data, double new_x, double new_y)
 {
@@ -80,28 +69,6 @@ void play_animation(t_data *data, t_list **list)
 	*list = (*list)->next;
 }
 
-void	put_img_to_img2(t_data *dst, t_asset *src, float x, float y)
-{
-	int i;
-	int j;
-	int coef;
-
-	coef = 30;
-	x = x * coef - src->width / 2;
-	y = y * coef - src->height / 2;
-	i = 0;
-	while(i < src->width)
-	{
-		j = 0;
-		while (j < src->height)
-		{
-			put_pixel_img(dst, x + i, y + j, get_pixel_img(src, i, j));
-			j++;
-		}
-		i++;
-	}
-}
-
 void put_square(t_data *data, int x, int y, int color)
 {
 	int	 i;
@@ -145,7 +112,7 @@ void display_map(t_data *data)
 		}
 		y = -1;
 	}
-	put_img_to_img2(data, data->player_dot, data->player.y, data->player.x);
+	put_img_to_img3(data, data->player_dot, data->player.y * 30, data->player.x * 30);
 }
 
 void display_player_view(t_data *data)
@@ -162,6 +129,7 @@ void display_player_view(t_data *data)
 		y = 0;
 		while (y < data->calc.wall_top)
 			pixel_to_img(data, x, y++, CEILING);
+
 		// Dessiner le mur texturé
         int tex_x = (int)(data->calc.wall_x * 64.0) & 63; // Supposons que les textures font 64x64
         
@@ -184,20 +152,11 @@ void display_player_view(t_data *data)
             unsigned int color = get_pixel_img(current_texture, tex_x, tex_y);
             pixel_to_img(data, x, y++, color);
         }
-		//y = data->calc.wall_top;
-		// printf("angle : %d\n", data->player.direction);
-		// while (y < data->calc.wall_bottom)
-		// {
-		// 	//if (data->player.direction % 360 - 270 > 0);
-		// 	pixel_to_img(data, x, y++, WALL_COLOR);
-		// }
-		//y = data->calc.wall_bottom;
+
 		while (y < WINDOW_HEIGHT)
 			pixel_to_img(data, x, y++, FLOOR);
 		x++;
     }
-
-	//put_img_to_img(data, data->arm, 0, 0);
 
 	if (BONUS)
 	{
@@ -210,11 +169,10 @@ void display_player_view(t_data *data)
 		else
 			play_animation(data, &(data->arm_running));
 		display_map(data);
-		}
+	}
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	// mlx_put_image_to_window(data->mlx, data->win, data->asset->img_ptr, 0, 0);
 }
-
 
 int get_player_angle(char direction)
 {
