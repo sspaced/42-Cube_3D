@@ -28,23 +28,12 @@
 // 	calc->wall_top = 0;
 // }
 
-void	init_data(t_data *data)
+int	init_img(t_img *img, void *mlx)
 {
-	ft_bzero(data, sizeof(t_data));
-	// data->win = NULL;
-	// data->mlx = NULL;
-	// init_map(&data->map);
-	// init_player(&data->player);
-	// init_calc(&data->calc);
-}
-
-void	init_img(t_data *data)
-{
-	data->img = mlx_new_image(data->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
-    data->addr = mlx_get_data_addr(
-        data->img,
-        &data->bits_per_pixel,
-        &data->line_length,
-        &data->endian
-    );
+	if (!(img->ptr = mlx_new_image(mlx, WIN_WIDTH, WIN_HEIGHT)))
+		return (ft_putstr_fd("Failed to init new image\n", 2), 0);
+    if (!(img->data = mlx_get_data_addr(img->ptr, &(img->bpp),
+		&(img->line_len), &(img->endian))))
+		return (ft_putstr_fd("Failed to get new image data\n", 2), 0);
+	return (1);
 }

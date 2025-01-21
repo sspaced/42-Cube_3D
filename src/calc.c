@@ -11,7 +11,7 @@
 void calc_ray_vector(t_data *data, int x)
 {
     // Calculate ray position and direction
-    double camera_x = 2 * x / (double)WINDOW_WIDTH - 1; // x-coordinate in camera space
+    double camera_x = 2 * x / (double)WIN_WIDTH - 1; // x-coordinate in camera space
     double ray_dir_x = cos(RAD(data->player.direction));
     double ray_dir_y = sin(RAD(data->player.direction));
     double plane_x = -ray_dir_y * tan(RAD(FOV / 2));
@@ -38,17 +38,17 @@ void calc_ray_vector(t_data *data, int x)
 void calc_wall_info(t_data *data)
 {
     // Calcul de la hauteur du mur
-    data->calc.wall_height = (int)(WINDOW_HEIGHT / data->calc.perp_wall_dist);
+    data->calc.wall_height = (int)(WIN_HEIGHT / data->calc.perp_wall_dist);
 
     // Calcul des points de début et de fin du mur
-    data->calc.wall_top = (WINDOW_HEIGHT - data->calc.wall_height) / 2;
+    data->calc.wall_top = (WIN_HEIGHT - data->calc.wall_height) / 2;
     data->calc.wall_bottom = data->calc.wall_top + data->calc.wall_height;
 
     // Ajustement si le mur dépasse l'écran
     if (data->calc.wall_top < 0)
         data->calc.wall_top = 0;
-    if (data->calc.wall_bottom >= WINDOW_HEIGHT)
-        data->calc.wall_bottom = WINDOW_HEIGHT - 1;
+    if (data->calc.wall_bottom >= WIN_HEIGHT)
+        data->calc.wall_bottom = WIN_HEIGHT - 1;
 
     // Calcul de la position exacte du point d'impact sur le mur
     // Cela peut être utile pour le texturage

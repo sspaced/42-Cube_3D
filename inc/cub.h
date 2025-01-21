@@ -10,8 +10,8 @@
 # include <fcntl.h>
 # include <math.h>
 
-# define WINDOW_WIDTH 1920
-# define WINDOW_HEIGHT 1080
+# define WIN_WIDTH 1920
+# define WIN_HEIGHT 1080
 # define KEY_ESC 65307
 # define KEY_LEFT 65361
 # define KEY_RIGHT 65363
@@ -34,7 +34,7 @@
 # define BUTTON_RELEASE 5
 # define MOTION_NOTIFY 6
 # define DESTROY_NOTIFY 17
-# define WINDOW_TITLE "Cube 3D"
+# define WIN_TITLE "Cube 3D"
 # define MOVE_SPEED 0.05
 # define ROTATION_SPEED 1.0  
 # define FOV 80
@@ -105,22 +105,27 @@ typedef struct s_asset {
 	int		height;
 } t_asset;
 
+typedef struct s_img {
+	void	*ptr;
+	char	*data;
+	int		bpp;
+	int		line_len;
+	int		endian;
+} t_img;
+
 typedef struct s_data {
     void    		*mlx;
     void    		*win;
-	void			*img;
-	void			*addr;
-	t_list			*arm_static;
-	t_list			*arm_running;
-	t_list			*arm_finger;
-	t_asset			*player_dot;
-	int				bits_per_pixel;
-	int				line_length;
-	int				endian;
+	t_img			img;
 	struct s_map	map;
 	struct s_player	player;
 	struct s_keys	keys;
 	struct s_calc	calc;
+	// textures
+	t_list			*arm_static;
+	t_list			*arm_running;
+	t_list			*arm_finger;
+	t_asset			*player_dot;
 	t_asset	*text_n;
 	t_asset	*text_s;
 	t_asset	*text_e;
@@ -157,7 +162,7 @@ void	free_map_error(char **map);
 
 //[src/inti.c]
 void	init_data(t_data *data);
-void	init_img(t_data *data);
+int	init_img(t_img *img, void *mlx);
 
 //[src/player_utils.c]
 void	set_player_pos_dir(t_data *data);

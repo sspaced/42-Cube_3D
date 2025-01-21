@@ -78,8 +78,8 @@ int key_release(int keycode, t_data *data)
 
 int mouse_move(int x, int y, t_data *data)
 {
-	int x_mid = WINDOW_WIDTH / 2;
-	int y_mid = WINDOW_HEIGHT / 2;
+	int x_mid = WIN_WIDTH / 2;
+	int y_mid = WIN_HEIGHT / 2;
 	(void)y;
 
 	mlx_mouse_move(data->mlx, data->win, x_mid, y_mid);
@@ -161,18 +161,4 @@ int handle_movement(t_data *data)
 	}
 
     return (0);
-}
-
-void init_keys(t_keys *keys)
-{
-	ft_bzero(keys, sizeof(t_keys));
-    // keys->up = 0;
-    // keys->down = 0;
-    // keys->w = 0;
-    // keys->a = 0;
-    // keys->s = 0;
-    // keys->d = 0;
-    // keys->left = 0;
-    // keys->right = 0;
-    // keys->esc = 0;
 }

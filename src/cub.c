@@ -53,29 +53,49 @@ t_list* init_asset(t_data data, char* name, int frame_number)
 	return (head);
 }
 
+int check_args(int ac, char **av)
+{
+	if (ac != 2)
+		return (ft_putstr_fd("Program need 1 argument\n", 2), 0);
+	if (!check_file_path(av[1]))
+		return (ft_putstr_fd("Invalid file name (expect .cub file)\n", 2), 0);
+	return (1);
+}
+
+int init(t_data *data)
+{
+	// Set data structure to 0
+	ft_bzero(data, sizeof(t_data));
+	// Init mlx
+	if (!(data->mlx = mlx_init()))
+		return (ft_putstr_fd("Failed to init mlx\n", 2), 0);
+	// Open new window
+    if (!(data->win = mlx_new_window(data->mlx, WIN_WIDTH, WIN_HEIGHT, WIN_TITLE)))
+	{
+		mlx_destroy_display(data->mlx);
+		return (ft_putstr_fd("Failed to open window\n", 2), 0);
+	}
+	// Init image
+	if (!init_img(&(data->img), data->mlx))
+		return (0);
+	return (1);
+}
+
 int	main(int argc, char **argv)
 {
 	t_data  data;
 
-	if (argc != 2)
-		return (ft_putstr_fd("Invalid argument\n", 2), 0);
-	if (!check_file_path(argv[1]))
-		return (ft_putstr_fd("Invalid path\n", 2), 0);
-	init_data(&data);
-	init_keys(&data.keys);
-	data.mlx = mlx_init();
-    if (!data.mlx)
-		return (1);
-    data.win = mlx_new_window(data.mlx, WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE);
-    if (!data.win)
-		return (free(data.mlx), 1);
-	init_img(&data);
+	// Checking args
+	if (!check_args(argc, argv))
+		return (0);
+
+	// Init all data
+	if (!init(&data))
+		return (0);
+
 	data.map.map_array = read_map_file(argv[1]);
 	set_map_height_width(&data);
 	set_player_pos_dir(&data);
-
-	// printf("height = %d width = %d\n", data.map.map_height, data.map.map_width);
-	// printf("x = %f y = %f d = %c\n", data.player.x, data.player.y, data.player.direction);
 
 	mlx_hook(data.win, KEY_PRESS, KEY_PRESS_MASK, key_press, &data);    // KeyPress
     mlx_hook(data.win, KEY_RELEASE, KEY_RELEASE_MASK, key_release, &data);  // KeyRelease

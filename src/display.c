@@ -5,10 +5,10 @@ void    pixel_to_img(t_data *data, int x, int y, int color)
     char    *pixel;
     int     i;
 
-    if (x < 0 || x >= WINDOW_WIDTH || y < 0 || y >= WINDOW_HEIGHT)
+    if (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT)
         return;
-    i = data->line_length * y + x * (data->bits_per_pixel / 8);
-    pixel = data->addr + i;
+    i = data->img.line_len * y + x * (data->img.bpp / 8);
+    pixel = data->img.data + i;
     *(unsigned int*)pixel = color;
 }
 
@@ -39,8 +39,8 @@ void	put_pixel_img(t_data *img, int x, int y, int color)
 		x = x % 1920;
 	if (color == (int)0xFF000000)
 		return ;
-	if (x >= 0 && y >= 0 && x < WINDOW_WIDTH && y < WINDOW_HEIGHT) {
-		dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+	if (x >= 0 && y >= 0 && x < WIN_WIDTH && y < WIN_HEIGHT) {
+		dst = img->img.data + (y * img->img.line_len + x * (img->img.bpp / 8));
 		*(unsigned int *) dst = color;
 	}
 }
@@ -121,7 +121,7 @@ void display_player_view(t_data *data)
 	int y;
 
 	x = 0;
-    while(x < WINDOW_WIDTH)
+    while(x < WIN_WIDTH)
     {
 		calc_ray_vector(data, x);
 		calc_wall_hit(data);
@@ -143,7 +143,7 @@ void display_player_view(t_data *data)
         }
         
         double step = 1.0 * current_texture->height / data->calc.wall_height;
-        double tex_pos = (data->calc.wall_top - WINDOW_HEIGHT / 2 + data->calc.wall_height / 2) * step;
+        double tex_pos = (data->calc.wall_top - WIN_HEIGHT / 2 + data->calc.wall_height / 2) * step;
         
         while (y < data->calc.wall_bottom)
         {
@@ -153,7 +153,7 @@ void display_player_view(t_data *data)
             pixel_to_img(data, x, y++, color);
         }
 
-		while (y < WINDOW_HEIGHT)
+		while (y < WIN_HEIGHT)
 			pixel_to_img(data, x, y++, FLOOR);
 		x++;
     }
@@ -170,7 +170,7 @@ void display_player_view(t_data *data)
 			play_animation(data, &(data->arm_running));
 		display_map(data);
 	}
-	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+	mlx_put_image_to_window(data->mlx, data->win, data->img.ptr, 0, 0);
 	// mlx_put_image_to_window(data->mlx, data->win, data->asset->img_ptr, 0, 0);
 }
 
