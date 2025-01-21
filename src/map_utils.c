@@ -1,28 +1,26 @@
 #include "cub.h"
 
-void	set_map_height_width(t_data *data)
+void	set_map_height_width(t_map *map)
 {
 	int x;
 	int y;
 	int y_bis;
 
-	if (!data)
-		return ;
-	if (!data->map.map_array)
+	if (!map->map_array)
 		return ;
 	x = 0;
 	y = 0;
 	y_bis = 0;
-	while (data->map.map_array[x])
+	while (map->map_array[x])
 	{
-		while (data->map.map_array[x][y])
+		while (map->map_array[x][y])
 			y++;
 		y_bis = y;
 		y = 0;
 		x++;
 	}
-	data->map.map_height = x;
-	data->map.map_width = y_bis;
+	map->map_height = x;
+	map->map_width = y_bis;
 }
 
 void	map_coord_to_pixel(t_data *data, int x, int y)

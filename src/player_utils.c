@@ -47,8 +47,8 @@ void	set_player_pos_dir(t_data *data)
 		y++;
 	}
 	data->player.direction = get_player_angle(data->map.map_array[y][x]);
-	data->player.x = x + 1;
-	data->player.y = y + 1;
+	data->player.x = x + .5;
+	data->player.y = y + .5;
 }
 
 // void set_player_pos_dir(t_data *data)

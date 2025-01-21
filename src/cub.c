@@ -81,6 +81,14 @@ int init(t_data *data)
 	return (1);
 }
 
+int setup_map(t_map *map, char *path)
+{
+	if (!(map->map_array = read_map_file(path)))
+		return (ft_putstr_fd("Failed to read map file\n", 2), 0);
+	set_map_height_width(map);
+	return (1);
+}
+
 int	main(int argc, char **argv)
 {
 	t_data  data;
@@ -93,8 +101,8 @@ int	main(int argc, char **argv)
 	if (!init(&data))
 		return (0);
 
-	data.map.map_array = read_map_file(argv[1]);
-	set_map_height_width(&data);
+	if (!setup_map(&(data.map), argv[1]))
+		return (0);
 	set_player_pos_dir(&data);
 
 	mlx_hook(data.win, KEY_PRESS, KEY_PRESS_MASK, key_press, &data);    // KeyPress
