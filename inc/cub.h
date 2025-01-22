@@ -6,6 +6,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include "mlx.h"
+# include <stdbool.h>
 # include "libft.h"
 # include <fcntl.h>
 # include <math.h>
@@ -44,7 +45,7 @@
 # define WALL_COLOR 0xA0CCDA
 # define FLOOR 0xDAB785
 
-# define BONUS 1
+# define BONUS true
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 40684
@@ -63,6 +64,18 @@ typedef struct s_keys {
 	int	m_right;
     int esc;
 } t_keys;
+
+typedef enum s_texture {
+	WALL_N,
+	WALL_S,
+	WALL_E,
+	WALL_W,
+	PLAYER_DOT,
+	ARM_STATIC,
+	ARM_RUNNING,
+	ARM_PUNCHING,
+	ARM_FINGER,
+} e_texture;
 
 typedef struct s_calc
 {
@@ -94,17 +107,6 @@ typedef	struct s_map {
 	int		map_width;
 } t_map;
 
-typedef struct s_asset {
-	void	*img_ptr;
-	char	*path;
-	char	*data;
-	int		bpp;
-	int		line_len;
-	int		endian;
-	int		width;
-	int		height;
-} t_asset;
-
 typedef struct s_img {
 	void	*ptr;
 	char	*data;
@@ -113,24 +115,33 @@ typedef struct s_img {
 	int		endian;
 } t_img;
 
+typedef struct s_asset {
+	char		*path;
+	e_texture	name;
+	t_img		*img;
+	int			width;
+	int			height;
+} t_asset;
+
 typedef struct s_data {
-    void    		*mlx;
-    void    		*win;
-	t_img			img;
-	struct s_map	map;
-	struct s_player	player;
-	struct s_keys	keys;
-	struct s_calc	calc;
+    void    	*mlx;
+    void    	*win;
+	t_img		*img;
+	t_map		map;
+	t_player	player;
+	t_keys		keys;
+	t_calc		calc;
 	// textures
-	t_list			*arm_static;
-	t_list			*arm_running;
-	t_list			*arm_finger;
-	t_list			*arm_punching;
-	t_asset			*player_dot;
-	t_asset	*text_n;
-	t_asset	*text_s;
-	t_asset	*text_e;
-	t_asset	*text_w;
+	t_list		*arm_anim;
+	t_list		*arm_static;
+	t_list		*arm_running;
+	t_list		*arm_finger;
+	t_list		*arm_punching;
+	t_asset		*player_dot;
+	t_asset		*text_n;
+	t_asset		*text_s;
+	t_asset		*text_e;
+	t_asset		*text_w;
 } t_data;
 
 int		close_window(t_data *data);
@@ -163,6 +174,7 @@ void	free_map_error(char **map);
 
 //[src/inti.c]
 void	init_data(t_data *data);
+int init(t_data *data);
 int	init_img(t_img *img, void *mlx);
 
 //[src/player_utils.c]
@@ -183,3 +195,7 @@ void	calc_ray_vector(t_data *data, int x);
 void	calc_wall_info(t_data *data);
 void	calc_wall_hit(t_data *data);
 #endif
+
+//[src/assets.c]
+t_asset* new_asset(void *mlx, char* path, e_texture name);
+int add_asset_to_list(t_list **head, void *mlx, char *path, e_texture name);

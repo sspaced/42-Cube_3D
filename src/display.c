@@ -7,8 +7,8 @@ void    pixel_to_img(t_data *data, int x, int y, int color)
 
     if (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT)
         return;
-    i = data->img.line_len * y + x * (data->img.bpp / 8);
-    pixel = data->img.data + i;
+    i = data->img->line_len * y + x * (data->img->bpp / 8);
+    pixel = data->img->data + i;
     *(unsigned int*)pixel = color;
 }
 
@@ -26,7 +26,7 @@ int check_collision(t_data *data, double new_x, double new_y)
     return 0;
 }
 
-unsigned int	get_pixel_img(t_asset *img, int x, int y)
+unsigned int	get_pixel_img(t_img *img, int x, int y)
 {
 	return (*(unsigned int *)((img->data + (y * img->line_len) + (x * img->bpp / 8))));
 }
@@ -40,7 +40,7 @@ void	put_pixel_img(t_data *img, int x, int y, int color)
 	if (color == (int)0xFF000000)
 		return ;
 	if (x >= 0 && y >= 0 && x < WIN_WIDTH && y < WIN_HEIGHT) {
-		dst = img->img.data + (y * img->img.line_len + x * (img->img.bpp / 8));
+		dst = img->img->data + (y * img->img->line_len + x * (img->img->bpp / 8));
 		*(unsigned int *) dst = color;
 	}
 }
@@ -56,7 +56,7 @@ void	put_img_to_img3(t_data *dst, t_asset *src, int x, int y)
 	{
 		while (++j < src->height)
 		{
-			put_pixel_img(dst, x + i, y + j, get_pixel_img(src, i, j));
+			put_pixel_img(dst, x + i, y + j, get_pixel_img(src->img, i, j));
 		}
 		j = -1;
 	}
@@ -149,7 +149,7 @@ void display_player_view(t_data *data)
         {
             int tex_y = (int)tex_pos & (current_texture->height - 1);
             tex_pos += step;
-            unsigned int color = get_pixel_img(current_texture, tex_x, tex_y);
+            unsigned int color = get_pixel_img(current_texture->img, tex_x, tex_y);
             pixel_to_img(data, x, y++, color);
         }
 
@@ -172,7 +172,7 @@ void display_player_view(t_data *data)
 			play_animation(data, &(data->arm_running));
 		display_map(data);
 	}
-	mlx_put_image_to_window(data->mlx, data->win, data->img.ptr, 0, 0);
+	mlx_put_image_to_window(data->mlx, data->win, data->img->ptr, 0, 0);
 	// mlx_put_image_to_window(data->mlx, data->win, data->asset->img_ptr, 0, 0);
 }
 

@@ -16,9 +16,12 @@
 
 t_list	*ft_lstlast(t_list *lst)
 {
+	t_list *head;
+	
+	head = lst;
 	if (!lst)
 		return (NULL);
-	while (lst)
+	while (lst && lst->next != head)
 	{
 		if (!(*lst).next)
 			return (lst);

@@ -6,20 +6,18 @@
 #    By: elleroux <elleroux@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/27 14:18:05 by elleroux          #+#    #+#              #
-#    Updated: 2024/11/27 15:01:48 by elleroux         ###   ########.fr        #
+#    Updated: 2025/01/22 19:18:23 by elleroux         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 ### CONFIG ###
 TARGET	= cub3D
 CC		= cc
-CFLAGS	= -Wall -Wextra -Werror -MMD -MP
+CFLAGS	= -Werror -Wall -Wextra -fsanitize=address -g3
 INCLUDE	= -Iinc -Ilib/libft -Ilib/mlx
 LFLAGS	= -lft -lmlx -lm -lX11 -lXext
 LIBFT	= lib/libft/libft.a
 MLX		= lib/mlx/libmlx.a
-DEBUG	= -g3
-
 
 ### SOURCES ###
 EXTENSION	= .c
@@ -37,7 +35,8 @@ SRCS		= cub.c \
 			  player_utils.c \
 			  display.c \
 			  map_utils.c \
-			  calc.c 
+			  calc.c \
+			  assets.c
 
 
 ### OBJECTS ###
@@ -60,7 +59,7 @@ $(MLX):
 $(TARGET): ${OBJS}
 	$(CC) $(CFLAGS) -L$(LIBFT_DIR) -L$(MLX_DIR) -o $@ ${OBJS} $(LFLAGS)
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%$(EXTENSION) Makefile $(LIBFT) $(MLX)
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%$(EXTENSION) Makefile $(LIBFT) $(MLX) inc/cub.h
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 clean:
