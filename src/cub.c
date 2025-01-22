@@ -101,8 +101,10 @@ int	main(int argc, char **argv)
 	if (!init(&data))
 		return (0);
 
+	// Creating map object
 	if (!setup_map(&(data.map), argv[1]))
 		return (0);
+	// Set player in map
 	set_player_pos_dir(&data);
 
 	mlx_hook(data.win, KEY_PRESS, KEY_PRESS_MASK, key_press, &data);    // KeyPress
@@ -119,6 +121,7 @@ int	main(int argc, char **argv)
 		data.arm_running = init_asset(data, "arm_running_fast/", 21);
 		data.arm_static = init_asset(data, "arm/", 46);
 		data.arm_finger = init_asset(data, "arm_finger/", 17);
+		data.arm_punching = init_asset(data, "arm_punching/", 33);
 	}
 
 	data.text_n = new_asset(data, "assets/img/text_n/text_n.xpm");

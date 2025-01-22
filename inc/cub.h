@@ -125,6 +125,7 @@ typedef struct s_data {
 	t_list			*arm_static;
 	t_list			*arm_running;
 	t_list			*arm_finger;
+	t_list			*arm_punching;
 	t_asset			*player_dot;
 	t_asset	*text_n;
 	t_asset	*text_s;

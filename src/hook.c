@@ -36,9 +36,9 @@ int mouse_click(int keycode, int x, int y, t_data *data)
 	(void)y;
 	(void)x;
 	if (keycode == RBUTTON)
-	{
 		data->keys.m_right = 1;
-	}
+	if (keycode == LBUTTON)
+		data->keys.m_left = 1;
 	return (0);
 }
 
@@ -47,9 +47,9 @@ int mouse_release(int keycode, int x, int y, t_data *data)
 	(void)y;
 	(void)x;
 	if (keycode == RBUTTON)
-	{
 		data->keys.m_right = 0;
-	}
+	if (keycode == LBUTTON)
+		data->keys.m_left = 0;
 	return (0);
 }
 

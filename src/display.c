@@ -166,6 +166,8 @@ void display_player_view(t_data *data)
 			play_animation(data, &(data->arm_static));
 		else if (data->keys.m_right == 1)
 			play_animation(data, &(data->arm_finger));
+		else if (data->keys.m_left == 1)
+			play_animation(data, &(data->arm_punching));
 		else
 			play_animation(data, &(data->arm_running));
 		display_map(data);
