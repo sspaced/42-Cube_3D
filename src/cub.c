@@ -12,10 +12,18 @@
 
 #include "cub.h"
 
-t_list* new_animation(void *mlx, char* base_path, int frame_number, e_texture name)
+void destroy_asset(void *asset)
+{
+	free(((t_asset*)asset)->img.data);
+	free(((t_asset*)asset)->img.ptr);
+	free((t_asset*)asset);
+}
+
+t_list* new_animation(void *mlx, const char* base_path, int frame_number, e_texture name)
 {
 	int i;
 	char *path;
+	char *new_path;
 	t_list*	head;
 	
 	i = -1;
@@ -24,9 +32,16 @@ t_list* new_animation(void *mlx, char* base_path, int frame_number, e_texture na
 	while (++i < frame_number)
 	{
 		path = ft_strdup(base_path);
-		path = ft_strjoin(path, ft_itoa(i));
-		path = ft_strjoin(path, ".xpm");
-		add_asset_to_list(&(head), mlx, path, name);
+		new_path = ft_strjoin(path, ft_itoa(i));
+		free(path);
+		path = new_path;
+		new_path = ft_strjoin(path, ".xpm");
+		free(path);
+		if (!add_asset_to_list(&(head), mlx, new_path, name))
+		{
+			ft_lstclear(&(head), &destroy_asset);
+			return(NULL);
+		}
 	}
 	ft_lstlast(head)->next = head;
 	return (head);
@@ -108,5 +123,13 @@ int	main(int argc, char **argv)
 	display_player_view(&data);
     mlx_loop(data.mlx);
 	free_map_error(data.map.map_array);
+	ft_lstclear(&(data.arm_finger), &destroy_asset);
+	ft_lstclear(&(data.arm_static), &destroy_asset);
+	ft_lstclear(&(data.arm_running), &destroy_asset);
+	ft_lstclear(&(data.arm_punching), &destroy_asset);
+	free(&(data.arm_punching));
+	free(&(data.arm_running));
+	free(&(data.arm_static));
+	free(&(data.arm_static));
 	return (1);
 }
