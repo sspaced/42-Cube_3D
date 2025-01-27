@@ -46,6 +46,7 @@
 # define FLOOR 0xDAB785
 
 # define BONUS true
+# define DEBUG false
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 40684
@@ -118,7 +119,7 @@ typedef struct s_img {
 typedef struct s_asset {
 	char		*path;
 	e_texture	name;
-	t_img		*img;
+	t_img		img;
 	int			width;
 	int			height;
 } t_asset;
@@ -126,7 +127,7 @@ typedef struct s_asset {
 typedef struct s_data {
     void    	*mlx;
     void    	*win;
-	t_img		*img;
+	t_img		img;
 	t_map		map;
 	t_player	player;
 	t_keys		keys;

@@ -30,7 +30,7 @@ inline void	put_pixel_img(t_data *img, int x, int y, int color)
 	if (x > 1920)
 		x = x % 1920;
 	if (x >= 0 && y >= 0 && x < WIN_WIDTH && y < WIN_HEIGHT) {
-		dst = img->img->data + (y * img->img->line_len + x * (img->img->bpp / 8));
+		dst = img->img.data + (y * img->img.line_len + x * (img->img.bpp / 8));
 		*(unsigned int *) dst = color;
 	}
 }
@@ -48,7 +48,7 @@ void	put_img_to_img3(t_data *dst, t_asset *src, int x, int y)
 	{
 		while (++j < src->height)
 		{
-			put_pixel_img(dst, x + i, y + j, get_pixel_img(src->img, i, j));
+			put_pixel_img(dst, x + i, y + j, get_pixel_img(&(src->img), i, j));
 		}
 		j = -1;
 	}
@@ -141,7 +141,7 @@ void display_player_view(t_data *data)
         {
             int tex_y = (int)tex_pos & (current_texture->height - 1);
             tex_pos += step;
-            unsigned int color = get_pixel_img(current_texture->img, tex_x, tex_y);
+            unsigned int color = get_pixel_img(&(current_texture->img), tex_x, tex_y);
 			put_pixel_img(data, x, y++, color);
         }
 
@@ -164,7 +164,7 @@ void display_player_view(t_data *data)
 			play_animation(data, &(data->arm_running));
 		display_map(data);
 	}
-	mlx_put_image_to_window(data->mlx, data->win, data->img->ptr, 0, 0);
+	mlx_put_image_to_window(data->mlx, data->win, data->img.ptr, 0, 0);
 	// mlx_put_image_to_window(data->mlx, data->win, data->asset->img_ptr, 0, 0);
 }
 

@@ -16,24 +16,23 @@ t_asset* new_asset(void *mlx, char* path, e_texture name)
 {
 	t_asset	*new;
 
+	if (DEBUG == true)
+		printf("new_asset: path=%s\n", path);
 	new = ft_calloc(sizeof(t_asset), 1);
 	if (!new)
-		return (printf("Failed to allocate new asset\n"), NULL);
+		return (ft_putstr_fd("Failed to allocate new asset\n", 2), NULL);
 	new->path = path;
-	if (!(new->img = ft_calloc(sizeof(t_img), 1)))
+	new->img.ptr = mlx_xpm_file_to_image(mlx, path, &(new->width), &(new->height));
+	if (!new->img.ptr)
 	{
 		free(new);
-		return (printf("Failed to allocate new image\n"), NULL);
+		return(ft_putstr_fd("Failed to create X image from xpm\n", 2), NULL);
 	}
-	if (!(new->img->ptr = mlx_xpm_file_to_image(mlx, path, &(new->width), &(new->height))))
+	new->img.data = mlx_get_data_addr(new->img.ptr, &(new->img.bpp), &(new->img.line_len), &(new->img.endian));
+	if (!new->img.data)
 	{
 		free(new);
-		return(printf("Failed to open %s\n", path), NULL);
-	}
-	if (!(new->img->data = mlx_get_data_addr(new->img->ptr, &(new->img->bpp), &(new->img->line_len), &(new->img->endian))))
-	{
-		free(new);
-		return(printf("Failed to get %s data\n", path), NULL);
+		return(ft_putstr_fd("Failed to read image data\n", 2), NULL);
 	}
 	new->name = name;
 	return(new);

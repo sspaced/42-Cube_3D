@@ -13,7 +13,7 @@
 ### CONFIG ###
 TARGET	= cub3D
 CC		= cc
-CFLAGS	= -Werror -Wall -Wextra -fsanitize=address -g3
+CFLAGS	= -Werror -Wall -Wextra
 INCLUDE	= -Iinc -Ilib/libft -Ilib/mlx
 LFLAGS	= -lft -lmlx -lm -lX11 -lXext
 LIBFT	= lib/libft/libft.a
