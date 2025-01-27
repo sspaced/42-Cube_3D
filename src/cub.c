@@ -95,13 +95,13 @@ int	main(int argc, char **argv)
 	// Setting mlx hook to catch X event
 	setup_hooks(&data);
 	// Setting texture (will be done via parsing later)
-	if (!(data.text_n = new_asset(data.mlx, "assets/img/wall_n/wall_n.xpm", WALL_N)))
+	if (!(data.text_n = new_asset(data.mlx, "assets/img/text_n/text_n.xpm", WALL_N)))
 		return (1);
-	if (!(data.text_s = new_asset(data.mlx, "assets/img/wall_s/wall_s.xpm", WALL_S)))
+	if (!(data.text_s = new_asset(data.mlx, "assets/img/text_s/text_s.xpm", WALL_S)))
 		return (1);
-	if (!(data.text_e = new_asset(data.mlx, "assets/img/wall_e/wall_e.xpm", WALL_E)))
+	if (!(data.text_e = new_asset(data.mlx, "assets/img/text_e/text_e.xpm", WALL_E)))
 		return (1);
-	if (!(data.text_w = new_asset(data.mlx, "assets/img/wall_w/wall_w.xpm", WALL_W)))
+	if (!(data.text_w = new_asset(data.mlx, "assets/img/text_w/text_w.xpm", WALL_W)))
 		return (1);
 	if (BONUS == true && (!setup_bonus_textures(&(data))))
 		return (1);

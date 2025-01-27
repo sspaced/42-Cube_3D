@@ -20,22 +20,21 @@ t_asset* new_asset(void *mlx, char* path, e_texture name)
 	if (!new)
 		return (printf("Failed to allocate new asset\n"), NULL);
 	new->path = path;
-
-	new->img = ft_calloc(sizeof(t_img), 1);
-	if (!new->img)
+	if (!(new->img = ft_calloc(sizeof(t_img), 1)))
 	{
 		free(new);
 		return (printf("Failed to allocate new image\n"), NULL);
 	}
-
-	new->img->ptr = mlx_xpm_file_to_image(mlx, path, &(new->width), &(new->height));
-
-	if (new->img->ptr == NULL)
+	if (!(new->img->ptr = mlx_xpm_file_to_image(mlx, path, &(new->width), &(new->height))))
 	{
 		free(new);
 		return(printf("Failed to open %s\n", path), NULL);
 	}
-
+	if (!(new->img->data = mlx_get_data_addr(new->img->ptr, &(new->img->bpp), &(new->img->line_len), &(new->img->endian))))
+	{
+		free(new);
+		return(printf("Failed to get %s data\n", path), NULL);
+	}
 	new->name = name;
 	return(new);
 }
