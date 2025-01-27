@@ -21,7 +21,7 @@
 # define KEY_RIGHT 65363
 # define KEY_UP 65362
 # define KEY_DOWN 65364
-# define FOV 80
+# define FOV 50
 # define PI 3.14159265359
 # define RAD(x) (x * PI / 180.0)
 # define CEILING 0x444444
@@ -72,8 +72,8 @@ typedef struct s_map_info {
 	char	*so;
 	char	*we;
 	char	*ea;
-	char	*f;
-	char	*c;
+	int		f[3];
+	int 	c[3];
 } t_map_info;
 
 typedef struct s_data {

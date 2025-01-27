@@ -91,8 +91,6 @@ void init_map_info(t_map_info *map_info)
 	map_info->so = NULL;
 	map_info->we = NULL;
 	map_info->ea = NULL;
-	map_info->f = NULL;
-	map_info->c = NULL;
 }
 
 int array_size(char **array)
@@ -123,7 +121,7 @@ void clear_array(char **array)
 	free(array);
 }
 
-int set_map_info_value(char **map_info_field, char *info_value)
+int set_map_cardinal_info(char **map_info_field, char *info_value)
 {
 	if ((*map_info_field) == NULL)
 	{
@@ -133,20 +131,69 @@ int set_map_info_value(char **map_info_field, char *info_value)
 	return (0);
 }
 
+int is_digit(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int is_valid_color(char *info_value)
+{
+	char **splited_color;
+	int i;
+
+	i = 0;
+	splited_color = ft_split(info_value, ',');
+	if (splited_color == NULL || array_size(splited_color) != 3)
+		return (0);
+	while (splited_color[i] != NULL)
+	{
+		if (!is_digit(splited_color[i]) || ft_atoi(splited_color[i]) < 0 || ft_atoi(splited_color[i]) > 255)
+		{
+			clear_array(splited_color);
+			return (0);
+		}
+		i++;
+	}
+	clear_array(splited_color);
+	return (1);
+}	
+
+int set_map_color_info(int map_info_field[3], char *info_value)
+{
+	if (!is_valid_color(info_value))
+		return (0);
+	map_info_field[0] = ft_atoi(info_value);
+	info_value += 4;
+	map_info_field[1] = ft_atoi(info_value);
+	info_value += 4;
+	map_info_field[2] = ft_atoi(info_value);
+	return (1);
+}
+
+
 int map_info_setter(char *info_type, char *info_value, t_map_info *map_info)
 {
 	if (!ft_strncmp(info_type, "NO", 2))
-		return (set_map_info_value(&map_info->no, info_value));
+		return (set_map_cardinal_info(&map_info->no, info_value));
 	else if (!ft_strncmp(info_type, "SO", 2))
-		return (set_map_info_value(&map_info->so, info_value));
+		return (set_map_cardinal_info(&map_info->so, info_value));
 	else if (!ft_strncmp(info_type, "WE", 2))
-		return (set_map_info_value(&map_info->we, info_value));
+		return (set_map_cardinal_info(&map_info->we, info_value));
 	else if (!ft_strncmp(info_type, "EA", 2))
-		return (set_map_info_value(&map_info->ea, info_value));
+		return (set_map_cardinal_info(&map_info->ea, info_value));
 	else if (!ft_strncmp(info_type, "F", 1))
-		return (set_map_info_value(&map_info->f, info_value));
+		return (set_map_color_info(map_info->f, info_value));
 	else if (!ft_strncmp(info_type, "C", 1))
-		return (set_map_info_value(&map_info->c, info_value));
+		return (set_map_color_info(map_info->c, info_value));
 	return (0);
 }
 
@@ -180,6 +227,17 @@ int is_only_space(char *line)
 	return (1);
 }
 
+int check_info_complete(t_map_info *map_info)
+{
+	if (!map_info->no)
+	{
+		printf("NO is missing\n");
+		return (0);
+	}
+	printf("NO is set\n");
+	return (1);
+}
+
 int parser(char **argv)
 {
 	if (!check_file_path(argv[1]))
@@ -191,6 +249,7 @@ int parser(char **argv)
 	int		fd;
 	char *info_type[] = {"NO", "SO", "WE", "EA", "F", "C", NULL};
 	int info_nb;
+	int i = 0;
 
 	init_map_info(&map_info);
 
@@ -206,9 +265,9 @@ int parser(char **argv)
 		if ((info = search_info(line, info_type)) != NULL)
 		{
 			if (!extract_info(line, info, &map_info))
-				return (printf("Too many [%s] declaration in map !\n", info), 0);
-			// check if all info are set
-			// check if F an C value are valid
+				return (printf("Err with [%s] at line %d\n", info, i), 0);
+			// if (check_info_complete(&map_info))
+			// 	return (printf("Missing info in map !\n"), 0);
 		}
 		else
 		{
@@ -223,14 +282,15 @@ int parser(char **argv)
 			}
 		}
 		free(line);
+		i++;
 	}
 
 	printf("NO: %s\n", map_info.no);
 	printf("SO: %s\n", map_info.so);
 	printf("WE: %s\n", map_info.we);
 	printf("EA: %s\n", map_info.ea);
-	printf("F: %s\n", map_info.f);
-	printf("C: %s\n", map_info.c);
+	printf("F: %d, %d, %d\n", map_info.f[0], map_info.f[1], map_info.f[2]);
+	printf("C: %d, %d, %d\n", map_info.c[0], map_info.c[1], map_info.c[2]);
 	close(fd);
 	return (1);
 }
