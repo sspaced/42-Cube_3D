@@ -1,13 +1,5 @@
 #include "cub.h"
 
-// void	calc_ray_vector(t_data *data, int x)
-// {
-// 	data->calc.ray_angle = RAD(data->player.direction) + 
-//                    RAD(FOV / 2.0) - ((double)x / WINDOW_WIDTH) * RAD(FOV);
-//     data->calc.ray_vect_x = cos(data->calc.ray_angle);
-//     data->calc.ray_vect_y = sin(data->calc.ray_angle);
-// }
-
 void calc_ray_vector(t_data *data, int x)
 {
     // Calculate ray position and direction
@@ -20,20 +12,6 @@ void calc_ray_vector(t_data *data, int x)
     data->calc.ray_vect_x = ray_dir_x + plane_x * camera_x;
     data->calc.ray_vect_y = ray_dir_y + plane_y * camera_x;
 }
-
-// void calc_wall_info(t_data *data)
-// {
-// 	data->calc.wall_x = data->calc.wall_x - data->player.x;
-// 	data->calc.wall_y = data->calc.wall_y - data->player.y;
-//     data->calc.wall_dist = sqrt(data->calc.wall_x * data->calc.wall_x + data->calc.wall_y * data->calc.wall_y);
-//     data->calc.wall_dist *= cos(data->calc.ray_angle - RAD(data->player.direction));
-// 	data->calc.wall_height = (int)(WINDOW_HEIGHT / data->calc.wall_dist);
-//     if (data->calc.wall_height > WINDOW_HEIGHT)
-// 		data->calc.wall_height = WINDOW_HEIGHT;
-// 	data->calc.wall_top = (WINDOW_HEIGHT - data->calc.wall_height) / 2;
-//     data->calc.wall_bottom = data->calc.wall_top + data->calc.wall_height;
-// }
-
 
 void calc_wall_info(t_data *data)
 {
@@ -103,11 +81,6 @@ void calc_wall_hit(t_data *data)
         }
     }
 
-    // if (side == 0)
-    //     data->calc.perp_wall_dist = (map_x - data->player.x + (1 - step_x) / 2) / data->calc.ray_vect_x;
-    // else
-    //     data->calc.perp_wall_dist = (map_y - data->player.y + (1 - step_y) / 2) / data->calc.ray_vect_y;
-	
 	if (data->calc.side == 0)
         data->calc.perp_wall_dist = (map_x - data->player.x + (1 - step_x) / 2) / data->calc.ray_vect_x;
 	else
@@ -117,25 +90,4 @@ void calc_wall_hit(t_data *data)
         data->calc.wall_orientation = (data->calc.ray_vect_x > 0) ? 'E' : 'W';
 	else
         data->calc.wall_orientation = (data->calc.ray_vect_y > 0) ? 'S' : 'N';
-    // data->calc.wall_x = data->player.x + data->calc.perp_wall_dist * data->calc.ray_vect_x;
-    // data->calc.wall_y = data->player.y + data->calc.perp_wall_dist * data->calc.ray_vect_y;
 }
-
-// void calc_wall_hit(t_data *data)
-// {
-// 	double	step;
-// 
-// 	step = 0.005;
-// 	data->calc.wall_x = data->player.x;
-//     data->calc.wall_y = data->player.y;
-// 	while (1)
-//     {
-// 		data->calc.wall_x += data->calc.ray_vect_x * step;
-//         data->calc.wall_y += data->calc.ray_vect_y * step;
-//         if ((int)data->calc.wall_x < 0 || (int)data->calc.wall_y < 0 ||
-// 				(int)data->calc.wall_x >= data->map.map_width || 
-//             	(int)data->calc.wall_y >= data->map.map_height ||
-//             	data->map.map_array[(int)data->calc.wall_y][(int)data->calc.wall_x] == '1')
-// 			break;
-//     }
-// }
