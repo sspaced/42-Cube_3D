@@ -78,7 +78,6 @@ void calc_wall_hit(t_data *data)
         (map_y + 1.0 - data->player.y) * delta_dist_y;
 
     int hit = 0;
-    int side; // 0 for x-side, 1 for y-side
 
     while (hit == 0)
     {
@@ -86,13 +85,13 @@ void calc_wall_hit(t_data *data)
         {
             side_dist_x += delta_dist_x;
             map_x += step_x;
-            side = 0;
+            data->calc.side = 0;
         }
         else
         {
             side_dist_y += delta_dist_y;
             map_y += step_y;
-            side = 1;
+            data->calc.side = 1;
         }
 
         if (map_x < 0 || map_y < 0 || 
@@ -108,13 +107,13 @@ void calc_wall_hit(t_data *data)
     //     data->calc.perp_wall_dist = (map_x - data->player.x + (1 - step_x) / 2) / data->calc.ray_vect_x;
     // else
     //     data->calc.perp_wall_dist = (map_y - data->player.y + (1 - step_y) / 2) / data->calc.ray_vect_y;
-
-	if (side == 0)
+	
+	if (data->calc.side == 0)
         data->calc.perp_wall_dist = (map_x - data->player.x + (1 - step_x) / 2) / data->calc.ray_vect_x;
 	else
         data->calc.perp_wall_dist = (map_y - data->player.y + (1 - step_y) / 2) / data->calc.ray_vect_y;
 
-	if (side == 0)
+	if (data->calc.side == 0)
         data->calc.wall_orientation = (data->calc.ray_vect_x > 0) ? 'E' : 'W';
 	else
         data->calc.wall_orientation = (data->calc.ray_vect_y > 0) ? 'S' : 'N';
