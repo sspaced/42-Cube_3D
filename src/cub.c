@@ -123,13 +123,13 @@ int	main(int argc, char **argv)
 	display_player_view(&data);
     mlx_loop(data.mlx);
 	free_map_error(data.map.map_array);
-	ft_lstclear(&(data.arm_finger), &destroy_asset);
-	ft_lstclear(&(data.arm_static), &destroy_asset);
-	ft_lstclear(&(data.arm_running), &destroy_asset);
-	ft_lstclear(&(data.arm_punching), &destroy_asset);
-	free(&(data.arm_punching));
-	free(&(data.arm_running));
-	free(&(data.arm_static));
-	free(&(data.arm_static));
+	// ft_lstclear(&(data.arm_finger), &destroy_asset);
+	// ft_lstclear(&(data.arm_static), &destroy_asset);
+	// ft_lstclear(&(data.arm_running), &destroy_asset);
+	// ft_lstclear(&(data.arm_punching), &destroy_asset);
+	// free(&(data.arm_punching));
+	// free(&(data.arm_running));
+	// free(&(data.arm_static));
+	// free(&(data.arm_static));
 	return (1);
 }
