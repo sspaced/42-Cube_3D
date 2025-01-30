@@ -21,7 +21,7 @@ inline unsigned int	get_pixel_img(t_img *img, int x, int y)
 
 unsigned int	get_pixel_img(t_img *img, int x, int y);
 
-inline void	put_pixel_img(t_data *img, int x, int y, int color)
+inline void	put_pixel_img(t_img *img, int x, int y, int color)
 {
 	char	*dst;
 
@@ -30,14 +30,14 @@ inline void	put_pixel_img(t_data *img, int x, int y, int color)
 	if (x > 1920)
 		x = x % 1920;
 	if (x >= 0 && y >= 0 && x < WIN_WIDTH && y < WIN_HEIGHT) {
-		dst = img->img.data + (y * img->img.line_len + x * (img->img.bpp / 8));
+		dst = img->data + (y *img->line_len + x * (img->bpp / 8));
 		*(unsigned int *) dst = color;
 	}
 }
 
-void	put_pixel_img(t_data *img, int x, int y, int color);
+void	put_pixel_img(t_img *img, int x, int y, int color);
 
-void	put_img_to_img3(t_data *dst, t_asset *src, int x, int y)
+void	put_img_to_img3(t_data *data, t_asset *src, int x, int y)
 {
 	int i;
 	int j;
@@ -48,7 +48,7 @@ void	put_img_to_img3(t_data *dst, t_asset *src, int x, int y)
 	{
 		while (++j < src->height)
 		{
-			put_pixel_img(dst, x + i, y + j, get_pixel_img(&(src->img), i, j));
+			put_pixel_img((&data->img), x + i, y + j, get_pixel_img(&(src->img), i, j));
 		}
 		j = -1;
 	}
@@ -77,11 +77,11 @@ void put_square(t_data *data, int x, int y, int color)
 		while (--j >= y)
 		{
 			if (i == x)
-				put_pixel_img(data, j, i, 0x000000);
+				put_pixel_img((&data->img), j, i, 0x000000);
 			else
-				put_pixel_img(data, j, i, color);
+				put_pixel_img((&data->img), j, i, color);
 		}
-		put_pixel_img(data, j, i, 0x000000);
+		put_pixel_img((&data->img), j, i, 0x000000);
 		j = y + coef;
 	}
 }
@@ -104,7 +104,45 @@ void display_map(t_data *data)
 		}
 		y = -1;
 	}
-	put_img_to_img3(data, data->player_dot, data->player.y * 30, data->player.x * 30);
+	put_img_to_img3(data, data->textures.player_dot, data->player.y * 30, data->player.x * 30);
+}
+
+inline t_asset	*choose_texture(t_textures *textures, char wall_orientation)
+{
+	if (wall_orientation == 'N')
+		return (textures->wall_n);
+	if (wall_orientation == 'S')
+		return (textures->wall_s);
+	if (wall_orientation == 'E')
+		return (textures->wall_e);
+	if (wall_orientation == 'W')
+		return (textures->wall_w);
+	return (NULL);
+}
+
+t_asset	*choose_texture(t_textures *textures, char wall_orientation);
+
+void draw_textured_wall(t_textures *textures, t_calc *calc, t_img *img, int x, int *y)
+{
+	int tex_x;
+	t_asset *current_texture;
+	int	text_size;
+
+
+	current_texture = choose_texture(textures, calc->wall_orientation);
+	text_size = current_texture->img.line_len / 4;
+	tex_x = (int)(calc->wall_x * text_size) & text_size - 1; // Supposons que les textures font 64x64
+
+	double step = 1.0 * current_texture->height / calc->wall_height;
+	double tex_pos = (calc->wall_top - WIN_HEIGHT / 2 + calc->wall_height / 2) * step;
+
+	while (*y < calc->wall_bottom)
+	{
+		int tex_y = (int)tex_pos & (current_texture->height - 1);
+		tex_pos += step;
+		unsigned int color = get_pixel_img(&(current_texture->img), tex_x, tex_y);
+		put_pixel_img(img, x, (*y)++, color);
+	}
 }
 
 void display_player_view(t_data *data)
@@ -113,40 +151,26 @@ void display_player_view(t_data *data)
 	int y;
 
 	x = 0;
+	
+	// draw each column of the screen one by one
     while(x < WIN_WIDTH)
     {
+		// initial calc
 		calc_ray_vector(data, x);
 		calc_wall_hit(data);
 		calc_wall_info(data);
+
+		// drawing of celling
 		y = 0;
 		while (y < data->calc.wall_top)
-			put_pixel_img(data, x, y++, CEILING);
+			put_pixel_img((&data->img), x, y++, CEILING);
 
-		// Dessiner le mur texturé
-        int tex_x = (int)(data->calc.wall_x * 64.0) & 63; // Supposons que les textures font 64x64
-        
-        t_asset *current_texture;
-        switch(data->calc.wall_orientation)
-        {
-            case 'N': current_texture = data->text_n; break;
-            case 'S': current_texture = data->text_s; break;
-            case 'E': current_texture = data->text_e; break;
-            case 'W': current_texture = data->text_w; break;
-        }
-        
-        double step = 1.0 * current_texture->height / data->calc.wall_height;
-        double tex_pos = (data->calc.wall_top - WIN_HEIGHT / 2 + data->calc.wall_height / 2) * step;
-        
-        while (y < data->calc.wall_bottom)
-        {
-            int tex_y = (int)tex_pos & (current_texture->height - 1);
-            tex_pos += step;
-            unsigned int color = get_pixel_img(&(current_texture->img), tex_x, tex_y);
-			put_pixel_img(data, x, y++, color);
-        }
+		// drawing of wall
+		draw_textured_wall(&(data->textures), &(data->calc), &(data->img), x, &y);
 
+		// Drawing of floor
 		while (y < WIN_HEIGHT)
-			put_pixel_img(data, x, y++, FLOOR);
+			put_pixel_img(&(data->img), x, y++, FLOOR);
 		x++;
     }
 
@@ -155,17 +179,17 @@ void display_player_view(t_data *data)
 		t_keys empty;
 		ft_bzero(&empty, sizeof(t_keys));
 		if (ft_memcmp(&(data->keys), &empty, sizeof(t_keys)) == 0)
-			play_animation(data, &(data->arm_static));
+			play_animation(data, &(data->arm.basic));
 		else if (data->keys.m_right == 1)
-			play_animation(data, &(data->arm_finger));
+			play_animation(data, &(data->arm.finger));
 		else if (data->keys.m_left == 1)
-			play_animation(data, &(data->arm_punching));
+			play_animation(data, &(data->arm.punching));
 		else
-			play_animation(data, &(data->arm_running));
+			play_animation(data, &(data->arm.running));
 		display_map(data);
 	}
+
 	mlx_put_image_to_window(data->mlx, data->win, data->img.ptr, 0, 0);
-	// mlx_put_image_to_window(data->mlx, data->win, data->asset->img_ptr, 0, 0);
 }
 
 int get_player_angle(char direction)

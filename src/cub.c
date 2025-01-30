@@ -6,7 +6,7 @@
 /*   By: elleroux <elleroux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:16:15 by elleroux          #+#    #+#             */
-/*   Updated: 2025/01/20 19:50:51 by elleroux         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:23:47 by elleroux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,15 @@ int	setup_hooks(t_data *data)
 	return (1);
 }
 
-int setup_bonus_textures(t_data *data)
+int setup_bonus_textures(t_textures *textures, t_arm *arm, void *mlx)
 {
-	if (!(data->player_dot = new_asset(data->mlx,
+	if (!(textures->player_dot = new_asset(mlx,
 			"assets/img/player_dot/player_dot.xpm", PLAYER_DOT)))
 		return (0);
-	data->arm_running = new_animation(data->mlx, "assets/img/arm_running_fast/", 21, ARM_RUNNING);
-	data->arm_static = new_animation(data->mlx, "assets/img/arm/", 46, ARM_STATIC);
-	data->arm_finger = new_animation(data->mlx, "assets/img/arm_finger/", 17, ARM_FINGER);
-	data->arm_punching = new_animation(data->mlx, "assets/img/arm_punching/", 33, ARM_PUNCHING);
+	arm->basic = new_animation(mlx, "assets/img/arm/", 46, ARM_STATIC);
+	arm->running = new_animation(mlx, "assets/img/arm_running_fast/", 21, ARM_RUNNING);
+	arm->finger = new_animation(mlx, "assets/img/arm_finger/", 17, ARM_FINGER);
+	arm->punching = new_animation(mlx, "assets/img/arm_punching/", 33, ARM_PUNCHING);
 	return (1);
 }
 
@@ -110,15 +110,15 @@ int	main(int argc, char **argv)
 	// Setting mlx hook to catch X event
 	setup_hooks(&data);
 	// Setting texture (will be done via parsing later)
-	if (!(data.text_n = new_asset(data.mlx, "assets/img/text_n/text_n.xpm", WALL_N)))
+	if (!(data.textures.wall_n = new_asset(data.mlx, "assets/img/text_n/text_n.xpm", WALL_N)))
 		return (1);
-	if (!(data.text_s = new_asset(data.mlx, "assets/img/text_s/text_s.xpm", WALL_S)))
+	if (!(data.textures.wall_s = new_asset(data.mlx, "assets/img/text_s/text_s.xpm", WALL_S)))
 		return (1);
-	if (!(data.text_e = new_asset(data.mlx, "assets/img/text_e/text_e.xpm", WALL_E)))
+	if (!(data.textures.wall_e = new_asset(data.mlx, "assets/img/text_e/text_e.xpm", WALL_E)))
 		return (1);
-	if (!(data.text_w = new_asset(data.mlx, "assets/img/text_w/text_w.xpm", WALL_W)))
+	if (!(data.textures.wall_w = new_asset(data.mlx, "assets/img/text_w/text_w.xpm", WALL_W)))
 		return (1);
-	if (BONUS == true && (!setup_bonus_textures(&(data))))
+	if (BONUS == true && (!setup_bonus_textures(&(data.textures), &(data.arm), data.mlx)))
 		return (1);
 	display_player_view(&data);
     mlx_loop(data.mlx);

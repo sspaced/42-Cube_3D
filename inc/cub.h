@@ -55,12 +55,12 @@
 typedef struct s_keys {
     int up;
     int down;
+    int left;
+    int right;
 	int w;
 	int a;
 	int s;
 	int d;
-    int left;
-    int right;
 	int	m_left;
 	int	m_right;
     int esc;
@@ -83,6 +83,8 @@ typedef struct s_calc
 	double ray_angle;
 	double ray_vect_x;
 	double ray_vect_y;
+	int		ray_x;
+	int		ray_y;
 	double wall_x;
 	double wall_y;
 	double wall_dist;
@@ -124,6 +126,21 @@ typedef struct s_asset {
 	int			height;
 } t_asset;
 
+typedef struct s_arm {
+	t_list		*basic;
+	t_list		*running;
+	t_list		*punching;
+	t_list		*finger;
+} t_arm;
+
+typedef	struct s_textures {
+	t_asset		*wall_n;
+	t_asset		*wall_s;
+	t_asset		*wall_e;
+	t_asset		*wall_w;
+	t_asset		*player_dot;
+} t_textures;
+
 typedef struct s_data {
     void    	*mlx;
     void    	*win;
@@ -132,17 +149,9 @@ typedef struct s_data {
 	t_player	player;
 	t_keys		keys;
 	t_calc		calc;
+	t_arm		arm;
+	t_textures	textures;
 	// textures
-	t_list		*arm_anim;
-	t_list		*arm_static;
-	t_list		*arm_running;
-	t_list		*arm_finger;
-	t_list		*arm_punching;
-	t_asset		*player_dot;
-	t_asset		*text_n;
-	t_asset		*text_s;
-	t_asset		*text_e;
-	t_asset		*text_w;
 } t_data;
 
 int		close_window(t_data *data);
