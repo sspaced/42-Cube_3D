@@ -1,22 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   display.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elleroux <elleroux@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/30 18:08:27 by elleroux          #+#    #+#             */
+/*   Updated: 2025/01/30 18:27:25 by elleroux         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub.h"
 
 // Fonction pour vérifier les collisions
-int check_collision(t_data *data, double new_x, double new_y)
+int	check_collision(t_data *data, double new_x, double new_y)
 {
-    int map_x = (int)new_x;
-    int map_y = (int)new_y;
-    
-    if (map_x < 0 || map_y < 0 || 
-        map_x >= data->map.map_width || 
-        map_y >= data->map.map_height ||
-        data->map.map_array[map_y][map_x] == '1')
-        return 1;
-    return 0;
+	int	map_x;
+	int	map_y;
+
+	map_x = (int)new_x;
+	map_y = (int)new_y;
+	if (map_x < 0 || map_y < 0 || map_x >= data->map.map_width || map_y
+		>= data->map.map_height || data->map.map_array[map_y][map_x] == '1')
+		return (1);
+	return (0);
 }
 
 inline unsigned int	get_pixel_img(t_img *img, int x, int y)
 {
-	return (*(unsigned int *)((img->data + (y * img->line_len) + (x * img->bpp / 8))));
+	return (*(unsigned int *)((img->data + (y * img->line_len)
+			+ (x * img->bpp / 8))));
 }
 
 unsigned int	get_pixel_img(t_img *img, int x, int y);
@@ -29,8 +42,9 @@ inline void	put_pixel_img(t_img *img, int x, int y, int color)
 		return ;
 	if (x > 1920)
 		x = x % 1920;
-	if (x >= 0 && y >= 0 && x < WIN_WIDTH && y < WIN_HEIGHT) {
-		dst = img->data + (y *img->line_len + x * (img->bpp / 8));
+	if (x >= 0 && y >= 0 && x < WIN_WIDTH && y < WIN_HEIGHT)
+	{
+		dst = img->data + (y * img->line_len + x * (img->bpp / 8));
 		*(unsigned int *) dst = color;
 	}
 }
@@ -39,12 +53,12 @@ void	put_pixel_img(t_img *img, int x, int y, int color);
 
 void	put_img_to_img3(t_data *data, t_asset *src, int x, int y)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = -1;
 	j = -1;
-	while(++i < src->width)
+	while (++i < src->width)
 	{
 		while (++j < src->height)
 		{
@@ -54,18 +68,17 @@ void	put_img_to_img3(t_data *data, t_asset *src, int x, int y)
 	}
 }
 
-void play_animation(t_data *data, t_list **list)
+void	play_animation(t_data *data, t_list **list)
 {
-
-	put_img_to_img3(data, (t_asset*)((*list)->content), 0, 0);
+	put_img_to_img3(data, (t_asset *)((*list)->content), 0, 0);
 	*list = (*list)->next;
 }
 
-void put_square(t_data *data, int x, int y, int color)
+void	put_square(t_data *data, int x, int y, int color)
 {
-	int	 i;
-	int	 j;
-	int coef;
+	int	i;
+	int	j;
+	int	coef;
 
 	coef = 30;
 	x = x * coef;
@@ -86,10 +99,10 @@ void put_square(t_data *data, int x, int y, int color)
 	}
 }
 
-void display_map(t_data *data)
+void	display_map(t_data *data)
 {
-	int	 x;
-	int	 y;
+	int	x;
+	int	y;
 
 	x = -1;
 	y = -1;
@@ -122,19 +135,19 @@ inline t_asset	*choose_texture(t_textures *textures, char wall_orientation)
 
 t_asset	*choose_texture(t_textures *textures, char wall_orientation);
 
-void draw_textured_wall(t_textures *textures, t_calc *calc, t_img *img)
+void	draw_textured_wall(t_textures *textures, t_calc *calc, t_img *img)
 {
-	int tex_x;
-	t_asset *current_texture;
+	int	tex_x;
+	t_asset	*current_texture;
 	int	text_size;
+	double step;
+	double tex_pos;
 
 	current_texture = choose_texture(textures, calc->wall_orientation);
 	text_size = current_texture->img.line_len / 4;
 	tex_x = (int)(calc->wall_x * text_size) & text_size - 1; // Supposons que les textures font 64x64
-
-	double step = 1.0 * current_texture->height / calc->wall_height;
-	double tex_pos = (calc->wall_top - WIN_HEIGHT / 2 + calc->wall_height / 2) * step;
-
+	step = 1.0 * current_texture->height / calc->wall_height;
+	tex_pos = (calc->wall_top - WIN_HEIGHT / 2 + calc->wall_height / 2) * step;
 	while (calc->ray_y < calc->wall_bottom)
 	{
 		int tex_y = (int)tex_pos & (current_texture->height - 1);
@@ -148,7 +161,6 @@ void display_player_view(t_data *data)
 {
 	data->calc.ray_x = 0;
 	data->calc.ray_y = 0;
-	
 	// draw each column of the screen one by one
     while(data->calc.ray_x < WIN_WIDTH)
     {
@@ -156,23 +168,20 @@ void display_player_view(t_data *data)
 		calc_ray_vector(data, data->calc.ray_x);
 		calc_wall_hit(data);
 		calc_wall_info(data);
-
 		// drawing of celling
 		while (data->calc.ray_y < data->calc.wall_top)
 			put_pixel_img((&data->img), data->calc.ray_x, data->calc.ray_y++, CEILING);
-
 		// drawing of wall
 		draw_textured_wall(&(data->textures), &(data->calc), &(data->img));
-
 		// Drawing of floor
 		while (data->calc.ray_y < WIN_HEIGHT)
 			put_pixel_img(&(data->img), data->calc.ray_x, data->calc.ray_y++, FLOOR);
 		data->calc.ray_x++;
-    }
-
+	}
 	if (BONUS)
 	{
-		t_keys empty;
+		t_keys	empty;
+
 		ft_bzero(&empty, sizeof(t_keys));
 		if (ft_memcmp(&(data->keys), &empty, sizeof(t_keys)) == 0)
 			play_animation(data, &(data->arm.basic));
@@ -184,18 +193,18 @@ void display_player_view(t_data *data)
 			play_animation(data, &(data->arm.running));
 		display_map(data);
 	}
-
 	mlx_put_image_to_window(data->mlx, data->win, data->img.ptr, 0, 0);
 }
 
-int get_player_angle(char direction)
+int	get_player_angle(char direction)
 {
-    switch (direction)
-    {
-        case 'N': return 270;
-        case 'S': return 90;
-        case 'E': return 0;
-        case 'W': return 180;
-        default: return 0;
-    }
+	if (direction == 'N')
+		return (270);
+	if (direction == 'S')
+		return (90);
+	if (direction == 'E')
+		return (0);
+	if (direction == 'W')
+		return (180);
+	return (0);
 }
