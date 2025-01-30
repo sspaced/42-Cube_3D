@@ -2,15 +2,15 @@
 [X] Déplacements latéraux
 [X] Touches WASD pour se déplacer
 [X] Murs differents par faces
-[_] Regle bonus dans le Makefile
+[X] Regle bonus dans le Makefile (header finalement)
 [_] BUG: glitch a travers les diagonales
 [_] BUG: prog se lance meme sans map ou avec chemin invalide
-[_] BUG: si spawn dans ou tres tres proche mur et que bouge camera vers gauche, freeze
-[_] BUG: mur nord et sud flicker de fou
+[X] BUG: si spawn dans ou tres tres proche mur et que bouge camera vers gauche, freeze
+[X] BUG: mur nord et sud flicker de fou
 
 - Verif
 [_] Leaks
-    [_] Fonction de free des animations
+    [X] Fonction de free des animations
 [_] Norminette
 
 - Pratique
@@ -21,5 +21,6 @@
     [X] Animation de course
     [X] Feature animation secrete
 [X] Minimap
+    [_] BUG: Si trop proche d'un mur, joueur montré dans le mur
     [_] Ronde avec bordure stylés
     [_] Centrée sur le joueur
