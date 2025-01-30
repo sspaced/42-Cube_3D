@@ -80,14 +80,12 @@ typedef enum s_texture {
 
 typedef struct s_calc
 {
-	double ray_angle;
 	double ray_vect_x;
 	double ray_vect_y;
 	int		ray_x;
 	int		ray_y;
 	double wall_x;
 	double wall_y;
-	double wall_dist;
 	double wall_height;
 	int wall_top;
 	int wall_bottom;

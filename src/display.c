@@ -122,12 +122,11 @@ inline t_asset	*choose_texture(t_textures *textures, char wall_orientation)
 
 t_asset	*choose_texture(t_textures *textures, char wall_orientation);
 
-void draw_textured_wall(t_textures *textures, t_calc *calc, t_img *img, int x, int *y)
+void draw_textured_wall(t_textures *textures, t_calc *calc, t_img *img)
 {
 	int tex_x;
 	t_asset *current_texture;
 	int	text_size;
-
 
 	current_texture = choose_texture(textures, calc->wall_orientation);
 	text_size = current_texture->img.line_len / 4;
@@ -136,42 +135,39 @@ void draw_textured_wall(t_textures *textures, t_calc *calc, t_img *img, int x, i
 	double step = 1.0 * current_texture->height / calc->wall_height;
 	double tex_pos = (calc->wall_top - WIN_HEIGHT / 2 + calc->wall_height / 2) * step;
 
-	while (*y < calc->wall_bottom)
+	while (calc->ray_y < calc->wall_bottom)
 	{
 		int tex_y = (int)tex_pos & (current_texture->height - 1);
 		tex_pos += step;
 		unsigned int color = get_pixel_img(&(current_texture->img), tex_x, tex_y);
-		put_pixel_img(img, x, (*y)++, color);
+		put_pixel_img(img, calc->ray_x, calc->ray_y++, color);
 	}
 }
 
 void display_player_view(t_data *data)
 {
-    int x;
-	int y;
-
-	x = 0;
+	data->calc.ray_x = 0;
+	data->calc.ray_y = 0;
 	
 	// draw each column of the screen one by one
-    while(x < WIN_WIDTH)
+    while(data->calc.ray_x < WIN_WIDTH)
     {
 		// initial calc
-		calc_ray_vector(data, x);
+		calc_ray_vector(data, data->calc.ray_x);
 		calc_wall_hit(data);
 		calc_wall_info(data);
 
 		// drawing of celling
-		y = 0;
-		while (y < data->calc.wall_top)
-			put_pixel_img((&data->img), x, y++, CEILING);
+		while (data->calc.ray_y < data->calc.wall_top)
+			put_pixel_img((&data->img), data->calc.ray_x, data->calc.ray_y++, CEILING);
 
 		// drawing of wall
-		draw_textured_wall(&(data->textures), &(data->calc), &(data->img), x, &y);
+		draw_textured_wall(&(data->textures), &(data->calc), &(data->img));
 
 		// Drawing of floor
-		while (y < WIN_HEIGHT)
-			put_pixel_img(&(data->img), x, y++, FLOOR);
-		x++;
+		while (data->calc.ray_y < WIN_HEIGHT)
+			put_pixel_img(&(data->img), data->calc.ray_x, data->calc.ray_y++, FLOOR);
+		data->calc.ray_x++;
     }
 
 	if (BONUS)
