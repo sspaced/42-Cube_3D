@@ -137,11 +137,13 @@ t_asset	*choose_texture(t_textures *textures, char wall_orientation);
 
 void	draw_textured_wall(t_textures *textures, t_calc *calc, t_img *img)
 {
-	int	tex_x;
+	int		tex_x;
+	int		tex_y;
+	unsigned int		color;
 	t_asset	*current_texture;
-	int	text_size;
-	double step;
-	double tex_pos;
+	int		text_size;
+	double	step;
+	double	tex_pos;
 
 	current_texture = choose_texture(textures, calc->wall_orientation);
 	text_size = current_texture->img.line_len / 4;
@@ -150,20 +152,20 @@ void	draw_textured_wall(t_textures *textures, t_calc *calc, t_img *img)
 	tex_pos = (calc->wall_top - WIN_HEIGHT / 2 + calc->wall_height / 2) * step;
 	while (calc->ray_y < calc->wall_bottom)
 	{
-		int tex_y = (int)tex_pos & (current_texture->height - 1);
+		tex_y = (int)tex_pos & (current_texture->height - 1);
 		tex_pos += step;
-		unsigned int color = get_pixel_img(&(current_texture->img), tex_x, tex_y);
+		color = get_pixel_img(&(current_texture->img), tex_x, tex_y);
 		put_pixel_img(img, calc->ray_x, calc->ray_y++, color);
 	}
 }
 
-void display_player_view(t_data *data)
+void	display_player_view(t_data *data)
 {
 	data->calc.ray_x = 0;
 	data->calc.ray_y = 0;
 	// draw each column of the screen one by one
-    while(data->calc.ray_x < WIN_WIDTH)
-    {
+	while (data->calc.ray_x < WIN_WIDTH)
+	{
 		// initial calc
 		calc_ray_vector(data, data->calc.ray_x);
 		calc_wall_hit(data);
