@@ -36,7 +36,8 @@ SRCS		= cub.c \
 			  display.c \
 			  map_utils.c \
 			  calc.c \
-			  assets.c
+			  assets.c \
+			  cleanup.c
 
 
 ### OBJECTS ###

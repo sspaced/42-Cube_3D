@@ -212,8 +212,13 @@ int get_player_angle(char direction);
 void	calc_ray_vector(t_data *data, int x);
 void	calc_wall_info(t_data *data);
 void	calc_wall_hit(t_data *data);
-#endif
+
+//[src/cleanup.c]
+void	destroy_asset(void *asset);
 
 //[src/assets.c]
+t_list	*new_animation(void *mlx, const char *base_path, int frame_number, e_texture name);
 t_asset* new_asset(void *mlx, char* path, e_texture name);
 int add_asset_to_list(t_list **head, void *mlx, char *path, e_texture name);
+
+#endif

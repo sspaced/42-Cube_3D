@@ -6,46 +6,11 @@
 /*   By: elleroux <elleroux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:16:15 by elleroux          #+#    #+#             */
-/*   Updated: 2025/01/30 15:23:47 by elleroux         ###   ########.fr       */
+/*   Updated: 2025/02/01 22:14:38 by elleroux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
-
-void	destroy_asset(void *asset)
-{
-	free(((t_asset *)asset)->img.data);
-	free(((t_asset *)asset)->img.ptr);
-	free((t_asset *)asset);
-}
-
-t_list	*new_animation(void *mlx, const char *base_path, int frame_number, e_texture name)
-{
-	int		i;
-	char	*path;
-	char	*new_path;
-	t_list	*head;
-
-	i = -1;
-	path = NULL;
-	head = NULL;
-	while (++i < frame_number)
-	{
-		path = ft_strdup(base_path);
-		new_path = ft_strjoin(path, ft_itoa(i));
-		free(path);
-		path = new_path;
-		new_path = ft_strjoin(path, ".xpm");
-		free(path);
-		if (!add_asset_to_list(&(head), mlx, new_path, name))
-		{
-			ft_lstclear(&(head), &destroy_asset);
-			return (NULL);
-		}
-	}
-	ft_lstlast(head)->next = head;
-	return (head);
-}
 
 int	check_args(int ac, char **av)
 {
