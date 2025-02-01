@@ -162,10 +162,10 @@ void	draw_textured_wall(t_textures *textures, t_calc *calc, t_img *img)
 void	display_player_view(t_data *data)
 {
 	data->calc.ray_x = 0;
-	data->calc.ray_y = 0;
 	// draw each column of the screen one by one
 	while (data->calc.ray_x < WIN_WIDTH)
 	{
+		data->calc.ray_y = 0;
 		// initial calc
 		calc_ray_vector(data, data->calc.ray_x);
 		calc_wall_hit(data);
