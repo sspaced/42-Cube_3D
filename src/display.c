@@ -6,7 +6,7 @@
 /*   By: elleroux <elleroux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 18:08:27 by elleroux          #+#    #+#             */
-/*   Updated: 2025/01/30 18:27:25 by elleroux         ###   ########.fr       */
+/*   Updated: 2025/02/01 20:41:04 by elleroux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	display_map(t_data *data)
 		}
 		y = -1;
 	}
-	put_img_to_img3(data, data->textures.player_dot, data->player.y * 30, data->player.x * 30);
+	put_img_to_img3(data, data->textures.player_dot, (data->player.y - 0.1) * 30, (data->player.x - 0.1) * 30);
 }
 
 inline t_asset	*choose_texture(t_textures *textures, char wall_orientation)
