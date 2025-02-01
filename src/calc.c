@@ -1,13 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   calc.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elleroux <elleroux@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/01 20:03:59 by elleroux          #+#    #+#             */
+/*   Updated: 2025/02/01 21:12:44 by elleroux         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub.h"
 
 void calc_ray_vector(t_data *data, int x)
 {
+	double	camera_x;
+	double	ray_dir_x;
+	double	ray_dir_y;
+	double	plane_x;
+	double	plane_y;
+	
     // Calculate ray position and direction
-    double camera_x = 2 * x / (double)WIN_WIDTH - 1; // x-coordinate in camera space
-    double ray_dir_x = cos(RAD(data->player.direction));
-    double ray_dir_y = sin(RAD(data->player.direction));
-    double plane_x = -ray_dir_y * tan(RAD(FOV / 2));
-    double plane_y = ray_dir_x * tan(RAD(FOV / 2));
+    camera_x = 2 * x / (double)WIN_WIDTH - 1; // x-coordinate in camera space
+    ray_dir_x = cos(RAD(data->player.direction));
+    ray_dir_y = sin(RAD(data->player.direction));
+    plane_x = -ray_dir_y * tan(RAD(FOV / 2));
+    plane_y = ray_dir_x * tan(RAD(FOV / 2));
 
     data->calc.ray_vect_x = ray_dir_x + plane_x * camera_x;
     data->calc.ray_vect_y = ray_dir_y + plane_y * camera_x;
@@ -37,57 +55,83 @@ void calc_wall_info(t_data *data)
     data->calc.wall_x -= floor(data->calc.wall_x);
 }
 
-void calc_wall_hit(t_data *data)
+int	ray_hit(t_data *data, t_fvect *side_dist, t_vect *map, t_vect step, t_fvect delta_dist)
 {
-    int map_x = (int)data->player.x;
-    int map_y = (int)data->player.y;
-    
-    double delta_dist_x = fabs(1 / data->calc.ray_vect_x);
-    double delta_dist_y = fabs(1 / data->calc.ray_vect_y);
-
-    int step_x = (data->calc.ray_vect_x < 0) ? -1 : 1;
-    int step_y = (data->calc.ray_vect_y < 0) ? -1 : 1;
-
-    double side_dist_x = (data->calc.ray_vect_x < 0) ? 
-        (data->player.x - map_x) * delta_dist_x : 
-        (map_x + 1.0 - data->player.x) * delta_dist_x;
-    double side_dist_y = (data->calc.ray_vect_y < 0) ? 
-        (data->player.y - map_y) * delta_dist_y : 
-        (map_y + 1.0 - data->player.y) * delta_dist_y;
-
-    int hit = 0;
-
-    while (hit == 0)
-    {
-        if (side_dist_x < side_dist_y)
+        if (side_dist->x < side_dist->y)
         {
-            side_dist_x += delta_dist_x;
-            map_x += step_x;
+            side_dist->x += delta_dist.x;
+            map->x += step.x;
             data->calc.side = 0;
         }
         else
         {
-            side_dist_y += delta_dist_y;
-            map_y += step_y;
+            side_dist->y += delta_dist.y;
+            map->y += step.y;
             data->calc.side = 1;
         }
 
-        if (map_x < 0 || map_y < 0 || 
-            map_x >= data->map.map_width || 
-            map_y >= data->map.map_height ||
-            data->map.map_array[map_y][map_x] == '1')
+        if (map->x < 0 || map->y < 0 || 
+            map->x >= data->map.map_width || 
+            map->y >= data->map.map_height ||
+            data->map.map_array[map->y][map->x] == '1')
         {
-            hit = 1;
+             return (1);
         }
-    }
+	return (0);
+}
+
+void calc_wall_hit(t_data *data)
+{
+	t_vect map;
+	t_fvect delta_dist;
+	t_vect step;
+	t_fvect side_dist;
+
+    map.x = (int)data->player.x;
+    map.y = (int)data->player.y;
+    
+    delta_dist.x = fabs(1 / data->calc.ray_vect_x);
+    delta_dist.y = fabs(1 / data->calc.ray_vect_y);
+
+	if (data->calc.ray_vect_x < 0)
+	{
+		step.x = -1;
+		side_dist.x = (data->player.x - map.x) * delta_dist.x;
+	}
+	else
+	{
+		step.x = 1;
+		side_dist.x = (map.x + 1.0 - data->player.x) * delta_dist.x;
+	}
+
+	if (data->calc.ray_vect_y < 0)
+	{
+		step.y = -1;
+		side_dist.y = (data->player.y - map.y) * delta_dist.y;
+	}
+	else
+	{
+		step.y = 1;
+		side_dist.y = (map.y + 1.0 - data->player.y) * delta_dist.y;
+	}
+
+	while (ray_hit(data, &side_dist, &map, step, delta_dist) == 0)
+		;
 
 	if (data->calc.side == 0)
-        data->calc.perp_wall_dist = (map_x - data->player.x + (1 - step_x) / 2) / data->calc.ray_vect_x;
+	{
+        data->calc.perp_wall_dist = (map.x - data->player.x + (1 - step.x) / 2) / data->calc.ray_vect_x;
+		if (data->calc.ray_vect_x > 0)
+			data->calc.wall_orientation = 'E';
+		else
+			data->calc.wall_orientation = 'W';
+	}
 	else
-        data->calc.perp_wall_dist = (map_y - data->player.y + (1 - step_y) / 2) / data->calc.ray_vect_y;
-
-	if (data->calc.side == 0)
-        data->calc.wall_orientation = (data->calc.ray_vect_x > 0) ? 'E' : 'W';
-	else
-        data->calc.wall_orientation = (data->calc.ray_vect_y > 0) ? 'S' : 'N';
+	{
+        data->calc.perp_wall_dist = (map.y - data->player.y + (1 - step.y) / 2) / data->calc.ray_vect_y;
+		if (data->calc.ray_vect_y > 0)
+			data->calc.wall_orientation = 'S';
+		else
+			data->calc.wall_orientation = 'N';
+	}
 }

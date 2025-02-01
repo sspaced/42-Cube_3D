@@ -78,6 +78,16 @@ typedef enum s_texture {
 	ARM_FINGER,
 } e_texture;
 
+typedef struct s_vect {
+	int x;
+	int y;
+} t_vect;
+
+typedef struct s_fvect {
+	double x;
+	double y;
+} t_fvect;
+
 typedef struct s_calc
 {
 	double ray_vect_x;
