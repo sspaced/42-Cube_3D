@@ -6,29 +6,27 @@
 /*   By: elleroux <elleroux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 20:03:59 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/01 21:12:44 by elleroux         ###   ########.fr       */
+/*   Updated: 2025/02/01 22:05:10 by elleroux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-void calc_ray_vector(t_data *data, int x)
+void	calc_ray_vector(t_data *data, int x)
 {
 	double	camera_x;
-	double	ray_dir_x;
-	double	ray_dir_y;
-	double	plane_x;
-	double	plane_y;
+	t_fvect	ray_dir;
+	t_fvect	plane;
 	
     // Calculate ray position and direction
     camera_x = 2 * x / (double)WIN_WIDTH - 1; // x-coordinate in camera space
-    ray_dir_x = cos(RAD(data->player.direction));
-    ray_dir_y = sin(RAD(data->player.direction));
-    plane_x = -ray_dir_y * tan(RAD(FOV / 2));
-    plane_y = ray_dir_x * tan(RAD(FOV / 2));
+    ray_dir.x = cos(RAD(data->player.direction));
+    ray_dir.y = sin(RAD(data->player.direction));
+    plane.x = -ray_dir.y * tan(RAD(FOV / 2));
+    plane.y = ray_dir.x * tan(RAD(FOV / 2));
 
-    data->calc.ray_vect_x = ray_dir_x + plane_x * camera_x;
-    data->calc.ray_vect_y = ray_dir_y + plane_y * camera_x;
+    data->calc.ray_vect_x = ray_dir.x + plane.x * camera_x;
+    data->calc.ray_vect_y = ray_dir.y + plane.y * camera_x;
 }
 
 void calc_wall_info(t_data *data)
@@ -57,6 +55,9 @@ void calc_wall_info(t_data *data)
 
 int	ray_hit(t_data *data, t_fvect *side_dist, t_vect *map, t_vect step, t_fvect delta_dist)
 {
+		// Comp distance needed to touch a new square on x and y,
+		// and move foward on the smallest direction,
+		// then update the ray position
         if (side_dist->x < side_dist->y)
         {
             side_dist->x += delta_dist.x;
@@ -70,6 +71,8 @@ int	ray_hit(t_data *data, t_fvect *side_dist, t_vect *map, t_vect step, t_fvect 
             data->calc.side = 1;
         }
 
+		// If the new pos is equal to a 1 on the map,
+		// we hitted a wall and so we can stop moving foward
         if (map->x < 0 || map->y < 0 || 
             map->x >= data->map.map_width || 
             map->y >= data->map.map_height ||
@@ -87,12 +90,17 @@ void calc_wall_hit(t_data *data)
 	t_vect step;
 	t_fvect side_dist;
 
+	// Player pose on map
     map.x = (int)data->player.x;
     map.y = (int)data->player.y;
     
+	// Distance needed to ray to pass on another square on map
     delta_dist.x = fabs(1 / data->calc.ray_vect_x);
     delta_dist.y = fabs(1 / data->calc.ray_vect_y);
 
+	// Calc direction (+ or -) of ray (step var)
+	// And dist from player to first next square on map (side_dist var)
+	// All on the x plane
 	if (data->calc.ray_vect_x < 0)
 	{
 		step.x = -1;
@@ -104,6 +112,7 @@ void calc_wall_hit(t_data *data)
 		side_dist.x = (map.x + 1.0 - data->player.x) * delta_dist.x;
 	}
 
+	// Same but on y plane
 	if (data->calc.ray_vect_y < 0)
 	{
 		step.y = -1;
@@ -115,6 +124,8 @@ void calc_wall_hit(t_data *data)
 		side_dist.y = (map.y + 1.0 - data->player.y) * delta_dist.y;
 	}
 
+	// Now that's ray dir and step is known,
+	// increment ray until hitting a wall
 	while (ray_hit(data, &side_dist, &map, step, delta_dist) == 0)
 		;
 
