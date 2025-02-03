@@ -18,3 +18,12 @@ void	destroy_asset(void *asset)
 	free(((t_asset *)asset)->img.ptr);
 	free((t_asset *)asset);
 }
+
+void	clean_mlx(t_data *data)
+{
+	mlx_destroy_image(data->mlx, data->img.ptr);
+	mlx_destroy_window(data->mlx, data->win);
+	mlx_destroy_display(data->mlx);
+	if (data->mlx)
+		free(data->mlx);
+}

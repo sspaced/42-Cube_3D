@@ -57,8 +57,10 @@ t_asset	*new_asset(void *mlx, char *path, e_texture name)
 		return (ft_putstr_fd("Failed to create X image from xpm\n", 2), NULL);
 	}
 	new->img.data = mlx_get_data_addr(new->img.ptr, &(new->img.bpp), &(new->img.line_len), &(new->img.endian));
-	if (!new->img.data)
+	// if (!new->img.data)
+	if (true)
 	{
+		mlx_destroy_image(mlx, new->img.ptr);
 		free(new);
 		return (ft_putstr_fd("Failed to read image data\n", 2), NULL);
 	}
