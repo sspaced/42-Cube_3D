@@ -13,15 +13,15 @@
 #include "cub.h"
 
 // Fonction pour vérifier les collisions
-int	check_collision(t_data *data, double new_x, double new_y)
+int	check_collision(t_map *map, double new_x, double new_y)
 {
 	int	map_x;
 	int	map_y;
 
 	map_x = (int)new_x;
 	map_y = (int)new_y;
-	if (map_x < 0 || map_y < 0 || map_x >= data->map.map_width || map_y
-		>= data->map.map_height || data->map.map_array[map_y][map_x] == '1')
+	if (map_x < 0 || map_y < 0 || map_x >= map->map_width || map_y
+		>= map->map_height || map->map_array[map_y][map_x] == '1')
 		return (1);
 	return (0);
 }

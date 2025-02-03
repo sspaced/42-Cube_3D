@@ -37,7 +37,9 @@ SRCS		= cub.c \
 			  map_utils.c \
 			  calc.c \
 			  assets.c \
-			  cleanup.c
+			  cleanup.c \
+			  move_player.c \
+			  mouse_hooks.c
 
 
 ### OBJECTS ###

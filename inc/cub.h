@@ -205,7 +205,7 @@ void	map_coord_to_pixel(t_data *data, int x, int y);
 //[src/display.c]
 void    pixel_to_img(t_data *data, int x, int y, int color);
 void	display_player_view(t_data *data);
-int check_collision(t_data *data, double new_x, double new_y);
+int check_collision(t_map *map, double new_x, double new_y);
 int get_player_angle(char direction);
 
 //[src/calc.c]
@@ -220,5 +220,16 @@ void	destroy_asset(void *asset);
 t_list	*new_animation(void *mlx, const char *base_path, int frame_number, e_texture name);
 t_asset* new_asset(void *mlx, char* path, e_texture name);
 int add_asset_to_list(t_list **head, void *mlx, char *path, e_texture name);
+
+//[src/move_player.c]
+void	move_foward(t_player *player, t_map *map, double angle);
+void	move_left(t_player *player, t_map *map, double angle);
+void	move_backward(t_player *player, t_map *map, double angle);
+void	move_right(t_player *player, t_map *map, double angle);
+
+//[src/mouse_hooks.c]
+int mouse_click(int keycode, int x, int y, t_data *data);
+int mouse_release(int keycode, int x, int y, t_data *data);
+int mouse_move(int x, int y, t_data *data);
 
 #endif
