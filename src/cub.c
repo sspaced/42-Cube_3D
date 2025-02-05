@@ -93,6 +93,7 @@ int	main(int argc, char **argv)
 	display_player_view(&data);
 	mlx_loop(data.mlx);
 	free_map_error(data.map.map_array);
+	clear_animations(&(data.arm), &(data.mlx));
 	// ft_lstclear(&(data.arm.finger), &destroy_asset);
 	// ft_lstclear(&(data.arm.basic), &destroy_asset);
 	// ft_lstclear(&(data.arm.running), &destroy_asset);

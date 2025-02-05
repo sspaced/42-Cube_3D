@@ -27,3 +27,34 @@ void	clean_mlx(t_data *data)
 	if (data->mlx)
 		free(data->mlx);
 }
+
+void	clear_animations(t_arm *arm, void *mlx)
+{
+	destroy_animations(arm->basic, mlx);
+	destroy_animations(arm->finger, mlx);
+	destroy_animations(arm->running, mlx);
+	destroy_animations(arm->punching, mlx);
+}
+
+void	destroy_animations(t_list *list, void *mlx)
+{
+	t_list	*head;
+	t_list	*temp;
+	t_asset	*content;
+
+	head = list->next;
+	while (list != head)
+	{
+		content = list->content;
+		mlx_destroy_image(mlx, content->img.ptr);
+		free(content);
+		temp = list->next;
+		free(list);
+		list = temp;
+	}
+	content = list->content;
+	mlx_destroy_image(mlx, content->img.ptr);
+	free(content);
+	temp = list->next;
+	free(list);
+}

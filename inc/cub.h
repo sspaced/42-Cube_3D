@@ -216,6 +216,8 @@ void	calc_wall_hit(t_data *data);
 //[src/cleanup.c]
 void	destroy_asset(void *asset);
 void	clean_mlx(t_data *data);
+void	clear_animations(t_arm *arm, void *mlx);
+void	destroy_animations(t_list *list, void *mlx);
 
 //[src/assets.c]
 t_list	*new_animation(void *mlx, const char *base_path, int frame_number, e_texture name);

@@ -15,7 +15,9 @@
 
 int	close_window(t_data *data)
 {
-	mlx_destroy_window(data->mlx, data->win);
+	free_map_error(data->map.map_array);
+	clear_animations(&(data->arm), data->mlx);
+	clean_mlx(data);
 	exit(0);
 	return (0);
 }
@@ -72,10 +74,7 @@ int	handle_movement(t_data *data)
 
 	angle = RAD(data->player.direction);
 	if (data->keys.esc)
-	{
-		mlx_destroy_window(data->mlx, data->win);
-		exit(0);
-	}
+		close_window(data);
 	if (data->keys.up || data->keys.w)
 		move_foward(&(data->player), &(data->map), angle);
 	if (data->keys.a)
