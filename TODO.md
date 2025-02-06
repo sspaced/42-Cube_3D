@@ -12,6 +12,7 @@
 [_] Leaks
     [X] Fonction de free des animations
 [_] Norminette
+[_] Replace malloc et calloc par ft_scalloc (ou ft_calloc)
 
 - Pratique
 [_] Regle debug dans le Makefile
