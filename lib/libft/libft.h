@@ -64,6 +64,7 @@ char				*ft_strchr(const char *str, int c);
 char				*ft_strnstr(const char *haystack, const char *needle,
 						size_t len);
 void				*ft_calloc(size_t nmemb, size_t size);
+void				*ft_scalloc(size_t nmemb, size_t size);
 char				*ft_strrchr(const char *s, int c);
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
