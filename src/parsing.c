@@ -220,7 +220,7 @@ int is_only_space(char *line)
 	i = 0;
 	while (line[i] != '\0')
 	{
-		if (line[i] != ' ')
+		if (line[i] != ' ' && line[i] != '\n')
 			return (0);
 		i++;
 	}
@@ -229,13 +229,230 @@ int is_only_space(char *line)
 
 int check_info_complete(t_map_info *map_info)
 {
-	if (!map_info->no)
+	if (map_info->no == NULL || map_info->so == NULL || map_info->we == NULL || map_info->ea == NULL)
+		return (0);
+	return (1);
+}
+
+static int	ft_strlen_until(char *str, char until)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i])
 	{
-		printf("NO is missing\n");
+		if (str[i] == until)
+			break ;
+		i++;
+	}
+	return (i);
+}
+
+static char *ft_strdup_until(char *str, char until)
+{
+	char	*str_b;
+	int		str_len;
+
+	if (!str)
+		return (NULL);
+	str_len = ft_strlen_until((char *)str, until);
+	str_b = (char *)malloc(str_len * sizeof(char) + 1);
+	if (!str_b)
+		return (NULL);
+	while (*str)
+	{
+		if (*str == until)
+			break ;
+		*str_b++ = *str++;
+	}
+	*str_b = '\0';
+	return (str_b -= str_len);
+}
+
+typedef	struct s_map_v2 {
+	char	**map_array;
+	float	map_height;
+	float	map_width;
+	int		current_line_count;
+} t_map_v2;
+
+int refill_map(char *line, char **array_map, char **new_array_map)	
+{
+	int i;
+	
+	if (!line || !new_array_map)
+		return (0);
+	
+	i = 0;
+	if (array_map == NULL)
+	{
+		if (!(new_array_map[0] = ft_strdup_until(line, '\n')))
+			return (0);
+		new_array_map[1] = NULL;
+	}
+	else
+	{
+		while (array_map[i] != NULL)
+		{
+			new_array_map[i] = ft_strdup_until(array_map[i], '\n');
+			i++;
+		}
+		if (!(new_array_map[i] = ft_strdup_until(line, '\n')))
+			return (0);
+		new_array_map[i + 1] = NULL;
+	}
+	return (1);
+}
+
+int append_map_lines(char *line, t_map_v2 *map)
+{
+	char **new_array_map = NULL;
+	new_array_map = malloc(sizeof(char *) * (map->current_line_count + 2));
+	if (!new_array_map)
+		return (0);
+	if (!refill_map(line, map->map_array, new_array_map))
+	{
+		free(new_array_map);
 		return (0);
 	}
-	printf("NO is set\n");
+	clear_array(map->map_array);
+	map->map_array = new_array_map;
+	map->current_line_count++;
 	return (1);
+}
+
+int check_player(char **map_array)
+{
+	int i;
+	int j;
+	int player_count;
+
+	i = 0;
+	j = 0;
+	player_count = 0;
+	while (map_array[i] != NULL)
+	{
+		while (map_array[i][j] != '\0')
+		{
+			if (map_array[i][j] == 'N' || map_array[i][j] == 'S' || map_array[i][j] == 'W' || map_array[i][j] == 'E')
+				player_count++;
+			j++;
+		}
+		j = 0;
+		i++;
+	}
+	if (player_count != 1)
+		return (0);
+	return (1);
+}
+
+int zero_check(char current)
+{
+	if (current == '1')
+		return (1);
+	if (current == ' ')
+		return (0);
+	return (-1);
+}
+
+int check_right(int x, char *map_line)
+{
+	while (map_line[x] != '\0')
+	{
+		if (zero_check(map_line[x]) != -1)
+			return (zero_check(map_line[x]));
+		x++;
+	}
+	return (0);
+}
+
+int check_left(int x, char *map_line)
+{
+	while (x >= 0)
+	{
+		if (zero_check(map_line[x]) != -1)
+			return (zero_check(map_line[x]));
+		x--;
+	}
+	return (0);
+}
+
+int check_up(int x, int y, char **map_array)
+{
+	while (y >= 0)
+	{
+		if (y - 1 >= 0 && ft_strlen(map_array[y - 1]) > x)
+		{
+			if (zero_check(map_array[y - 1][x]) != -1)
+				return (zero_check(map_array[y - 1][x]));
+		}
+		else
+			return (0);
+		y--;
+	}
+}
+
+int check_down(int x, int y, char **map_array)
+{
+	while (map_array[y] != NULL)
+	{
+		if (map_array[y + 1] != NULL && ft_strlen(map_array[y + 1]) > x)
+		{
+			if (zero_check(map_array[y + 1][x]) != -1)
+				return (zero_check(map_array[y + 1][x]));
+		}
+		else
+			return (0);
+		y++;
+	}
+}
+
+int check_close_map(char **map_array)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (map_array[i] != NULL)
+	{
+		while (map_array[i][j] != '\0')
+		{
+			if (map_array[i][j] == '0')	
+			{
+				if (!check_right(j, map_array[i]) || !check_left(j, map_array[i]) || !check_up(j, i, map_array) || !check_down(j, i, map_array))
+					return (printf("Map not closed ! at line %d, column %d\n", i, j), 0);
+			}
+			j++;
+		}
+		j = 0;
+		i++;
+	}
+	return (1);
+}
+
+void display_map_info_test(t_map_info *map_info)
+{
+	printf("NO: %s\n", map_info->no);
+	printf("SO: %s\n", map_info->so);
+	printf("WE: %s\n", map_info->we);
+	printf("EA: %s\n", map_info->ea);
+	printf("F: %d, %d, %d\n", map_info->f[0], map_info->f[1], map_info->f[2]);
+	printf("C: %d, %d, %d\n", map_info->c[0], map_info->c[1], map_info->c[2]);
+}
+
+void display_map_test(char **map_array)
+{
+	int i;
+
+	i = 0;
+	while (map_array[i] != NULL)
+	{
+		printf("%s\n", map_array[i]);
+		i++;
+	}
 }
 
 int parser(char **argv)
@@ -244,11 +461,16 @@ int parser(char **argv)
 		return (ft_putstr_fd("Invalid path\n", 2), 0);
 
 	t_map_info	map_info;
+	t_map_v2	map;
+	map.current_line_count = 0;
+	map.map_array = NULL;
+	map.map_height = 0;
+	map.map_width = 0;
+
 	char	*line;
 	char	*info = NULL;
 	int		fd;
 	char *info_type[] = {"NO", "SO", "WE", "EA", "F", "C", NULL};
-	int info_nb;
 	int i = 0;
 
 	init_map_info(&map_info);
@@ -266,31 +488,39 @@ int parser(char **argv)
 		{
 			if (!extract_info(line, info, &map_info))
 				return (printf("Err with [%s] at line %d\n", info, i), 0);
-			// if (check_info_complete(&map_info))
-			// 	return (printf("Missing info in map !\n"), 0);
 		}
 		else
 		{
-			if (!contain_map_part(line) && !is_only_space(line))
-			{
+			int map_part = contain_map_part(line);
+			int only_space = is_only_space(line);
+			if (!map_part && !only_space)
 				return (printf("Invalid line : %s\n", line), 0);
-			}
 			else
 			{
-				// check if map is valid
-				// check if map is last
+				if (!only_space)
+				{
+					if (append_map_lines(line, &map))
+					{
+						//add protection
+					}
+				}
 			}
 		}
 		free(line);
 		i++;
 	}
 
-	printf("NO: %s\n", map_info.no);
-	printf("SO: %s\n", map_info.so);
-	printf("WE: %s\n", map_info.we);
-	printf("EA: %s\n", map_info.ea);
-	printf("F: %d, %d, %d\n", map_info.f[0], map_info.f[1], map_info.f[2]);
-	printf("C: %d, %d, %d\n", map_info.c[0], map_info.c[1], map_info.c[2]);
+	if (!check_info_complete(&map_info))
+		return (printf("Missing info in map !\n"), 0);
+	
+	if (!check_player(map.map_array))
+		return (printf("Invalid player !\n"), 0);
+	
+	if (!check_close_map(map.map_array))
+		return (0);
+		
+	display_map_test(map.map_array);
+	display_map_info_test(&map_info);
 	close(fd);
 	return (1);
 }

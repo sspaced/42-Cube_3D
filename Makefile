@@ -3,7 +3,7 @@ CC = cc
 CFLAGS = #-Wall -Wextra -Werror
 SRC_DIR = src/
 HEADER_DIR = header/
-FLAGS = -L./libft -lft
+FLAGS = -L./libft -lft -g3
 
 SRC = $(SRC_DIR)main_test.c \
       $(SRC_DIR)parsing.c \

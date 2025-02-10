@@ -85,6 +85,7 @@ typedef struct s_data {
 	int				line_length;
 	int				endian;
 	struct s_map	map;
+	struct s_map_info	map_info;
 	struct s_player	player;
 	struct s_keys	keys;
 	struct s_calc	calc;
