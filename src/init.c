@@ -5,6 +5,7 @@ static	void init_map(t_map *map)
 	map->map_array = NULL;
 	map->map_height = 0.0;
 	map->map_width = 0.0;
+	map->current_line_count = 0;
 }
 
 static void init_player(t_player *player)
@@ -28,10 +29,19 @@ static void	init_calc(t_calc *calc)
 	calc->wall_top = 0;
 }
 
+void init_map_info(t_map_info *map_info)
+{
+	map_info->no = NULL;
+	map_info->so = NULL;
+	map_info->we = NULL;
+	map_info->ea = NULL;
+}
+
 void	init_data(t_data *data)
 {
 	data->mlx = NULL;
 	data->win = NULL;
+	init_map_info(&data->map_info);
 	init_map(&data->map);
 	init_player(&data->player);
 	init_calc(&data->calc);

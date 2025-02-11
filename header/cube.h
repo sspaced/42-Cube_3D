@@ -27,7 +27,6 @@
 # define CEILING 0x444444
 # define WALL_COLOR 0xA0CCDA
 # define FLOOR 0xDAB785
-
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 40684
 # endif
@@ -65,6 +64,7 @@ typedef	struct s_map {
 	char	**map_array;
 	float	map_height;
 	float	map_width;
+	int		current_line_count;
 } t_map;
 
 typedef struct s_map_info {
@@ -111,7 +111,7 @@ int		check_eof(char *buffer, int bytes_read);
 
 //[src/parsing.c]
 int		check_file_path(char *path);
-int		parser(char **argv);
+int		parser(char **argv, t_data *data);
 // test
 void	init_map_info(t_map_info *map_info);
 int		info_finder(char *line, char *info_type);

@@ -6,7 +6,7 @@ int	check_file_path(char *path)
 
 	if (!path)
 		return (0);
-	len = strlen(path);
+	len = ft_strlen(path);
 	if (len < 4)
 		return (0);
 	if (path[len - 4] != '.' || path[len - 3] != 'c' || 
@@ -85,13 +85,7 @@ char *search_info(char *line, char **info_type)
 	}
 	return (info);
 }
-void init_map_info(t_map_info *map_info)
-{
-	map_info->no = NULL;
-	map_info->so = NULL;
-	map_info->we = NULL;
-	map_info->ea = NULL;
-}
+
 
 int array_size(char **array)
 {
@@ -201,14 +195,19 @@ int extract_info(char *line, char *info_type, t_map_info *map_info)
 {
 	char **line_split;
 	int status;
-
+	char *info_value;
 	status = 0;
 	line = ft_strtrim(line, "\n");
-	line_split = ft_split(line, ' ');
-	if (!line_split || !line)
+	if (!line)
 		return (0);
+	line_split = ft_split(line, ' ');
+	if (!line_split)
+		return (clear_array(line_split), 0);
+	info_value = ft_strdup(line_split[1]);
+	if (!info_value)
+		return (clear_array(line_split), 0);
 	if (array_size(line_split) == 2)
-		status = map_info_setter(line_split[0], ft_strdup(line_split[1]), map_info);
+		status = map_info_setter(line_split[0], info_value, map_info);
 	clear_array(line_split);
 	return (status);
 }
@@ -306,7 +305,7 @@ int refill_map(char *line, char **array_map, char **new_array_map)
 	return (1);
 }
 
-int append_map_lines(char *line, t_map_v2 *map)
+int append_map_lines(char *line, t_map *map)
 {
 	char **new_array_map = NULL;
 	new_array_map = malloc(sizeof(char *) * (map->current_line_count + 2));
@@ -392,6 +391,7 @@ int check_up(int x, int y, char **map_array)
 			return (0);
 		y--;
 	}
+	return (0);
 }
 
 int check_down(int x, int y, char **map_array)
@@ -407,6 +407,7 @@ int check_down(int x, int y, char **map_array)
 			return (0);
 		y++;
 	}
+	return (0);
 }
 
 int check_close_map(char **map_array)
@@ -455,72 +456,77 @@ void display_map_test(char **map_array)
 	}
 }
 
-int parser(char **argv)
+
+int extract_map(char *line, t_data *data)
 {
-	if (!check_file_path(argv[1]))
-		return (ft_putstr_fd("Invalid path\n", 2), 0);
+	int map_part;
+	int only_space;
 
-	t_map_info	map_info;
-	t_map_v2	map;
-	map.current_line_count = 0;
-	map.map_array = NULL;
-	map.map_height = 0;
-	map.map_width = 0;
+	map_part = contain_map_part(line);
+	only_space = is_only_space(line);
+	if (!map_part && !only_space)
+		return (printf("Invalid line : %s\n", line), 0);
+	else
+	{
+		if (!only_space)
+		{
+			if (append_map_lines(line, &data->map))
+			{
+				//add protection
+			}
+		}
+	}
+	return (1);
+}
 
+int parser_check(t_data *data)
+{
+	if (!check_info_complete(&data->map_info))
+		return (printf("Missing info in map !\n"), 0);
+	if (!check_player(data->map.map_array))
+		return (printf("Invalid player !\n"), 0);
+	if (!check_close_map(data->map.map_array))
+		return (0);
+	return (1);
+}
+ int extractor(int fd, t_data *data)
+ {
+	int		i;
+	char	*info_types[] = {"NO", "SO", "WE", "EA", "F", "C", NULL};
 	char	*line;
-	char	*info = NULL;
-	int		fd;
-	char *info_type[] = {"NO", "SO", "WE", "EA", "F", "C", NULL};
-	int i = 0;
+	char	*info;
 
-	init_map_info(&map_info);
-
-	fd = open(argv[1], O_RDONLY);
-	if (fd < 0)
-		return (ft_putstr_fd("Error opening file\n", 2), 0);
-
+	i = 0;
+	info = NULL;
 	while (1)
 	{
 		line = get_next_line(fd);
 		if (!line)
 			break;
-		if ((info = search_info(line, info_type)) != NULL)
+		if ((info = search_info(line, info_types)) != NULL)
 		{
-			if (!extract_info(line, info, &map_info))
+			if (!extract_info(line, info, &data->map_info))
 				return (printf("Err with [%s] at line %d\n", info, i), 0);
 		}
 		else
-		{
-			int map_part = contain_map_part(line);
-			int only_space = is_only_space(line);
-			if (!map_part && !only_space)
-				return (printf("Invalid line : %s\n", line), 0);
-			else
-			{
-				if (!only_space)
-				{
-					if (append_map_lines(line, &map))
-					{
-						//add protection
-					}
-				}
-			}
-		}
+			extract_map(line, data);
 		free(line);
 		i++;
 	}
-
-	if (!check_info_complete(&map_info))
-		return (printf("Missing info in map !\n"), 0);
-	
-	if (!check_player(map.map_array))
-		return (printf("Invalid player !\n"), 0);
-	
-	if (!check_close_map(map.map_array))
-		return (0);
-		
-	display_map_test(map.map_array);
-	display_map_info_test(&map_info);
-	close(fd);
 	return (1);
+ }
+
+int parser(char **argv, t_data *data)
+{
+	int		fd;
+
+	if (!check_file_path(argv[1]))
+		return (ft_putstr_fd("Invalid path\n", 2), 0);
+	fd = open(argv[1], O_RDONLY);
+	if (fd < 0)
+		return (ft_putstr_fd("Error opening file\n", 2), 0);
+	extractor(fd, data);
+	if (!parser_check(data))
+		return (close(fd), 0);
+	return (close(fd), 1);
 }
