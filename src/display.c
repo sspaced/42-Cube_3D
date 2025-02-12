@@ -147,7 +147,7 @@ void	draw_textured_wall(t_textures *textures, t_calc *calc, t_img *img)
 
 	current_texture = choose_texture(textures, calc->wall_orientation);
 	text_size = current_texture->img.line_len / 4;
-	tex_x = (int)(calc->wall_x * text_size) & text_size - 1; // Supposons que les textures font 64x64
+	tex_x = (int)(calc->wall_x * text_size) & (text_size - 1); // Supposons que les textures font 64x64
 	step = 1.0 * current_texture->height / calc->wall_height;
 	tex_pos = (calc->wall_top - WIN_HEIGHT / 2 + calc->wall_height / 2) * step;
 	while (calc->ray_y < calc->wall_bottom)
