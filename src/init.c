@@ -29,12 +29,21 @@ static void	init_calc(t_calc *calc)
 	calc->wall_top = 0;
 }
 
+void init_color(int color[3])
+{
+	color[0] = -1;
+	color[1] = -1;
+	color[2] = -1;
+}
+
 void init_map_info(t_map_info *map_info)
 {
 	map_info->no = NULL;
 	map_info->so = NULL;
 	map_info->we = NULL;
 	map_info->ea = NULL;
+	init_color(map_info->f);
+	init_color(map_info->c);
 }
 
 void	init_data(t_data *data)

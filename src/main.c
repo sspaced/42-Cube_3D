@@ -5,6 +5,11 @@ int main(int argc, char **argv)
 	t_data data;
 	init_data(&data);
 	parser(argv, &data);
+	free(data.map_info.ea);
+	free(data.map_info.no);
+	free(data.map_info.so);
+	free(data.map_info.we);
+	clear_array(data.map.map_array);
 }
 
 // int	main(int argc, char **argv)

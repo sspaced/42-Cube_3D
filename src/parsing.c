@@ -3,15 +3,21 @@
 int	check_file_path(char *path)
 {
 	size_t	len;
+	int		fd;
 
 	if (!path)
-		return (0);
+		return (ft_putstr_fd("Error: NULL path\n", 2), 0);
 	len = ft_strlen(path);
 	if (len < 4)
-		return (0);
+		return (ft_putstr_fd("Error: Path too short\n", 2), 0);
 	if (path[len - 4] != '.' || path[len - 3] != 'c' || 
 		path[len - 2] != 'u' || path[len - 1] != 'b')
-		return (0);
+		return (ft_putstr_fd("Error: Invalid file extension (must be .cub)\n", 2), 0);
+	
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		return (ft_putstr_fd("Error: Cannot open file\n", 2), 0);
+	close(fd);
 	return (1);
 }
 
@@ -113,6 +119,7 @@ void clear_array(char **array)
 		i++;
 	}
 	free(array);
+	array = NULL;
 }
 
 int set_map_cardinal_info(char **map_info_field, char *info_value)
@@ -122,6 +129,7 @@ int set_map_cardinal_info(char **map_info_field, char *info_value)
 		*map_info_field = info_value;
 		return (1);
 	}
+	free(info_value);
 	return (0);
 }
 
@@ -147,7 +155,7 @@ int is_valid_color(char *info_value)
 	i = 0;
 	splited_color = ft_split(info_value, ',');
 	if (splited_color == NULL || array_size(splited_color) != 3)
-		return (0);
+		return (clear_array(splited_color), 0);
 	while (splited_color[i] != NULL)
 	{
 		if (!is_digit(splited_color[i]) || ft_atoi(splited_color[i]) < 0 || ft_atoi(splited_color[i]) > 255)
@@ -163,32 +171,41 @@ int is_valid_color(char *info_value)
 
 int set_map_color_info(int map_info_field[3], char *info_value)
 {
+	char *buff;
+
+	buff = info_value;
 	if (!is_valid_color(info_value))
-		return (0);
+		return (free(buff), 0);
+	if (map_info_field[0] != -1 && map_info_field[1] != -1 && map_info_field[2] != -1)
+		return (free(buff), 0);
 	map_info_field[0] = ft_atoi(info_value);
 	info_value += 4;
 	map_info_field[1] = ft_atoi(info_value);
 	info_value += 4;
 	map_info_field[2] = ft_atoi(info_value);
+	free(buff);
 	return (1);
 }
 
 
 int map_info_setter(char *info_type, char *info_value, t_map_info *map_info)
 {
-	if (!ft_strncmp(info_type, "NO", 2))
+	int info_type_len;
+
+	info_type_len = ft_strlen(info_type);
+	if (!ft_strncmp(info_type, "NO", 2) && info_type_len == 2)
 		return (set_map_cardinal_info(&map_info->no, info_value));
-	else if (!ft_strncmp(info_type, "SO", 2))
+	else if (!ft_strncmp(info_type, "SO", 2) && info_type_len == 2)
 		return (set_map_cardinal_info(&map_info->so, info_value));
-	else if (!ft_strncmp(info_type, "WE", 2))
+	else if (!ft_strncmp(info_type, "WE", 2) && info_type_len == 2)
 		return (set_map_cardinal_info(&map_info->we, info_value));
-	else if (!ft_strncmp(info_type, "EA", 2))
+	else if (!ft_strncmp(info_type, "EA", 2) && info_type_len == 2)
 		return (set_map_cardinal_info(&map_info->ea, info_value));
-	else if (!ft_strncmp(info_type, "F", 1))
+	else if (!ft_strncmp(info_type, "F", 1) && info_type_len == 1)
 		return (set_map_color_info(map_info->f, info_value));
-	else if (!ft_strncmp(info_type, "C", 1))
+	else if (!ft_strncmp(info_type, "C", 1) && info_type_len == 1)
 		return (set_map_color_info(map_info->c, info_value));
-	return (0);
+	return (free(info_value), 0);
 }
 
 int extract_info(char *line, char *info_type, t_map_info *map_info)
@@ -201,6 +218,7 @@ int extract_info(char *line, char *info_type, t_map_info *map_info)
 	if (!line)
 		return (0);
 	line_split = ft_split(line, ' ');
+	free(line);
 	if (!line_split)
 		return (clear_array(line_split), 0);
 	info_value = ft_strdup(line_split[1]);
@@ -270,13 +288,6 @@ static char *ft_strdup_until(char *str, char until)
 	return (str_b -= str_len);
 }
 
-typedef	struct s_map_v2 {
-	char	**map_array;
-	float	map_height;
-	float	map_width;
-	int		current_line_count;
-} t_map_v2;
-
 int refill_map(char *line, char **array_map, char **new_array_map)	
 {
 	int i;
@@ -296,10 +307,12 @@ int refill_map(char *line, char **array_map, char **new_array_map)
 		while (array_map[i] != NULL)
 		{
 			new_array_map[i] = ft_strdup_until(array_map[i], '\n');
+			if (!new_array_map[i])
+				return (clear_array(new_array_map), 0);
 			i++;
 		}
 		if (!(new_array_map[i] = ft_strdup_until(line, '\n')))
-			return (0);
+			return (clear_array(new_array_map), 0);
 		new_array_map[i + 1] = NULL;
 	}
 	return (1);
@@ -312,10 +325,7 @@ int append_map_lines(char *line, t_map *map)
 	if (!new_array_map)
 		return (0);
 	if (!refill_map(line, map->map_array, new_array_map))
-	{
-		free(new_array_map);
 		return (0);
-	}
 	clear_array(map->map_array);
 	map->map_array = new_array_map;
 	map->current_line_count++;
@@ -424,7 +434,12 @@ int check_close_map(char **map_array)
 			if (map_array[i][j] == '0')	
 			{
 				if (!check_right(j, map_array[i]) || !check_left(j, map_array[i]) || !check_up(j, i, map_array) || !check_down(j, i, map_array))
-					return (printf("Map not closed ! at line %d, column %d\n", i, j), 0);
+				{
+					ft_putstr_fd("Map not closed ! at line ", 2);
+					ft_putnbr_fd(i, 2);
+					ft_putstr_fd(", column ", 2);
+					return (ft_putnbr_fd(j, 2), ft_putstr_fd("\n", 2), 0);
+				}
 			}
 			j++;
 		}
@@ -434,29 +449,6 @@ int check_close_map(char **map_array)
 	return (1);
 }
 
-void display_map_info_test(t_map_info *map_info)
-{
-	printf("NO: %s\n", map_info->no);
-	printf("SO: %s\n", map_info->so);
-	printf("WE: %s\n", map_info->we);
-	printf("EA: %s\n", map_info->ea);
-	printf("F: %d, %d, %d\n", map_info->f[0], map_info->f[1], map_info->f[2]);
-	printf("C: %d, %d, %d\n", map_info->c[0], map_info->c[1], map_info->c[2]);
-}
-
-void display_map_test(char **map_array)
-{
-	int i;
-
-	i = 0;
-	while (map_array[i] != NULL)
-	{
-		printf("%s\n", map_array[i]);
-		i++;
-	}
-}
-
-
 int extract_map(char *line, t_data *data)
 {
 	int map_part;
@@ -465,32 +457,49 @@ int extract_map(char *line, t_data *data)
 	map_part = contain_map_part(line);
 	only_space = is_only_space(line);
 	if (!map_part && !only_space)
-		return (printf("Invalid line : %s\n", line), 0);
+	{
+		ft_putstr_fd("Invalid line : ", 2);
+		ft_putstr_fd(line, 2);
+		ft_putstr_fd("\n", 2);
+		return (0);
+	}
 	else
 	{
 		if (!only_space)
 		{
-			if (append_map_lines(line, &data->map))
-			{
-				//add protection
-			}
+			if (!append_map_lines(line, &data->map))
+				return (0);
 		}
+		else if (data->map.current_line_count != 0)
+			return (printf("only space at line %d\n", data->map.current_line_count), 0);
 	}
 	return (1);
 }
 
 int parser_check(t_data *data)
 {
+	if (data->map.map_array == NULL)
+		return (0);
 	if (!check_info_complete(&data->map_info))
-		return (printf("Missing info in map !\n"), 0);
+		return (ft_putstr_fd("Missing info in map !\n", 2), 0);
 	if (!check_player(data->map.map_array))
-		return (printf("Invalid player !\n"), 0);
+		return (ft_putstr_fd("Invalid player !\n", 2), 0);
 	if (!check_close_map(data->map.map_array))
 		return (0);
 	return (1);
 }
- int extractor(int fd, t_data *data)
- {
+
+void err_msg(char *info, int line)
+{
+	ft_putstr_fd("Err with [", 2);
+	ft_putstr_fd(info, 2);
+	ft_putstr_fd("] at line ", 2);
+	ft_putnbr_fd(line, 2);
+	ft_putstr_fd("\n", 2);
+}
+
+int extractor(int fd, t_data *data)
+{
 	int		i;
 	char	*info_types[] = {"NO", "SO", "WE", "EA", "F", "C", NULL};
 	char	*line;
@@ -506,10 +515,11 @@ int parser_check(t_data *data)
 		if ((info = search_info(line, info_types)) != NULL)
 		{
 			if (!extract_info(line, info, &data->map_info))
-				return (printf("Err with [%s] at line %d\n", info, i), 0);
+				return (err_msg(info, i), free(line), 0);
 		}
 		else
-			extract_map(line, data);
+			if (!extract_map(line, data))
+				return (free(line), 0);
 		free(line);
 		i++;
 	}
@@ -525,7 +535,8 @@ int parser(char **argv, t_data *data)
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 		return (ft_putstr_fd("Error opening file\n", 2), 0);
-	extractor(fd, data);
+	if (!extractor(fd, data))
+		return (close(fd), 0);
 	if (!parser_check(data))
 		return (close(fd), 0);
 	return (close(fd), 1);

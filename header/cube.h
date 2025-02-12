@@ -112,6 +112,7 @@ int		check_eof(char *buffer, int bytes_read);
 //[src/parsing.c]
 int		check_file_path(char *path);
 int		parser(char **argv, t_data *data);
+void	clear_array(char **array);
 // test
 void	init_map_info(t_map_info *map_info);
 int		info_finder(char *line, char *info_type);
