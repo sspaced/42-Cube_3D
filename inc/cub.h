@@ -112,10 +112,21 @@ typedef	struct s_player {
 	int	direction;
 } t_player;
 
+typedef struct s_map_info {
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
+	int		f[3];
+	int 	c[3];
+} t_map_info;
+
 typedef	struct s_map {
 	char	**map_array;
 	int		map_height;
 	int		map_width;
+	int		current_line_count;
+	t_map_info	map_info;
 } t_map;
 
 typedef struct s_img {
@@ -234,5 +245,8 @@ void	move_right(t_player *player, t_map *map, double angle);
 int mouse_click(int keycode, int x, int y, t_data *data);
 int mouse_release(int keycode, int x, int y, t_data *data);
 int mouse_move(int x, int y, t_data *data);
+
+//[src/parse.c]
+int parser(char **argv, t_data *data);
 
 #endif

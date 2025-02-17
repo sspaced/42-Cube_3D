@@ -29,7 +29,6 @@ SRCS		= cub.c \
 			  hook.c \
 			  get_next_line_utils.c \
 			  get_next_line.c \
-			  parsing.c \
 			  map_handler.c \
 			  init.c \
 			  player_utils.c \
@@ -39,7 +38,8 @@ SRCS		= cub.c \
 			  assets.c \
 			  cleanup.c \
 			  move_player.c \
-			  mouse_hooks.c
+			  mouse_hooks.c \
+			  parse.c
 
 
 ### OBJECTS ###

@@ -69,8 +69,8 @@ int	main(int argc, char **argv)
 	if (!init(&data))
 		return (1);
 	// Creating map object
-	if (!setup_map(&(data.map), argv[1]))
-		return (clean_mlx(&data), 1);
+	if (!parser(argv, &data))
+		return (1);
 	// Set player in map
 	set_player_pos_dir(&data);
 	// Setting mlx hook to catch X event
