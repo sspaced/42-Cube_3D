@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: elleroux <elleroux@student.42lyon.fr>      +#+  +:+       +#+         #
+#    By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/27 14:18:05 by elleroux          #+#    #+#              #
-#    Updated: 2025/01/22 19:18:23 by elleroux         ###   ########.fr        #
+#    Updated: 2025/02/18 15:34:46 by lben-adi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,13 +39,19 @@ SRCS		= cub.c \
 			  cleanup.c \
 			  move_player.c \
 			  mouse_hooks.c \
-			  parse.c
-
+			  parse.c \
+			  parse_info.c \
+			  parse_map.c \
+			  parse_final_check.c \
+			  parse_check_directions.c \
+			  parse_colors.c \
+			  array_utils.c \
+			  parse_utils.c \
+			  until.c \
 
 ### OBJECTS ###
 OBJS := $(addprefix $(BUILD_DIR)/, ${SRCS:$(EXTENSION)=.o})
 DEPS := $(addprefix $(BUILD_DIR)/, ${SRCS:$(EXTENSION)=.d})
-
 
 ### RULES ###
 all: $(LIBFT) $(MLX) $(BUILD_DIR) $(TARGET)

@@ -1,47 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_utils.c                                        :+:      :+:    :+:   */
+/*   until.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 18:49:52 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/18 15:48:47 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:26:36 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-void	set_map_height_width(t_map *map)
+int	ft_strlen_until(char *str, char until)
 {
-	int	x;
-	int	y;
-	int	y_bis;
+	int	i;
 
-	if (!map->map_array)
-		return ;
-	x = 0;
-	y = 0;
-	y_bis = 0;
-	while (map->map_array[x])
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i])
 	{
-		while (map->map_array[x][y])
-			y++;
-		y_bis = y;
-		y = 0;
-		x++;
+		if (str[i] == until)
+			break ;
+		i++;
 	}
-	map->map_height = x;
-	map->map_width = y_bis;
+	return (i);
 }
 
-void	map_coord_to_pixel(t_data *data, int x, int y)
+char	*ft_strdup_until(char *str, char until)
 {
-	float	y_parcel_size;
-	float	x_parcel_size;
+	char	*str_b;
+	int		str_len;
 
-	y_parcel_size = (WIN_WIDTH / data->map.map_width) * (y + 1);
-	x_parcel_size = (WIN_HEIGHT / data->map.map_height) * (x + 1);
-	printf("y_parcel : %f\n", y_parcel_size);
-	printf("x_parcel : %f\n", x_parcel_size);
+	if (!str)
+		return (NULL);
+	str_len = ft_strlen_until((char *)str, until);
+	str_b = (char *)malloc(str_len * sizeof(char) + 1);
+	if (!str_b)
+		return (NULL);
+	while (*str)
+	{
+		if (*str == until)
+			break ;
+		*str_b++ = *str++;
+	}
+	*str_b = '\0';
+	return (str_b -= str_len);
 }

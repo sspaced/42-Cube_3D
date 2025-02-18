@@ -34,43 +34,6 @@ static char	**allocate_map(int line_count)
 	return (map);
 }
 
-static int	ft_strlen_until(char *str, char until)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-	{
-		if (str[i] == until)
-			break ;
-		i++;
-	}
-	return (i);
-}
-
-static char *ft_strdup_until(char *str, char until)
-{
-	char	*str_b;
-	int		str_len;
-
-	if (!str)
-		return (NULL);
-	str_len = ft_strlen_until((char *)str, until);
-	str_b = (char *)malloc(str_len * sizeof(char) + 1);
-	if (!str_b)
-		return (NULL);
-	while (*str)
-	{
-		if (*str == until)
-			break ;
-		*str_b++ = *str++;
-	}
-	*str_b = '\0';
-	return (str_b -= str_len);
-}
-
 static int	fill_map(char **map, char *file_path)
 {
 	char	*line;

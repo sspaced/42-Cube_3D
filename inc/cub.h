@@ -194,9 +194,6 @@ char	*read_line(int fd, char *buffer, char *previous_line, int *bytes_read);
 size_t	index_for_n(char *buffer);
 int		check_eof(char *buffer, int bytes_read);
 
-//[src/parsing.c]
-int		check_file_path(char *path);
-
 //[src/map_handler.c]
 char	**read_map_file(char *file_path);
 void	free_map_error(char **map);
@@ -248,5 +245,45 @@ int mouse_move(int x, int y, t_data *data);
 
 //[src/parse.c]
 int parser(char **argv, t_data *data);
+
+//[src/array_utils.c]
+int array_size(char **array);
+void clear_array(char **array);
+
+//[src/parse_utils.c]
+int is_digit(char *str);
+int is_only_space(char *line);
+int is_map_part(char element);
+int contain_map_part(char *line);
+void err_msg(char *info, int line);
+
+//[src/parse_info.c]
+int extract_info(char *line, t_map_info *map_info);
+char *search_info(char *line, char **info_type);
+
+//[src/parse_map.c]
+int extract_map(char *line, t_data *data);
+
+//[src/parse_final_check.c]
+int check_info_complete(t_map_info *map_info);
+int check_player(char **map_array);
+int check_close_map(char **map_array);
+
+//[src/parse_check_directions.c]
+int check_down(int x, int y, char **map_array);
+int check_up(int x, int y, char **map_array);
+int check_right(int x, char *map_line);
+int check_left(int x, char *map_line);
+
+//[src/parse_color.c]
+int set_map_color_info(int map_info_field[3], char *info_value);
+
+//[src/array_utils.c]
+int array_size(char **array);
+void clear_array(char **array);
+
+//[src/untils.c]
+char *ft_strdup_until(char *str, char until);
+int ft_strlen_until(char *str, char until);
 
 #endif
