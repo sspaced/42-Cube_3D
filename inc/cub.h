@@ -244,7 +244,7 @@ int mouse_release(int keycode, int x, int y, t_data *data);
 int mouse_move(int x, int y, t_data *data);
 
 //[src/parse.c]
-int parser(char **argv, t_data *data);
+int parser(char **argv, t_data *data, int argc);
 
 //[src/array_utils.c]
 int array_size(char **array);

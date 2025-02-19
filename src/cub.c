@@ -6,7 +6,7 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:16:15 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/19 17:41:16 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/19 18:06:26 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ int	main(int argc, char **argv)
 	if (!init(&data))
 		return (1);
 	// Creating map object
-	if (!parser(argv, &data))
+	
+	if (!parser(argv, &data, argc))
 		return (1);
 	// Set player in map
 	set_map_height_width(&data);
@@ -73,19 +74,19 @@ int	main(int argc, char **argv)
 	// Setting mlx hook to catch X event
 	setup_hooks(&data);
 	// Setting texture (will be done via parsing later)
-	data.textures.wall_n = new_asset(data.mlx, "assets/img/text_n/text_n.xpm",
+	data.textures.wall_n = new_asset(data.mlx, data.map.map_info.no,
 			WALL_N);
 	if (!data.textures.wall_n)
 		return (1);
-	data.textures.wall_s = new_asset(data.mlx, "assets/img/text_s/text_s.xpm",
+	data.textures.wall_s = new_asset(data.mlx, data.map.map_info.so,
 			WALL_S);
 	if (!data.textures.wall_s)
 		return (1);
-	data.textures.wall_e = new_asset(data.mlx, "assets/img/text_e/text_e.xpm",
+	data.textures.wall_e = new_asset(data.mlx, data.map.map_info.ea,
 			WALL_E);
 	if (!data.textures.wall_e)
 		return (1);
-	data.textures.wall_w = new_asset(data.mlx, "assets/img/text_w/text_w.xpm",
+	data.textures.wall_w = new_asset(data.mlx, data.map.map_info.we,
 			WALL_W);
 	if (!data.textures.wall_w)
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 18:08:27 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/18 15:44:29 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/19 18:04:39 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,12 @@ static int	extractor(int fd, t_data *data)
 	return (1);
 }
 
-int	parser(char **argv, t_data *data)
+int	parser(char **argv, t_data *data, int argc)
 {
 	int	fd;
 
+	if (argc != 2)
+		return (ft_putstr_fd("Error: usage : ./cub3d map.cub\n", 2), 0);
 	if (!check_file_path(argv[1]))
 		return (ft_putstr_fd("Invalid path\n", 2), 0);
 	fd = open(argv[1], O_RDONLY);

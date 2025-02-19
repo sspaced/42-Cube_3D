@@ -6,7 +6,7 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:27:27 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/18 15:47:13 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/19 18:05:25 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ void	init_colors(t_map_info *map_info)
 
 int	init(t_data *data)
 {
-	ft_bzero(data, sizeof(t_data));
-	init_colors(&(data->map.map_info));
+	
 	if (!(data->mlx = mlx_init()))
 		return (ft_putstr_fd("Failed to init mlx\n", 2), 0);
 	if (!(data->win = mlx_new_window(data->mlx, WIN_WIDTH, WIN_HEIGHT,
