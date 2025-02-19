@@ -6,20 +6,20 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:16:15 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/18 15:56:02 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/19 17:41:16 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-int	setup_map(t_map *map, char *path)
-{
-	map->map_array = read_map_file(path);
-	if (!map->map_array)
-		return (ft_putstr_fd("Failed to read map file\n", 2), 0);
-	set_map_height_width(map);
-	return (1);
-}
+// int	setup_map(t_map *map, char *path)
+// {
+// 	map->map_array = read_map_file(path);
+// 	if (!map->map_array)
+// 		return (ft_putstr_fd("Failed to read map file\n", 2), 0);
+// 	set_map_height_width(map);
+// 	return (1);
+// }
 
 int	setup_hooks(t_data *data)
 {
@@ -68,6 +68,7 @@ int	main(int argc, char **argv)
 	if (!parser(argv, &data))
 		return (1);
 	// Set player in map
+	set_map_height_width(&data);
 	set_player_pos_dir(&data);
 	// Setting mlx hook to catch X event
 	setup_hooks(&data);

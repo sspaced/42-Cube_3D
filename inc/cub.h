@@ -207,7 +207,7 @@ int	init_img(t_img *img, void *mlx);
 void	set_player_pos_dir(t_data *data);
 
 //[src/map_utils.c]
-void	set_map_height_width(t_map *map);
+void	set_map_height_width(t_data *data);
 void	map_coord_to_pixel(t_data *data, int x, int y);
 
 //[src/display.c]

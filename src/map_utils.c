@@ -6,33 +6,33 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 18:49:52 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/18 15:48:47 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/19 17:40:08 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-void	set_map_height_width(t_map *map)
+void	set_map_height_width(t_data *data)
 {
 	int	x;
 	int	y;
 	int	y_bis;
 
-	if (!map->map_array)
+	if (!data->map.map_array)
 		return ;
 	x = 0;
 	y = 0;
 	y_bis = 0;
-	while (map->map_array[x])
+	while (data->map.map_array[x])
 	{
-		while (map->map_array[x][y])
+		while (data->map.map_array[x][y])
 			y++;
 		y_bis = y;
 		y = 0;
 		x++;
 	}
-	map->map_height = x;
-	map->map_width = y_bis;
+	data->map.map_height = x;
+	data->map.map_width = y_bis;
 }
 
 void	map_coord_to_pixel(t_data *data, int x, int y)
