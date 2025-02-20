@@ -6,7 +6,7 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 18:49:52 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/20 14:22:42 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/20 14:48:23 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ int	extract_info(char *line, t_map_info *map_info)
 	if (!line_split)
 		return (clear_array(line_split), 0);
 	info_value = ft_strdup(line_split[1]);
-	printf("info_value: %p\n", info_value);
 	if (!info_value)
 		return (clear_array(line_split), 0);
 	if (array_size(line_split) == 2)

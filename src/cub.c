@@ -6,7 +6,7 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:16:15 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/20 14:39:28 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/20 19:16:27 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int	setup_bonus_textures(t_textures *textures, t_arm *arm, void *mlx)
 	return (1);
 }
 
+
+
 int	main(int argc, char **argv)
 {
 	t_data	data;
@@ -64,7 +66,7 @@ int	main(int argc, char **argv)
 	// Init all data
 	if (!init(&data))
 		return (1);
-	// Creating map object
+	// Creating map object	
 	
 	if (!parser(argv, &data, argc))
 		return (1);
@@ -90,33 +92,25 @@ int	main(int argc, char **argv)
 			WALL_W);
 	if (!data.textures.wall_w)
 		return (1);
-	if (BONUS == true && (!setup_bonus_textures(&(data.textures), &(data.arm),
-				data.mlx)))
+	if (BONUS == true && (!setup_bonus_textures(&(data.textures), &(data.arm), data.mlx)))
 		return (1);
 	display_player_view(&data);
-	printf("data.map.map_info.no: %p\n", data.map.map_info.no);
-	printf("data.map.map_info.so: %p\n", data.map.map_info.so);
-	printf("data.map.map_info.ea: %p\n", data.map.map_info.ea);
-	printf("data.map.map_info.we: %p\n", data.map.map_info.we);
-	free(data.map.map_info.no);
-	free(data.map.map_info.so);
-	free(data.map.map_info.ea);
-	free(data.map.map_info.we);
+	free_textures_path(&data);
+	
 	mlx_loop(data.mlx);
-
 	free_map_error(data.map.map_array);
 	
+
+	// clear_animations(&(data.arm), &(data.mlx));
+	// ft_lstclear(&(data.arm.finger), &destroy_asset);
+	// ft_lstclear(&(data.arm.basic), &destroy_asset);
+	// ft_lstclear(&(data.arm.running), &destroy_asset);
+	// ft_lstclear(&(data.arm.punching), &destroy_asset);
+	// free(&(data.arm.punching));
+	// free(&(data.arm.running));
+	// free(&(data.arm.finger));
+	// free(&(data.arm.basic));
 	
-	
-	clear_animations(&(data.arm), &(data.mlx));
-	ft_lstclear(&(data.arm.finger), &destroy_asset);
-	ft_lstclear(&(data.arm.basic), &destroy_asset);
-	ft_lstclear(&(data.arm.running), &destroy_asset);
-	ft_lstclear(&(data.arm.punching), &destroy_asset);
-	free(&(data.arm.punching));
-	free(&(data.arm.running));
-	free(&(data.arm.finger));
-	free(&(data.arm.basic));
 	clean_mlx(&(data));
 	return (1);
 }

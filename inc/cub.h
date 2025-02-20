@@ -45,7 +45,7 @@
 # define WALL_COLOR 0xA0CCDA
 # define FLOOR 0xDAB785
 
-# define BONUS false
+# define BONUS true
 # define DEBUG false
 
 # ifndef BUFFER_SIZE
@@ -226,6 +226,9 @@ void	destroy_asset(void *asset);
 void	clean_mlx(t_data *data);
 void	clear_animations(t_arm *arm, void *mlx);
 void	destroy_animations(t_list *list, void *mlx);
+void	free_textures_path(t_data *data);
+void	clean_mlx_textures(t_data *data);
+void	free_annimations(t_list **list, int len, void *mlx);
 
 //[src/assets.c]
 t_list	*new_animation(void *mlx, const char *base_path, int frame_number, e_texture name);

@@ -6,7 +6,7 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 16:43:51 by lben-adi          #+#    #+#             */
-/*   Updated: 2024/09/22 22:41:00 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/20 18:33:15 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }					t_list;
+
 size_t				ft_strlen(const char *str);
 size_t				ft_strlcpy(char *dst, const char *src, size_t size);
 int					ft_strncmp(const char *str1, const char *str2, size_t size);

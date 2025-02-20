@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assets.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elleroux <elleroux@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 18:49:52 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/01 22:11:59 by elleroux         ###   ########.fr       */
+/*   Updated: 2025/02/20 18:21:44 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_list	*new_animation(void *mlx, const char *base_path, int frame_number, e_text
 	char	*path;
 	char	*new_path;
 	t_list	*head;
+	char *num;
 
 	i = -1;
 	path = NULL;
@@ -25,8 +26,10 @@ t_list	*new_animation(void *mlx, const char *base_path, int frame_number, e_text
 	while (++i < frame_number)
 	{
 		path = ft_strdup(base_path);
-		new_path = ft_strjoin(path, ft_itoa(i));
+		num = ft_itoa(i);		
+		new_path = ft_strjoin(path, num);
 		free(path);
+		free(num);
 		path = new_path;
 		new_path = ft_strjoin(path, ".xpm");
 		free(path);
@@ -78,9 +81,9 @@ int	add_asset_to_list(t_list **head, void *mlx, char *path, e_texture name)
 	node = ft_lstnew(new);
 	if (!node)
 	{
-		free(new); // TO REPLACE WITH A DESTROY ASSET FUNCT WHEN PATH WILL BE MALLOC
+		free(new);
 		return (ft_putstr_fd("Failed to allocate new list node\n", 2), 0);
 	}
-	ft_lstadd_back(head, ft_lstnew(new));
+	ft_lstadd_back(head, node);
 	return (1);
 }
