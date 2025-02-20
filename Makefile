@@ -6,14 +6,14 @@
 #    By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/27 14:18:05 by elleroux          #+#    #+#              #
-#    Updated: 2025/02/18 15:34:46 by lben-adi         ###   ########.fr        #
+#    Updated: 2025/02/20 14:05:28 by lben-adi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 ### CONFIG ###
 TARGET	= cub3D
 CC		= cc
-CFLAGS	= -Werror -Wall -Wextra
+CFLAGS	= -Werror -Wall -Wextra -g3
 INCLUDE	= -Iinc -Ilib/libft -Ilib/mlx
 LFLAGS	= -lft -lmlx -lm -lX11 -lXext
 LIBFT	= lib/libft/libft.a
