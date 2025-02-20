@@ -6,7 +6,7 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:16:15 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/19 18:06:26 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/20 13:35:10 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,14 @@ int	main(int argc, char **argv)
 	mlx_loop(data.mlx);
 	free_map_error(data.map.map_array);
 	clear_animations(&(data.arm), &(data.mlx));
-	// ft_lstclear(&(data.arm.finger), &destroy_asset);
-	// ft_lstclear(&(data.arm.basic), &destroy_asset);
-	// ft_lstclear(&(data.arm.running), &destroy_asset);
-	// ft_lstclear(&(data.arm.punching), &destroy_asset);
-	// free(&(data.arm.punching));
-	// free(&(data.arm.running));
-	// free(&(data.arm.finger));
-	// free(&(data.arm.basic));
+	ft_lstclear(&(data.arm.finger), &destroy_asset);
+	ft_lstclear(&(data.arm.basic), &destroy_asset);
+	ft_lstclear(&(data.arm.running), &destroy_asset);
+	ft_lstclear(&(data.arm.punching), &destroy_asset);
+	free(&(data.arm.punching));
+	free(&(data.arm.running));
+	free(&(data.arm.finger));
+	free(&(data.arm.basic));
 	clean_mlx(&(data));
 	return (1);
 }

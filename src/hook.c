@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hook.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elleroux <elleroux@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 15:51:48 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/03 15:53:22 by elleroux         ###   ########.fr       */
+/*   Updated: 2025/02/20 13:56:46 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 int	close_window(t_data *data)
 {
 	free_map_error(data->map.map_array);
-	clear_animations(&(data->arm), data->mlx);
+	if (BONUS == true)
+		clear_animations(&(data->arm), data->mlx);
 	clean_mlx(data);
 	exit(0);
 	return (0);

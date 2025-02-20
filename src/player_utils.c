@@ -6,7 +6,7 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 18:49:52 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/18 15:49:21 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/20 13:49:49 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static int find_direction(char *str)
 		if (is_direction(str[i]))
 		{
 			x = i;
-			printf("hello\n");
 			break ;
 		}
 		i++;
