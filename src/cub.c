@@ -6,7 +6,7 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:16:15 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/20 13:35:10 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/20 14:39:28 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,20 @@ int	main(int argc, char **argv)
 				data.mlx)))
 		return (1);
 	display_player_view(&data);
+	printf("data.map.map_info.no: %p\n", data.map.map_info.no);
+	printf("data.map.map_info.so: %p\n", data.map.map_info.so);
+	printf("data.map.map_info.ea: %p\n", data.map.map_info.ea);
+	printf("data.map.map_info.we: %p\n", data.map.map_info.we);
+	free(data.map.map_info.no);
+	free(data.map.map_info.so);
+	free(data.map.map_info.ea);
+	free(data.map.map_info.we);
 	mlx_loop(data.mlx);
+
 	free_map_error(data.map.map_array);
+	
+	
+	
 	clear_animations(&(data.arm), &(data.mlx));
 	ft_lstclear(&(data.arm.finger), &destroy_asset);
 	ft_lstclear(&(data.arm.basic), &destroy_asset);
