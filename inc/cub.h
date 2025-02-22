@@ -45,7 +45,7 @@
 # define WALL_COLOR 0xA0CCDA
 # define FLOOR 0xDAB785
 
-# define BONUS true
+# define BONUS false
 # define DEBUG false
 
 # ifndef BUFFER_SIZE

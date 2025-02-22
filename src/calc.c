@@ -6,7 +6,7 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 20:03:59 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/18 15:51:19 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/22 18:01:42 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,14 @@ void	calc_ray_vector(t_data *data, int x)
 
 void	calc_wall_info(t_data *data)
 {
+	if (data->calc.perp_wall_dist <= 0.0001)
+		data->calc.perp_wall_dist = 0.0001;
+
 	data->calc.wall_height = (int)(WIN_HEIGHT / data->calc.perp_wall_dist);
+
+	if (data->calc.wall_height > WIN_HEIGHT * 10)
+		data->calc.wall_height = WIN_HEIGHT * 10;
+
 	data->calc.wall_top = (WIN_HEIGHT - data->calc.wall_height) / 2;
 	data->calc.wall_bottom = data->calc.wall_top + data->calc.wall_height;
 	if (data->calc.wall_top < 0)
