@@ -51,7 +51,7 @@ SRCS		= cub.c \
 			  array_utils.c \
 			  parse_utils.c \
 			  until.c \
-			  calc_2.c \
+			  calc_utils.c \
 			  display_utils.c
 
 ### OBJECTS ###
