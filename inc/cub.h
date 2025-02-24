@@ -34,11 +34,11 @@
 # define KEY_D 0x0044
 # define KEY_UP 65362
 # define KEY_DOWN 65364
-# define KEY_PRESS_MASK 1L << 0
-# define KEY_RELEASE_MASK 1L << 1
-# define POINTER_MOTION_MASK 1L << 6
-# define BUTTON_PRESS_MASK 1L << 2
-# define BUTTON_RELEASE_MASK 1L << 3
+// # define KEY_PRESS_MASK 1L << 0
+// # define KEY_RELEASE_MASK 1L << 1
+// # define POINTER_MOTION_MASK 1L << 6
+// # define BUTTON_PRESS_MASK 1L << 2
+// # define BUTTON_RELEASE_MASK 1L << 3
 # define LBUTTON 1
 # define RBUTTON 3
 # define KEY_PRESS 2
@@ -57,7 +57,6 @@
 # define WALL_COLOR 0xA0CCDA
 # define FLOOR 0xDAB785
 
-# define BONUS false
 # define DEBUG false
 
 # ifndef BUFFER_SIZE
@@ -213,134 +212,134 @@ typedef struct s_data
 	t_calc			calc;
 	t_arm			arm;
 	t_textures		textures;
-	// textures
 }					t_data;
 
-int					close_window(t_data *data);
-int					key_hook(int keycode, t_data *data);
-int					key_press(int keycode, t_data *data);
-int					key_release(int keycode, t_data *data);
-int					mouse_click(int keycode, int x, int y, t_data *data);
-int					mouse_release(int keycode, int x, int y, t_data *data);
-int					mouse_move(int x, int y, t_data *data);
-void				init_keys(t_keys *keys);
-int					handle_movement(t_data *data);
+// array_utils.c
+int				array_size(char **array);
+void			clear_array(char **array);
 
-//[src/get_next_line_utils.c]
-char				*get_next_line(int fd);
-char				*helper(int fd, char *buffer, int bytes_read);
-char				*manage_line_with_n_for_line(char *buffer, size_t index);
-char				*manage_line_with_n_for_buffer(char *buffer, size_t index);
-char				*read_line(int fd, char *buffer, char *previous_line,
-						int *bytes_read);
+// assets.c
+t_asset			*new_asset(void *mlx, char *path, t_texture name);
 
-//[src/get_next_line.c]
-size_t				index_for_n(char *buffer);
-int					check_eof(char *buffer, int bytes_read);
+// calc.c
+void			calc_wall_hit(t_data *data);
 
-//[src/map_handler.c]
-char				**read_map_file(char *file_path);
-void				free_map_error(char **map);
+// calc_utils.c
+void			calc_ray_vector(t_data *data, int x);
+void			calc_wall_info(t_data *data);
 
-//[src/inti.c]
-void				init_map(t_data *data);
-void				init_data(t_data *data);
-int					init(t_data *data);
-int					init_img(t_img *img, void *mlx);
+// cleanup.c
+void			destroy_asset(void *asset);
+void			free_textures_path(t_data *data);
+void			clean_mlx_textures(t_data *data);
+void			clean_mlx(t_data *data);
 
-//[src/player_utils.c]
-void				set_player_pos_dir(t_data *data);
+// display.c
+t_asset			*choose_texture(t_textures *textures, char wall_orientation);
+void			draw_textured_wall(t_textures *textures, t_calc *calc,
+					t_img *img);
+void			display_player_view(t_data *data);
 
-//[src/map_utils.c]
-void				set_map_height_width(t_data *data);
-void				map_coord_to_pixel(t_data *data, int x, int y);
+// display_utils.c
+unsigned int	get_pixel_img(t_img *img, int x, int y);
+void			put_pixel_img(t_img *img, int x, int y, int color);
 
-//[src/display.c]
-void				pixel_to_img(t_data *data, int x, int y, int color);
-void				display_player_view(t_data *data);
+// get_next_line.c
+char			*get_next_line(int fd);
 
-//[src/display_utils.c]
-unsigned int		get_pixel_img(t_img *img, int x, int y);
-void				put_square(t_data *data, int x, int y, int color);
-void				put_img_to_img3(t_data *data, t_asset *src, int x, int y);
-void				play_animation(t_data *data, t_list **list);
-void				put_pixel_img(t_img *img, int x, int y, int color);
+// get_next_line_utils.c
+int				check_eof(char *buffer, int bytes_read);
+size_t			index_for_n(char *buffer);
 
-//[src/calc.c]
-void				calc_wall_hit(t_data *data);
+// hook.c
+int				close_window(t_data *data);
+int				key_press(int keycode, t_data *data);
+int				key_release(int keycode, t_data *data);
+int				handle_movement(t_data *data);
 
-//[src/calc_2.c]
-void				calc_ray_vector(t_data *data, int x);
-void				calc_wall_info(t_data *data);
+// init.c
+void			init_colors(t_map_info *map_info);
+int				init(t_data *data);
+int				init_img(t_img *img, void *mlx);
 
-//[src/cleanup.c]
-void				destroy_asset(void *asset);
-void				clean_mlx(t_data *data);
-void				clear_animations(t_arm *arm, void *mlx);
-void				destroy_animations(t_list *list, void *mlx);
-void				free_textures_path(t_data *data);
-void				clean_mlx_textures(t_data *data);
-void				free_annimations(t_list **list, int len, void *mlx);
+// map_handler.c
+void			free_map_error(char **map);
+char			**read_map_file(char *file_path);
 
-//[src/assets.c]
-t_list				*new_animation(void *mlx, const char *base_path,
-						int frame_number, t_texture name);
-t_asset				*new_asset(void *mlx, char *path, t_texture name);
-int					add_asset_to_list(t_list **head, void *mlx, char *path,
-						t_texture name);
+// map_utils.c
+void			set_map_height_width(t_data *data);
+void			map_coord_to_pixel(t_data *data, int x, int y);
 
-//[src/move_player.c]
-void				move_foward(t_player *player, t_map *map, double angle);
-void				move_left(t_player *player, t_map *map, double angle);
-void				move_backward(t_player *player, t_map *map, double angle);
-void				move_right(t_player *player, t_map *map, double angle);
+// move_player.c
+void			move_foward(t_player *player, t_map *map, double angle);
+void			move_left(t_player *player, t_map *map, double angle);
+void			move_backward(t_player *player, t_map *map, double angle);
+void			move_right(t_player *player, t_map *map, double angle);
 
-//[src/mouse_hooks.c]
-int					mouse_click(int keycode, int x, int y, t_data *data);
-int					mouse_release(int keycode, int x, int y, t_data *data);
-int					mouse_move(int x, int y, t_data *data);
+// parse.c
+int				parser(char **argv, t_data *data, int argc);
 
-//[src/parse.c]
-int					parser(char **argv, t_data *data, int argc);
+// parse_check_directions.c
+int				check_right(int x, char *map_line);
+int				check_left(int x, char *map_line);
+int				check_up(int x, int y, char **map_array);
+int				check_down(int x, int y, char **map_array);
 
-//[src/array_utils.c]
-int					array_size(char **array);
-void				clear_array(char **array);
+// parse_color.c
+int				set_map_color_info(int map_info_field[3], char *info_value);
 
-//[src/parse_utils.c]
-int					is_digit(char *str);
-int					is_only_space(char *line);
-int					is_map_part(char element);
-int					contain_map_part(char *line);
-void				err_msg(char *info, int line);
+// parse_final_check.c
+int				check_info_complete(t_map_info *map_info);
+int				check_player(char **map_array);
+int				check_close_map(char **map_array);
 
-//[src/parse_info.c]
-int					extract_info(char *line, t_map_info *map_info);
-char				*search_info(char *line, char **info_type);
+// parse_info.c
+int				extract_info(char *line, t_map_info *map_info);
+char			*search_info(char *line, char **info_type);
 
-//[src/parse_map.c]
-int					extract_map(char *line, t_data *data);
+// parse_map.c
+int				extract_map(char *line, t_data *data);
 
-//[src/parse_final_check.c]
-int					check_info_complete(t_map_info *map_info);
-int					check_player(char **map_array);
-int					check_close_map(char **map_array);
+// parse_utils.c
+int				is_digit(char *str);
+int				is_only_space(char *line);
+int				is_map_part(char element);
+int				contain_map_part(char *line);
+void			err_msg(char *info, int line);
 
-//[src/parse_check_directions.c]
-int					check_down(int x, int y, char **map_array);
-int					check_up(int x, int y, char **map_array);
-int					check_right(int x, char *map_line);
-int					check_left(int x, char *map_line);
+// player_utils.c
+void			set_player_pos_dir(t_data *data);
 
-//[src/parse_color.c]
-int					set_map_color_info(int map_info_field[3], char *info_value);
+// untils.c
+int				ft_strlen_until(char *str, char until);
+char			*ft_strdup_until(char *str, char until);
 
-//[src/array_utils.c]
-int					array_size(char **array);
-void				clear_array(char **array);
+//
+// BONUS
+//
 
-//[src/untils.c]
-char				*ft_strdup_until(char *str, char until);
-int					ft_strlen_until(char *str, char until);
+// assets_bonus.c
+int				clean_bonus_textures(t_textures *textures, t_arm *arm,
+					void *mlx, int level);
+t_list			*new_animation(void *mlx, const char *base_path,
+					int frame_number, t_texture name);
+int				add_asset_to_list(t_list **head, void *mlx, char *path,
+					t_texture name);
+
+// cleanup_bonus.c
+void			free_annimations(t_list **list, int len, void *mlx);
+
+// display_utils_bonus.c
+void			put_img_to_img3(t_data *data, t_asset *src, int x, int y);
+void			play_animation(t_data *data, t_list **list);
+void			put_square(t_data *data, int x, int y, int color);
+
+// init_bonus.c
+void			init_map(t_data *data);
+
+// mouse_hooks_bonus.c
+int				mouse_click(int keycode, int x, int y, t_data *data);
+int				mouse_release(int keycode, int x, int y, t_data *data);
+int				mouse_move(int x, int y, t_data *data);
 
 #endif
