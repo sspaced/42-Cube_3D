@@ -6,7 +6,7 @@
 #    By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/27 14:18:05 by elleroux          #+#    #+#              #
-#    Updated: 2025/02/24 13:54:24 by lben-adi         ###   ########.fr        #
+#    Updated: 2025/02/24 14:14:16 by lben-adi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,8 @@ SRCS		= cub.c \
 			  array_utils.c \
 			  parse_utils.c \
 			  until.c \
-			  calc_2.c
+			  calc_2.c \
+			  display_utils.c
 
 ### OBJECTS ###
 OBJS := $(addprefix $(BUILD_DIR)/, ${SRCS:$(EXTENSION)=.o})

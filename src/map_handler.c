@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_handler.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/30 18:08:27 by elleroux          #+#    #+#             */
+/*   Updated: 2025/02/24 14:22:00 by lben-adi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub.h"
 
 static int	count_map_lines(char *file_path)
@@ -51,11 +63,7 @@ static int	fill_map(char **map, char *file_path)
 			break ;
 		map[i] = ft_strdup_until(line, '\n');
 		if (!map[i])
-		{
-			free(line);
-			close(fd);
-			return (0);
-		}
+			return (free(line), close(fd), 0);
 		free(line);
 		i++;
 	}

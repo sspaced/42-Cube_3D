@@ -153,6 +153,17 @@ typedef struct s_asset {
 	int			height;
 } t_asset;
 
+typedef struct s_tex_calc
+{
+	int				tex_x;
+	int				tex_y;
+	unsigned int	color;
+	t_asset			*current_texture;
+	int				text_size;
+	double			step;
+	double			tex_pos;
+}	t_tex_calc;
+
 typedef struct s_arm {
 	t_list		*basic;
 	t_list		*running;
@@ -221,8 +232,13 @@ void	map_coord_to_pixel(t_data *data, int x, int y);
 //[src/display.c]
 void    pixel_to_img(t_data *data, int x, int y, int color);
 void	display_player_view(t_data *data);
-int check_collision(t_map *map, double new_x, double new_y);
-int get_player_angle(char direction);
+
+//[src/display_utils.c]
+unsigned int	get_pixel_img(t_img *img, int x, int y);
+void			put_square(t_data *data, int x, int y, int color);
+void			put_img_to_img3(t_data *data, t_asset *src, int x, int y);
+void			play_animation(t_data *data, t_list **list);
+void			put_pixel_img(t_img *img, int x, int y, int color);
 
 //[src/calc.c]
 void	calc_wall_hit(t_data *data);

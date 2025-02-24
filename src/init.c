@@ -6,7 +6,7 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:27:27 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/19 19:02:47 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/24 14:19:36 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,23 @@ void	init_colors(t_map_info *map_info)
 
 int	init(t_data *data)
 {
+	void	*mlx_ptr;
+	void	*win_ptr;
+
 	ft_bzero(data, sizeof(t_data));
 	init_colors(&(data->map.map_info));
-	if (!(data->mlx = mlx_init()))
+	mlx_ptr = mlx_init();
+	if (!mlx_ptr)
 		return (ft_putstr_fd("Failed to init mlx\n", 2), 0);
-	if (!(data->win = mlx_new_window(data->mlx, WIN_WIDTH, WIN_HEIGHT,
-				WIN_TITLE)))
+	data->mlx = mlx_ptr;
+	win_ptr = mlx_new_window(data->mlx, WIN_WIDTH, WIN_HEIGHT, WIN_TITLE);
+	if (!win_ptr)
 	{
 		mlx_destroy_display(data->mlx);
 		free(data->mlx);
 		return (ft_putstr_fd("Failed to open window\n", 2), 0);
 	}
+	data->win = win_ptr;
 	if (!init_img(&(data->img), data->mlx))
 	{
 		mlx_destroy_window(data->mlx, data->win);
@@ -47,13 +53,20 @@ int	init(t_data *data)
 
 int	init_img(t_img *img, void *mlx)
 {
-	if (!(img->ptr = mlx_new_image(mlx, WIN_WIDTH, WIN_HEIGHT)))
+	void	*img_ptr;
+	char	*img_data;
+
+	img_ptr = mlx_new_image(mlx, WIN_WIDTH, WIN_HEIGHT);
+	if (!img_ptr)
 		return (ft_putstr_fd("Failed to init new image\n", 2), 0);
-	if (!(img->data = mlx_get_data_addr(img->ptr, &(img->bpp), &(img->line_len),
-				&(img->endian))))
+	img->ptr = img_ptr;
+	img_data = mlx_get_data_addr(img->ptr, &(img->bpp), &(img->line_len),
+			&(img->endian));
+	if (!img_data)
 	{
 		mlx_destroy_image(mlx, img->ptr);
 		return (ft_putstr_fd("Failed to get new image data\n", 2), 0);
 	}
+	img->data = img_data;
 	return (1);
 }
