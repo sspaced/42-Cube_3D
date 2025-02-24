@@ -6,7 +6,7 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 18:49:52 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/24 14:26:46 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:17:27 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@
 # define WALL_COLOR 0xA0CCDA
 # define FLOOR 0xDAB785
 
-# define BONUS true
+# define BONUS false
 # define DEBUG false
 
 # ifndef BUFFER_SIZE
@@ -243,6 +243,7 @@ char				**read_map_file(char *file_path);
 void				free_map_error(char **map);
 
 //[src/inti.c]
+void				init_map(t_data *data);
 void				init_data(t_data *data);
 int					init(t_data *data);
 int					init_img(t_img *img, void *mlx);

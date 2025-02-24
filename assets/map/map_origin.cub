@@ -1,12 +1,14 @@
-
-F 220,100,255
+F 255,100,255
 C 220,100,255
 NO ./assets/img/text_n/text_n.xpm
 SO ./assets/img/text_s/text_s.xpm
 WE ./assets/img/text_w/text_w.xpm
 EA ./assets/img/text_e/text_e.xpm
 
-111111111111
+
+
+       1
+111111101111
 100000000N01
 100000100001
 100000000001

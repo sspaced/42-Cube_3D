@@ -6,7 +6,7 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 18:08:27 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/18 15:14:39 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:37:58 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	check_close_map(char **map_array)
 	{
 		while (map_array[i][j] != '\0')
 		{
-			if (map_array[i][j] == '\0')
+			if (map_array[i][j] == '0')
 			{
 				if (!check_right(j, map_array[i]) || !check_left(j,
 						map_array[i]) || !check_up(j, i, map_array)

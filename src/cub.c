@@ -6,7 +6,7 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:16:15 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/24 13:59:55 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:42:16 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,10 @@ int	main(int argc, char **argv)
 	t_data	data;
 
 	(void)argc;
-	if (!init(&data))
-		return (1);
+	init_map(&data);
 	if (!parser(argv, &data, argc))
+		return (clear_array(data.map.map_array), free_textures_path(&data), 1);
+	if (!init(&data))
 		return (1);
 	set_map_height_width(&data);
 	set_player_pos_dir(&data);

@@ -6,7 +6,7 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:27:27 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/24 14:19:36 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:17:00 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,18 @@ void	init_colors(t_map_info *map_info)
 	map_info->f[2] = -1;
 }
 
+void init_map(t_data *data)
+{
+	ft_bzero(data, sizeof(t_data));
+	init_colors(&(data->map.map_info));
+}
+
 int	init(t_data *data)
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
 
-	ft_bzero(data, sizeof(t_data));
-	init_colors(&(data->map.map_info));
+	
 	mlx_ptr = mlx_init();
 	if (!mlx_ptr)
 		return (ft_putstr_fd("Failed to init mlx\n", 2), 0);
