@@ -1,5 +1,5 @@
-F 255,100,255
-C 220,100,255
+F 255,223,186
+C 186,225,255
 NO ./assets/img/text_n/text_n.xpm
 SO ./assets/img/text_s/text_s.xpm
 WE ./assets/img/text_w/text_w.xpm
