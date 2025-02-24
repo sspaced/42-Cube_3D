@@ -18,14 +18,12 @@ int	setup_hooks(t_data *data)
 	mlx_hook(data->win, KEY_RELEASE, KEY_RELEASE_MASK, key_release, data);
 	mlx_hook(data->win, DESTROY_NOTIFY, 0, close_window, data);
 	mlx_loop_hook(data->mlx, handle_movement, data);
-	if (BONUS == true)
-	{
-		mlx_hook(data->win, MOTION_NOTIFY, POINTER_MOTION_MASK, mouse_move,
-			data);
-		// mlx_mouse_hide(data->mlx, data->win);
-		mlx_hook(data->win, BUTTON_PRESS, BUTTON_PRESS_MASK, mouse_click, data);
-		mlx_hook(data->win, BUTTON_RELEASE, BUTTON_RELEASE_MASK, mouse_release,
-			data); }
+	mlx_hook(data->win, MOTION_NOTIFY, POINTER_MOTION_MASK, mouse_move,
+		  data);
+	mlx_mouse_hide(data->mlx, data->win);
+	mlx_hook(data->win, BUTTON_PRESS, BUTTON_PRESS_MASK, mouse_click, data);
+	mlx_hook(data->win, BUTTON_RELEASE, BUTTON_RELEASE_MASK, mouse_release,
+		  data);
 	return (1);
 }
 

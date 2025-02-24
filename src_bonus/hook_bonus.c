@@ -16,15 +16,12 @@
 int	close_window(t_data *data)
 {
 	free_map_error(data->map.map_array);
-	if (BONUS == true)
-	{
-		free_annimations(&(data->arm.basic), 46, data->mlx);
-		free_annimations(&(data->arm.running), 21, data->mlx);
-		free_annimations(&(data->arm.finger), 17, data->mlx);
-		free_annimations(&(data->arm.punching), 33, data->mlx);
-		mlx_destroy_image(data->mlx, data->textures.player_dot->img.ptr);
-		free(data->textures.player_dot);
-	}
+	free_annimations(&(data->arm.basic), 46, data->mlx);
+	free_annimations(&(data->arm.running), 21, data->mlx);
+	free_annimations(&(data->arm.finger), 17, data->mlx);
+	free_annimations(&(data->arm.punching), 33, data->mlx);
+	mlx_destroy_image(data->mlx, data->textures.player_dot->img.ptr);
+	free(data->textures.player_dot);
 	clean_mlx(data);
 	exit(0);
 	return (0);

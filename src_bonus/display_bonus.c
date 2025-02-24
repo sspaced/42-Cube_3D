@@ -100,10 +100,7 @@ void	display_player_view(t_data *data)
 				FLOOR);
 		data->calc.ray_x++;
 	}
-	if (BONUS)
-	{
-		handle_player_animation(data);
-		display_map(data);
-	}
+	handle_player_animation(data);
+	display_map(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.ptr, 0, 0);
 }
