@@ -12,9 +12,9 @@
 
 #include "cub.h"
 
-inline double rad(double x)
+inline double	rad(double x)
 {
-    return ((x * PI) / 180);
+	return ((x * PI) / 180);
 }
 
 void	calc_ray_vector(t_data *data, int x)
