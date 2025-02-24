@@ -77,7 +77,7 @@ int	handle_movement(t_data *data)
 {
 	double	angle;
 
-	angle = RAD(data->player.direction);
+	angle = rad(data->player.direction);
 	if (data->keys.esc)
 		close_window(data);
 	if (data->keys.up || data->keys.w)

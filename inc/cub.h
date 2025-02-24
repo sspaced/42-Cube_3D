@@ -47,7 +47,6 @@
 # define ROTATION_SPEED 1.0
 # define FOV 80
 # define PI 3.14159265359
-# define RAD(x) (x * PI / 180.0)
 # define CEILING 0x444444
 # define WALL_COLOR 0xA0CCDA
 # define FLOOR 0xDAB785
@@ -220,6 +219,7 @@ t_asset			*new_asset(void *mlx, char *path, t_texture name);
 void			calc_wall_hit(t_data *data);
 
 // calc_utils.c
+double			rad(double x);
 void			calc_ray_vector(t_data *data, int x);
 void			calc_wall_info(t_data *data);
 

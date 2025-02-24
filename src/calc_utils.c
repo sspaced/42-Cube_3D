@@ -12,6 +12,11 @@
 
 #include "cub.h"
 
+inline double rad(double x)
+{
+    return ((x * PI) / 180);
+}
+
 void	calc_ray_vector(t_data *data, int x)
 {
 	double	camera_x;
@@ -19,10 +24,10 @@ void	calc_ray_vector(t_data *data, int x)
 	t_fvect	plane;
 
 	camera_x = 2 * x / (double)WIN_WIDTH - 1;
-	ray_dir.x = cos(RAD(data->player.direction));
-	ray_dir.y = sin(RAD(data->player.direction));
-	plane.x = -ray_dir.y * tan(RAD(FOV / 2));
-	plane.y = ray_dir.x * tan(RAD(FOV / 2));
+	ray_dir.x = cos(rad(data->player.direction));
+	ray_dir.y = sin(rad(data->player.direction));
+	plane.x = -ray_dir.y * tan(rad(FOV / 2));
+	plane.y = ray_dir.x * tan(rad(FOV / 2));
 	data->calc.ray_vect_x = ray_dir.x + plane.x * camera_x;
 	data->calc.ray_vect_y = ray_dir.y + plane.y * camera_x;
 }
