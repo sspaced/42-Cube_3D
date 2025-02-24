@@ -129,8 +129,8 @@ typedef struct s_map_info
 	char			*so;
 	char			*we;
 	char			*ea;
-	int				f[3];
-	int				c[3];
+	int				f;
+	int				c;
 }					t_map_info;
 
 typedef struct s_ray_data
@@ -281,7 +281,7 @@ int				check_up(int x, int y, char **map_array);
 int				check_down(int x, int y, char **map_array);
 
 // parse_color.c
-int				set_map_color_info(int map_info_field[3], char *info_value);
+int				set_map_color_info(int *map_info_field, char *info_value);
 
 // parse_final_check.c
 int				check_info_complete(t_map_info *map_info);
