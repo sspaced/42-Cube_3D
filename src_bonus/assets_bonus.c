@@ -12,7 +12,7 @@
 
 #include "cub.h"
 
-int clean_bonus_textures(t_textures *textures, t_arm *arm, void *mlx, int level)
+int	clean_bonus_textures(t_textures *textures, t_arm *arm, void *mlx, int level)
 {
 	mlx_destroy_image(mlx, textures->player_dot->img.ptr);
 	free(textures->player_dot);
