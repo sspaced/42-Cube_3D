@@ -87,19 +87,22 @@ $(TARGET_BONUS): ${OBJS_BONUS}
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%$(EXTENSION) Makefile $(LIBFT) $(MLX) inc/cub.h
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
-$(BUILD_BONUS)/%_bonus.o: $(SRC_BONUS)/%$(EXTENSION) Makefile $(LIBFT) $(MLX) inc/cub.h
+$(BUILD_BONUS)/%_bonus.o: $(SRC_BONUS)/%_bonus$(EXTENSION) Makefile $(LIBFT) $(MLX) inc/cub.h
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 clean:
 	make clean -C lib/libft
 	make clean -C lib/mlx
 	rm -rf $(BUILD_DIR)
+	rm -rf $(BUILD_BONUS)
 
 fclean: clean
 	make fclean -C lib/libft
 	rm -f $(TARGET)
+	rm -f $(TARGET_BONUS)
 
 re: fclean all
 
 -include $(DEPS)
-.PHONY: all clean fclean re
+-include $(DEPS_BONUS)
+.PHONY: all bonus clean fclean re
