@@ -63,7 +63,7 @@ static char	*manage_line_with_n_for_line(char *buffer, size_t index)
 	return (free(temp), line);
 }
 
-static char	*read_line(int fd, char *buffer, char *previous_line, int *bytes_read)
+char	*read_line(int fd, char *buffer, char *previous_line, int *bytes_read)
 {
 	char	*line;
 	char	*temp;

@@ -38,7 +38,7 @@ int	init_wall_textures(t_data *data)
 	return (1);
 }
 
-void setup_error(t_data *data, int level)
+void	setup_error(t_data *data, int level)
 {
 	clear_array(data->map.map_array);
 	free_textures_path(data);
