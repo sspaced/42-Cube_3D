@@ -14,12 +14,8 @@
 
 void	init_colors(t_map_info *map_info)
 {
-	map_info->c[0] = -1;
-	map_info->c[1] = -1;
-	map_info->c[2] = -1;
-	map_info->f[0] = -1;
-	map_info->f[1] = -1;
-	map_info->f[2] = -1;
+	map_info->c = -1;
+	map_info->f = -1;
 }
 
 int	init(t_data *data)

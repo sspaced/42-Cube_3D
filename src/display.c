@@ -56,11 +56,11 @@ void	display_player_view(t_data *data)
 		calc_wall_info(data);
 		while (data->calc.ray_y < data->calc.wall_top)
 			put_pixel_img((&data->img), data->calc.ray_x, data->calc.ray_y++,
-				CEILING);
+				data->map.map_info.c);
 		draw_textured_wall(&(data->textures), &(data->calc), &(data->img));
 		while (data->calc.ray_y < WIN_HEIGHT)
 			put_pixel_img(&(data->img), data->calc.ray_x, data->calc.ray_y++,
-				FLOOR);
+				data->map.map_info.f);
 		data->calc.ray_x++;
 	}
 	mlx_put_image_to_window(data->mlx, data->win, data->img.ptr, 0, 0);

@@ -38,9 +38,9 @@ static int	map_info_setter(char *info_type, char *info_value,
 	else if (!ft_strncmp(info_type, "EA", 2) && info_type_len == 2)
 		return (set_map_cardinal_info(&map_info->ea, info_value));
 	else if (!ft_strncmp(info_type, "F", 1) && info_type_len == 1)
-		return (set_map_color_info(map_info->f, info_value));
+		return (set_map_color_info(&map_info->f, info_value));
 	else if (!ft_strncmp(info_type, "C", 1) && info_type_len == 1)
-		return (set_map_color_info(map_info->c, info_value));
+		return (set_map_color_info(&map_info->c, info_value));
 	return (free(info_value), 0);
 }
 

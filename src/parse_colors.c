@@ -35,21 +35,22 @@ static int	is_valid_color(char *info_value)
 	return (1);
 }
 
-int	set_map_color_info(int map_info_field[3], char *info_value)
+int	set_map_color_info(int *map_info_field, char *info_value)
 {
 	char	*buff;
 
 	buff = info_value;
 	if (!is_valid_color(info_value))
 		return (free(buff), 0);
-	if (map_info_field[0] != -1 && map_info_field[1] != -1
-		&& map_info_field[2] != -1)
+	if (*map_info_field != -1)
 		return (free(buff), 0);
-	map_info_field[0] = ft_atoi(info_value);
+	*map_info_field = ft_atoi(info_value);
+	*map_info_field = *map_info_field << 8;
 	info_value += 4;
-	map_info_field[1] = ft_atoi(info_value);
+	*map_info_field += ft_atoi(info_value);
+	*map_info_field = *map_info_field << 8;
 	info_value += 4;
-	map_info_field[2] = ft_atoi(info_value);
+	*map_info_field += ft_atoi(info_value);
 	free(buff);
 	return (1);
 }
