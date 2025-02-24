@@ -34,11 +34,6 @@
 # define KEY_D 0x0044
 # define KEY_UP 65362
 # define KEY_DOWN 65364
-// # define KEY_PRESS_MASK 1L << 0
-// # define KEY_RELEASE_MASK 1L << 1
-// # define POINTER_MOTION_MASK 1L << 6
-// # define BUTTON_PRESS_MASK 1L << 2
-// # define BUTTON_RELEASE_MASK 1L << 3
 # define LBUTTON 1
 # define RBUTTON 3
 # define KEY_PRESS 2
