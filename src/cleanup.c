@@ -12,24 +12,6 @@
 
 #include "cub.h"
 
-void	free_annimations(t_list **list, int len, void *mlx)
-{
-	t_list	*temp;
-	int		i;
-
-	i = 0;
-	while (*list && i < len)
-	{
-		temp = (*list)->next;
-		free(((t_asset *)(*list)->content)->path);
-		mlx_destroy_image(mlx, ((t_asset *)(*list)->content)->img.ptr);
-		free((*list)->content);
-		free(*list);
-		(*list) = temp;
-		i++;
-	}
-}
-
 void	destroy_asset(void *asset)
 {
 	free(((t_asset *)asset)->img.data);
@@ -60,9 +42,13 @@ void	clean_mlx_textures(t_data *data)
 void	clean_mlx(t_data *data)
 {
 	clean_mlx_textures(data);
-	mlx_destroy_image(data->mlx, data->img.ptr);
-	mlx_destroy_window(data->mlx, data->win);
-	mlx_destroy_display(data->mlx);
+	if (data->img.ptr)
+		mlx_destroy_image(data->mlx, data->img.ptr);
+	if (data->win)
+		mlx_destroy_window(data->mlx, data->win);
 	if (data->mlx)
+	{
+		mlx_destroy_display(data->mlx);
 		free(data->mlx);
+	}
 }

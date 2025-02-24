@@ -12,35 +12,6 @@
 
 #include "cub.h"
 
-t_list	*new_animation(void *mlx, const char *base_path,
-	int frame_number, t_texture name)
-{
-	int		i;
-	char	*path;
-	char	*new_path;
-	t_list	*head;
-	char	*num;
-
-	i = -1;
-	path = NULL;
-	head = NULL;
-	while (++i < frame_number)
-	{
-		path = ft_strdup(base_path);
-		num = ft_itoa(i);
-		new_path = ft_strjoin(path, num);
-		free(path);
-		free(num);
-		path = new_path;
-		new_path = ft_strjoin(path, ".xpm");
-		free(path);
-		if (!add_asset_to_list(&(head), mlx, new_path, name))
-			return (ft_lstclear(&(head), &destroy_asset), NULL);
-	}
-	ft_lstlast(head)->next = head;
-	return (head);
-}
-
 t_asset	*new_asset(void *mlx, char *path, t_texture name)
 {
 	t_asset	*new;
@@ -68,22 +39,4 @@ t_asset	*new_asset(void *mlx, char *path, t_texture name)
 	}
 	new->name = name;
 	return (new);
-}
-
-int	add_asset_to_list(t_list **head, void *mlx, char *path, t_texture name)
-{
-	t_asset	*new;
-	t_list	*node;
-
-	new = new_asset(mlx, path, name);
-	if (!new)
-		return (0);
-	node = ft_lstnew(new);
-	if (!node)
-	{
-		free(new);
-		return (ft_putstr_fd("Failed to allocate new list node\n", 2), 0);
-	}
-	ft_lstadd_back(head, node);
-	return (1);
 }

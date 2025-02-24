@@ -16,15 +16,6 @@
 int	close_window(t_data *data)
 {
 	free_map_error(data->map.map_array);
-	if (BONUS == true)
-	{
-		free_annimations(&(data->arm.basic), 46, data->mlx);
-		free_annimations(&(data->arm.running), 21, data->mlx);
-		free_annimations(&(data->arm.finger), 17, data->mlx);
-		free_annimations(&(data->arm.punching), 33, data->mlx);
-		mlx_destroy_image(data->mlx, data->textures.player_dot->img.ptr);
-		free(data->textures.player_dot);
-	}
 	clean_mlx(data);
 	exit(0);
 	return (0);
@@ -32,10 +23,10 @@ int	close_window(t_data *data)
 
 int	key_press(int keycode, t_data *data)
 {
-	if (keycode == KEY_UP)
-		data->keys.up = 1;
-	if (keycode == KEY_DOWN)
-		data->keys.down = 1;
+	if (keycode == KEY_LEFT)
+		data->keys.left = 1;
+	if (keycode == KEY_RIGHT)
+		data->keys.right = 1;
 	if (keycode == XK_w)
 		data->keys.w = 1;
 	if (keycode == XK_a)
@@ -44,10 +35,6 @@ int	key_press(int keycode, t_data *data)
 		data->keys.s = 1;
 	if (keycode == XK_d)
 		data->keys.d = 1;
-	if (keycode == KEY_LEFT)
-		data->keys.left = 1;
-	if (keycode == KEY_RIGHT)
-		data->keys.right = 1;
 	if (keycode == KEY_ESC)
 		data->keys.esc = 1;
 	return (0);
@@ -55,10 +42,6 @@ int	key_press(int keycode, t_data *data)
 
 int	key_release(int keycode, t_data *data)
 {
-	if (keycode == KEY_UP)
-		data->keys.up = 0;
-	if (keycode == KEY_DOWN)
-		data->keys.down = 0;
 	if (keycode == XK_w)
 		data->keys.w = 0;
 	if (keycode == XK_a)
@@ -83,11 +66,11 @@ int	handle_movement(t_data *data)
 	angle = RAD(data->player.direction);
 	if (data->keys.esc)
 		close_window(data);
-	if (data->keys.up || data->keys.w)
+	if (data->keys.w)
 		move_foward(&(data->player), &(data->map), angle);
 	if (data->keys.a)
 		move_left(&(data->player), &(data->map), angle);
-	if (data->keys.down || data->keys.s)
+	if (data->keys.s)
 		move_backward(&(data->player), &(data->map), angle);
 	if (data->keys.d)
 		move_right(&(data->player), &(data->map), angle);

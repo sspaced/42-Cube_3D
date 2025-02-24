@@ -12,28 +12,6 @@
 
 #include "cub.h"
 
-void	display_map(t_data *data)
-{
-	int	x;
-	int	y;
-
-	x = -1;
-	y = -1;
-	while (++x < data->map.map_width)
-	{
-		while (++y < data->map.map_height)
-		{
-			if (data->map.map_array[y][x] == '1')
-				put_square(data, x, y, 0x666666);
-			else
-				put_square(data, x, y, 0xAAAAAA);
-		}
-		y = -1;
-	}
-	put_img_to_img3(data, data->textures.player_dot, (data->player.y - 0.1)
-		* 30, (data->player.x - 0.1) * 30);
-}
-
 t_asset	*choose_texture(t_textures *textures, char wall_orientation)
 {
 	if (wall_orientation == 'N')
@@ -67,21 +45,6 @@ void	draw_textured_wall(t_textures *textures, t_calc *calc, t_img *img)
 	}
 }
 
-void	handle_player_animation(t_data *data)
-{
-	t_keys	empty;
-
-	ft_bzero(&empty, sizeof(t_keys));
-	if (ft_memcmp(&(data->keys), &empty, sizeof(t_keys)) == 0)
-		play_animation(data, &(data->arm.basic));
-	else if (data->keys.m_right == 1)
-		play_animation(data, &(data->arm.finger));
-	else if (data->keys.m_left == 1)
-		play_animation(data, &(data->arm.punching));
-	else
-		play_animation(data, &(data->arm.running));
-}
-
 void	display_player_view(t_data *data)
 {
 	data->calc.ray_x = 0;
@@ -99,11 +62,6 @@ void	display_player_view(t_data *data)
 			put_pixel_img(&(data->img), data->calc.ray_x, data->calc.ray_y++,
 				FLOOR);
 		data->calc.ray_x++;
-	}
-	if (BONUS)
-	{
-		handle_player_animation(data);
-		display_map(data);
 	}
 	mlx_put_image_to_window(data->mlx, data->win, data->img.ptr, 0, 0);
 }

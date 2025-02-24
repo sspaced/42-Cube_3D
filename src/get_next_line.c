@@ -12,7 +12,7 @@
 
 #include "cub.h"
 
-char	*manage_line_with_n_for_buffer(char *buffer, size_t index)
+static char	*manage_line_with_n_for_buffer(char *buffer, size_t index)
 {
 	size_t	i;
 	char	*line;
@@ -36,7 +36,7 @@ char	*manage_line_with_n_for_buffer(char *buffer, size_t index)
 	return (free(temp), line);
 }
 
-char	*manage_line_with_n_for_line(char *buffer, size_t index)
+static char	*manage_line_with_n_for_line(char *buffer, size_t index)
 {
 	size_t	i;
 	char	*line;
@@ -63,7 +63,7 @@ char	*manage_line_with_n_for_line(char *buffer, size_t index)
 	return (free(temp), line);
 }
 
-char	*read_line(int fd, char *buffer, char *previous_line, int *bytes_read)
+static char	*read_line(int fd, char *buffer, char *previous_line, int *bytes_read)
 {
 	char	*line;
 	char	*temp;
@@ -91,7 +91,7 @@ char	*read_line(int fd, char *buffer, char *previous_line, int *bytes_read)
 	return (free(temp), line);
 }
 
-char	*helper(int fd, char *buffer, int bytes_read)
+static char	*helper(int fd, char *buffer, int bytes_read)
 {
 	char	*line;
 	char	*temp;

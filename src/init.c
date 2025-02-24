@@ -22,12 +22,6 @@ void	init_colors(t_map_info *map_info)
 	map_info->f[2] = -1;
 }
 
-void	init_map(t_data *data)
-{
-	ft_bzero(data, sizeof(t_data));
-	init_colors(&(data->map.map_info));
-}
-
 int	init(t_data *data)
 {
 	void	*mlx_ptr;
