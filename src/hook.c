@@ -6,7 +6,7 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 15:51:48 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/20 19:11:32 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/24 13:56:21 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,8 @@ int	close_window(t_data *data)
 		free_annimations(&(data->arm.running), 21, data->mlx);
 		free_annimations(&(data->arm.finger), 17, data->mlx);
 		free_annimations(&(data->arm.punching), 33, data->mlx);
-		
 		mlx_destroy_image(data->mlx, data->textures.player_dot->img.ptr);
 		free(data->textures.player_dot);
-		
-		//clear_animations(&(data->arm), data->mlx);
-		// ft_lstclear(&(data->arm.finger), &destroy_asset);
-		// ft_lstclear(&(data->arm.basic), &destroy_asset);
-		// ft_lstclear(&(data->arm.running), &destroy_asset);
-		// ft_lstclear(&(data->arm.punching), &destroy_asset);
-		// free(&(data->arm.punching));
-		// free(&(data->arm.running));
-		// free(&(data->arm.finger));
-		// free(&(data->arm.basic));
 	}
 	clean_mlx(data);
 	exit(0);

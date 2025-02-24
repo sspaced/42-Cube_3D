@@ -45,7 +45,7 @@
 # define WALL_COLOR 0xA0CCDA
 # define FLOOR 0xDAB785
 
-# define BONUS false
+# define BONUS true
 # define DEBUG false
 
 # ifndef BUFFER_SIZE
@@ -120,6 +120,14 @@ typedef struct s_map_info {
 	int		f[3];
 	int 	c[3];
 } t_map_info;
+
+typedef struct s_ray_data
+{
+	t_fvect	*side_dist;
+	t_vect	*map;
+	t_vect	step;
+	t_fvect	delta_dist;
+}	t_ray_data;
 
 typedef	struct s_map {
 	char	**map_array;
@@ -217,9 +225,11 @@ int check_collision(t_map *map, double new_x, double new_y);
 int get_player_angle(char direction);
 
 //[src/calc.c]
+void	calc_wall_hit(t_data *data);
+
+//[src/calc_2.c]
 void	calc_ray_vector(t_data *data, int x);
 void	calc_wall_info(t_data *data);
-void	calc_wall_hit(t_data *data);
 
 //[src/cleanup.c]
 void	destroy_asset(void *asset);

@@ -6,19 +6,20 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 18:49:52 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/20 18:21:44 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/24 13:48:12 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-t_list	*new_animation(void *mlx, const char *base_path, int frame_number, e_texture name)
+t_list	*new_animation(void *mlx, const char *base_path,
+	int frame_number, e_texture name)
 {
 	int		i;
 	char	*path;
 	char	*new_path;
 	t_list	*head;
-	char *num;
+	char	*num;
 
 	i = -1;
 	path = NULL;
@@ -26,7 +27,7 @@ t_list	*new_animation(void *mlx, const char *base_path, int frame_number, e_text
 	while (++i < frame_number)
 	{
 		path = ft_strdup(base_path);
-		num = ft_itoa(i);		
+		num = ft_itoa(i);
 		new_path = ft_strjoin(path, num);
 		free(path);
 		free(num);
@@ -34,10 +35,7 @@ t_list	*new_animation(void *mlx, const char *base_path, int frame_number, e_text
 		new_path = ft_strjoin(path, ".xpm");
 		free(path);
 		if (!add_asset_to_list(&(head), mlx, new_path, name))
-		{
-			ft_lstclear(&(head), &destroy_asset);
-			return (NULL);
-		}
+			return (ft_lstclear(&(head), &destroy_asset), NULL);
 	}
 	ft_lstlast(head)->next = head;
 	return (head);
@@ -53,13 +51,15 @@ t_asset	*new_asset(void *mlx, char *path, e_texture name)
 	if (!new)
 		return (ft_putstr_fd("Failed to allocate new asset\n", 2), NULL);
 	new->path = path;
-	new->img.ptr = mlx_xpm_file_to_image(mlx, path, &(new->width), &(new->height));
+	new->img.ptr = mlx_xpm_file_to_image(mlx, path,
+			&(new->width), &(new->height));
 	if (!new->img.ptr)
 	{
 		free(new);
 		return (ft_putstr_fd("Failed to create X image from xpm\n", 2), NULL);
 	}
-	new->img.data = mlx_get_data_addr(new->img.ptr, &(new->img.bpp), &(new->img.line_len), &(new->img.endian));
+	new->img.data = mlx_get_data_addr(new->img.ptr, &(new->img.bpp),
+			&(new->img.line_len), &(new->img.endian));
 	if (!new->img.data)
 	{
 		mlx_destroy_image(mlx, new->img.ptr);

@@ -6,7 +6,7 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 22:08:08 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/20 18:27:30 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/24 13:56:35 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	free_annimations(t_list **list, int len, void *mlx)
 		i++;
 	}
 }
+
 void	destroy_asset(void *asset)
 {
 	free(((t_asset *)asset)->img.data);
@@ -36,7 +37,7 @@ void	destroy_asset(void *asset)
 	free((t_asset *)asset);
 }
 
-void free_textures_path(t_data *data)
+void	free_textures_path(t_data *data)
 {
 	free(data->map.map_info.no);
 	free(data->map.map_info.so);
@@ -44,7 +45,7 @@ void free_textures_path(t_data *data)
 	free(data->map.map_info.we);
 }
 
-void clean_mlx_textures(t_data *data)
+void	clean_mlx_textures(t_data *data)
 {
 	mlx_destroy_image(data->mlx, data->textures.wall_n->img.ptr);
 	mlx_destroy_image(data->mlx, data->textures.wall_s->img.ptr);
@@ -64,36 +65,4 @@ void	clean_mlx(t_data *data)
 	mlx_destroy_display(data->mlx);
 	if (data->mlx)
 		free(data->mlx);
-}
-
-void	clear_animations(t_arm *arm, void *mlx)
-{
-	destroy_animations(arm->basic, mlx);
-	destroy_animations(arm->finger, mlx);
-	destroy_animations(arm->running, mlx);
-	destroy_animations(arm->punching, mlx);
-}
-
-void	destroy_animations(t_list *list, void *mlx)
-{
-	t_list	*head;
-	t_list	*temp;
-	t_asset	*content;
-
-	head = list->next;
-	while (list != head)
-	{
-		content = list->content;
-		mlx_destroy_image(mlx, content->img.ptr);
-		free(content->path);
-		free(content);
-		temp = list->next;
-		free(list);
-		list = temp;
-	}
-	content = list->content;
-	mlx_destroy_image(mlx, content->img.ptr);
-	free(content);
-	temp = list->next;
-	free(list);
 }
