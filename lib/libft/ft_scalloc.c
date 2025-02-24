@@ -1,19 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_scalloc.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/22 18:49:52 by elleroux          #+#    #+#             */
+/*   Updated: 2025/02/24 14:28:37 by lben-adi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include <stdio.h>
 
 void	clear_all(t_list *list)
 {
-	// t_list *head;
-	// t_list *temp;
-
-	// head = list->next;
-	// while (list && list != head)
-	// {
-	// 	free(list->content);
-	// 	temp = list;
-	// 	list = list->next;
-	// 	free(temp);
-	// }
 	free(list->content);
 	free(list);
 }
@@ -33,6 +34,6 @@ void	*ft_scalloc(size_t nmemb, size_t size)
 	if (!mem)
 		return (NULL);
 	ft_bzero(mem, nmemb * size);
-	ft_lstadd_back(&alloc, ft_lstnew((void*)mem));
+	ft_lstadd_back(&alloc, ft_lstnew((void *)mem));
 	return (mem);
 }

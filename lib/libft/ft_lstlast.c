@@ -6,7 +6,7 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 17:35:58 by lben-adi          #+#    #+#             */
-/*   Updated: 2024/08/25 19:21:41 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/24 14:28:52 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 t_list	*ft_lstlast(t_list *lst)
 {
-	t_list *head;
-	
+	t_list	*head;
+
 	head = lst;
 	if (!lst)
 		return (NULL);

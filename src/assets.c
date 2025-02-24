@@ -6,14 +6,14 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 18:49:52 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/24 13:48:12 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/24 14:26:46 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
 t_list	*new_animation(void *mlx, const char *base_path,
-	int frame_number, e_texture name)
+	int frame_number, t_texture name)
 {
 	int		i;
 	char	*path;
@@ -41,7 +41,7 @@ t_list	*new_animation(void *mlx, const char *base_path,
 	return (head);
 }
 
-t_asset	*new_asset(void *mlx, char *path, e_texture name)
+t_asset	*new_asset(void *mlx, char *path, t_texture name)
 {
 	t_asset	*new;
 
@@ -70,7 +70,7 @@ t_asset	*new_asset(void *mlx, char *path, e_texture name)
 	return (new);
 }
 
-int	add_asset_to_list(t_list **head, void *mlx, char *path, e_texture name)
+int	add_asset_to_list(t_list **head, void *mlx, char *path, t_texture name)
 {
 	t_asset	*new;
 	t_list	*node;
