@@ -12,6 +12,24 @@
 
 #include "cub.h"
 
+int clean_bonus_textures(t_textures *textures, t_arm *arm, void *mlx, int level)
+{
+	mlx_destroy_image(mlx, textures->player_dot->img.ptr);
+	free(textures->player_dot);
+	if (level == 1)
+		return (0);
+	free_annimations(&(arm->basic), 46, mlx);
+	if (level == 2)
+		return (0);
+	free_annimations(&(arm->running), 46, mlx);
+	if (level == 3)
+		return (0);
+	free_annimations(&(arm->finger), 46, mlx);
+	if (level == 4)
+		return (0);
+	return (0);
+}
+
 t_list	*new_animation(void *mlx, const char *base_path,
 	int frame_number, t_texture name)
 {
