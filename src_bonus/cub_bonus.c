@@ -20,7 +20,7 @@ int	setup_hooks(t_data *data)
 	mlx_loop_hook(data->mlx, handle_movement, data);
 	mlx_hook(data->win, MOTION_NOTIFY, 1L << 6, mouse_move,
 		data);
-	// mlx_mouse_hide(data->mlx, data->win);
+	mlx_mouse_hide(data->mlx, data->win);
 	mlx_hook(data->win, BUTTON_PRESS, 1L << 2, mouse_click, data);
 	mlx_hook(data->win, BUTTON_RELEASE, 1L << 3, mouse_release,
 		data);
