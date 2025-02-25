@@ -14,13 +14,12 @@
 
 static int	check_collision(t_map *map, double new_x, double new_y)
 {
-	int	map_x;
-	int	map_y;
-
-	map_x = (int)new_x;
-	map_y = (int)new_y;
-	if (map_x < 0 || map_y < 0 || map_x >= map->map_width
-		|| map_y >= map->map_height || map->map_array[map_y][map_x] == '1')
+	if (new_x < 0 || new_y < 0 
+		|| new_x >= map->map_width || new_y >= map->map_height 
+		|| map->map_array[(int)(new_y + 0.1)][(int)(new_x + 0.1)] == '1'
+		|| map->map_array[(int)(new_y - 0.1)][(int)(new_x - 0.1)] == '1'
+		|| map->map_array[(int)(new_y + 0.1)][(int)(new_x - 0.1)] == '1'
+		|| map->map_array[(int)(new_y - 0.1)][(int)(new_x + 0.1)] == '1')
 		return (1);
 	return (0);
 }
