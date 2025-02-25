@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub.c                                              :+:      :+:    :+:   */
+/*   cub_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:16:15 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/24 15:42:16 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:26:34 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	setup_hooks(t_data *data)
 	mlx_loop_hook(data->mlx, handle_movement, data);
 	mlx_hook(data->win, MOTION_NOTIFY, 1L << 6, mouse_move,
 		data);
-	mlx_mouse_hide(data->mlx, data->win);
+	// mlx_mouse_hide(data->mlx, data->win);
 	mlx_hook(data->win, BUTTON_PRESS, 1L << 2, mouse_click, data);
 	mlx_hook(data->win, BUTTON_RELEASE, 1L << 3, mouse_release,
 		data);
@@ -73,6 +73,7 @@ void	setup_error(t_data *data, int level)
 	free_textures_path(data);
 	if (level == 1)
 		exit (1);
+	clean_mlx_textures(data);
 	mlx_destroy_image(data->mlx, data->img.ptr);
 	mlx_destroy_window(data->mlx, data->win);
 	mlx_destroy_display(data->mlx);

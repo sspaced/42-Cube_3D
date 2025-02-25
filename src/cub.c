@@ -6,7 +6,7 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:16:15 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/24 15:42:16 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:24:15 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	setup_error(t_data *data, int level)
 	free_textures_path(data);
 	if (level == 1)
 		exit (1);
+	clean_mlx_textures(data);	
 	mlx_destroy_image(data->mlx, data->img.ptr);
 	mlx_destroy_window(data->mlx, data->win);
 	mlx_destroy_display(data->mlx);

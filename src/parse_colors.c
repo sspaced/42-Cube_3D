@@ -6,7 +6,7 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 18:49:52 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/18 15:37:10 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:16:19 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ int	set_map_color_info(int *map_info_field, char *info_value)
 		return (free(buff), 0);
 	if (*map_info_field != -1)
 		return (free(buff), 0);
-	*map_info_field = ft_atoi(info_value);
+	*map_info_field = ft_atoi(info_value);	
 	*map_info_field = *map_info_field << 8;
-	info_value += 4;
+	info_value = ft_strchr(info_value, ',') + 1;
 	*map_info_field += ft_atoi(info_value);
 	*map_info_field = *map_info_field << 8;
-	info_value += 4;
+	info_value = ft_strchr(info_value, ',') + 1;
 	*map_info_field += ft_atoi(info_value);
 	free(buff);
 	return (1);

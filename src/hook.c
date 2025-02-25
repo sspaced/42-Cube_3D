@@ -6,7 +6,7 @@
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 15:51:48 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/24 13:56:21 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:40:36 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	key_release(int keycode, t_data *data)
 int	handle_movement(t_data *data)
 {
 	double	angle;
-
+	
 	angle = rad(data->player.direction);
 	if (data->keys.esc)
 		close_window(data);

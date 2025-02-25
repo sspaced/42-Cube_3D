@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cleanup.c                                          :+:      :+:    :+:   */
+/*   cleanup_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lben-adi <lben-adi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 22:08:08 by elleroux          #+#    #+#             */
-/*   Updated: 2025/02/24 13:56:35 by lben-adi         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:26:21 by lben-adi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,14 @@ void	free_textures_path(t_data *data)
 
 void	clean_mlx_textures(t_data *data)
 {
-	mlx_destroy_image(data->mlx, data->textures.wall_n->img.ptr);
-	mlx_destroy_image(data->mlx, data->textures.wall_s->img.ptr);
-	mlx_destroy_image(data->mlx, data->textures.wall_e->img.ptr);
-	mlx_destroy_image(data->mlx, data->textures.wall_w->img.ptr);
+	if (data->textures.wall_n)
+		mlx_destroy_image(data->mlx, data->textures.wall_n->img.ptr);
+	if (data->textures.wall_s)
+		mlx_destroy_image(data->mlx, data->textures.wall_s->img.ptr);
+	if (data->textures.wall_e)
+		mlx_destroy_image(data->mlx, data->textures.wall_e->img.ptr);
+	if (data->textures.wall_w)
+		mlx_destroy_image(data->mlx, data->textures.wall_w->img.ptr);
 	free(data->textures.wall_n);
 	free(data->textures.wall_s);
 	free(data->textures.wall_e);
