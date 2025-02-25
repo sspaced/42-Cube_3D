@@ -14,8 +14,8 @@
 
 static int	check_collision(t_map *map, double new_x, double new_y)
 {
-	if (new_x < 0 || new_y < 0 
-		|| new_x >= map->map_width || new_y >= map->map_height 
+	if (new_x < 0 || new_y < 0
+		|| new_x >= map->map_width || new_y >= map->map_height
 		|| map->map_array[(int)(new_y + 0.1)][(int)(new_x + 0.1)] == '1'
 		|| map->map_array[(int)(new_y - 0.1)][(int)(new_x - 0.1)] == '1'
 		|| map->map_array[(int)(new_y + 0.1)][(int)(new_x - 0.1)] == '1'

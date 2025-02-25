@@ -62,7 +62,7 @@ int	key_release(int keycode, t_data *data)
 int	handle_movement(t_data *data)
 {
 	double	angle;
-	
+
 	angle = rad(data->player.direction);
 	if (data->keys.esc)
 		close_window(data);

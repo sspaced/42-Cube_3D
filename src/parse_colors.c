@@ -44,7 +44,7 @@ int	set_map_color_info(int *map_info_field, char *info_value)
 		return (free(buff), 0);
 	if (*map_info_field != -1)
 		return (free(buff), 0);
-	*map_info_field = ft_atoi(info_value);	
+	*map_info_field = ft_atoi(info_value);
 	*map_info_field = *map_info_field << 8;
 	info_value = ft_strchr(info_value, ',') + 1;
 	*map_info_field += ft_atoi(info_value);

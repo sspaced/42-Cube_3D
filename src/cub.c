@@ -44,7 +44,7 @@ void	setup_error(t_data *data, int level)
 	free_textures_path(data);
 	if (level == 1)
 		exit (1);
-	clean_mlx_textures(data);	
+	clean_mlx_textures(data);
 	mlx_destroy_image(data->mlx, data->img.ptr);
 	mlx_destroy_window(data->mlx, data->win);
 	mlx_destroy_display(data->mlx);
